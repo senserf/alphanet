@@ -566,6 +566,7 @@ variable REPO
 set REPO(0)		"report_event"
 set REPO(1)		"report_relay"
 set REPO(209)		"report_log"
+set REPO(177)		"report_location"
 
 ###############################################################################
 
@@ -2605,6 +2606,56 @@ proc report_event { pay t sta } {
 	}
 
 	set status $CODES(RC_OK)
+
+	return $res
+}
+
+proc report_location { pay t sta } {
+
+	variable CODES
+
+	upvar $sta status
+
+	set res "location:"
+	set rss ""
+
+	if [catch {
+		set peg [get_w pay]
+		set tag [get_w pay]
+		set ref [get_w pay]
+		for { set i 0 } { $i < 32 } { incr i } {
+			lappend rss [get_b pay]
+		}
+	} ] {
+		append res " !trunc"
+		set status $CODES(RC_EPAR)
+		return $res
+	}
+
+	append res " peg=$peg tag=$tag ref=$ref\n"
+
+	for { set pl 0 } { $pl < 8 } { incr pl } {
+		set ac 0
+		set nc 0
+		append res "    pl$pl ="
+		for { set i 0 } { $i < 4 } { incr i } {
+			set v [lindex $rss $i]
+			if $v {
+				incr nc
+				set ac [expr { $ac + $v }]
+			}
+			append res " [format %3d $v]"
+		}
+		if $nc {
+			set av [format %6.2f [expr { double($ac) / $nc }]]
+		} else {
+			set av " ------"
+		}
+		append res " | avg: $av\n"
+		set rss [lrange $rss 4 end]
+	}
+
+	set statuc $CODES(RC_OK)
 
 	return $res
 }
