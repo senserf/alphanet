@@ -1,0 +1,387 @@
+
+<network nodes="97">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+	<display>
+		<roamer image="bruges_plus2.gif" width="76.92" nodesize="10"
+			display="yes"/>
+	</display>
+
+    <xi:include href="CHANNELS/tabulated.xml"/>
+
+    <nodes>
+
+	<node type="a321p" start="on" hid="0xBACA0001" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>73.4 20.45</location>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA0002" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>11.28 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0003" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>18.65 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0004" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>25.77 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0005" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>35.83 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0006" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>43.27 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0007" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>50.19 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0008" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>57.37 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0009" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>64.55 8.00</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000A" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>72.18 8.00</location>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA000B" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>11.28 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000C" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>18.65 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000D" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>25.77 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000E" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>35.83 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000F" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>43.27 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0010" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>50.19 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0011" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>57.37 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0012" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>64.55 10.30</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0013" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>72.18 10.30</location>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA0014" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>3.97 29.70</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0015" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>11.28 29.70</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0016" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>18.65 29.70</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0017" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>25.77 29.70</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0018" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>35.83 29.70</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0019" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>43.27 29.70</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001A" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>54.10 29.70</location>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA001B" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>3.97 33.40</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001C" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>11.28 33.40</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001D" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>18.65 33.40</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001E" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>25.77 33.40</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001F" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>35.83 33.40</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0020" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>43.27 33.40</location>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0021" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>54.10 33.40</location>
+	</node>
+
+
+	<node type="a320t" start="on" hid="0xBACA0102" default="board">
+	    <location>11.28 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0103" default="board">
+	    <location>18.65 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0104" default="board">
+	    <location>25.77 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0105" default="board">
+	    <location>35.83 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0106" default="board">
+	    <location>43.27 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0107" default="board">
+	    <location>50.19 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0108" default="board">
+	    <location>57.37 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0109" default="board">
+	    <location>64.55 4.74</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010A" default="board">
+	    <location>72.18 4.74</location>
+	</node>
+
+	<node type="a320t" start="on" hid="0xBACA010B" default="board">
+	    <location>11.28 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010C" default="board">
+	    <location>18.65 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010D" default="board">
+	    <location>25.77 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010E" default="board">
+	    <location>35.83 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010F" default="board">
+	    <location>43.27 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0110" default="board">
+	    <location>50.19 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0111" default="board">
+	    <location>57.37 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0112" default="board">
+	    <location>64.55 15.38</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0113" default="board">
+	    <location>72.18 15.38</location>
+	</node>
+
+	<node type="a320t" start="on" hid="0xBACA0114" default="board">
+	    <location>3.97 25.30</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0115" default="board">
+	    <location>11.28 25.30</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0116" default="board">
+	    <location>18.65 25.30</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0117" default="board">
+	    <location>25.77 25.30</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0118" default="board">
+	    <location>35.83 25.30</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0119" default="board">
+	    <location>43.27 25.30</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011A" default="board">
+	    <location>54.10 25.30</location>
+	</node>
+
+	<node type="a320t" start="on" hid="0xBACA011B" default="board">
+	    <location>3.97 37.62</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011C" default="board">
+	    <location>11.28 37.62</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011D" default="board">
+	    <location>18.65 37.62</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011E" default="board">
+	    <location>25.77 37.62</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011F" default="board">
+	    <location>35.83 37.62</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0120" default="board">
+	    <location>43.27 37.62</location>
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0121" default="board">
+	    <location>54.10 37.62</location>
+	</node>
+
+
+	<node type="a319t" start="on" hid="0xBACA0202" default="board">
+	    <preinit tag="switches" type="word">0x0782</preinit>
+	    <location>11.28 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0203" default="board">
+	    <preinit tag="switches" type="word">0x0783</preinit>
+	    <location>18.65 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0204" default="board">
+	    <preinit tag="switches" type="word">0x0784</preinit>
+	    <location>25.77 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0205" default="board">
+	    <preinit tag="switches" type="word">0x0785</preinit>
+	    <location>35.83 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0206" default="board">
+	    <preinit tag="switches" type="word">0x0786</preinit>
+	    <location>43.27 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0207" default="board">
+	    <preinit tag="switches" type="word">0x0787</preinit>
+	    <location>50.19 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0208" default="board">
+	    <preinit tag="switches" type="word">0x0788</preinit>
+	    <location>57.37 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0209" default="board">
+	    <preinit tag="switches" type="word">0x0789</preinit>
+	    <location>64.55 6.99</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020A" default="board">
+	    <preinit tag="switches" type="word">0x0790</preinit>
+	    <location>72.18 6.99</location>
+	</node>
+
+	<node type="a319t" start="on" hid="0xBACA020B" default="board">
+	    <preinit tag="switches" type="word">0x0791</preinit>
+	    <location>11.28 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020C" default="board">
+	    <preinit tag="switches" type="word">0x0792</preinit>
+	    <location>18.65 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020D" default="board">
+	    <preinit tag="switches" type="word">0x0793</preinit>
+	    <location>25.77 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020E" default="board">
+	    <preinit tag="switches" type="word">0x0794</preinit>
+	    <location>35.83 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020F" default="board">
+	    <preinit tag="switches" type="word">0x0795</preinit>
+	    <location>43.27 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0210" default="board">
+	    <preinit tag="switches" type="word">0x0796</preinit>
+	    <location>50.19 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0211" default="board">
+	    <preinit tag="switches" type="word">0x0797</preinit>
+	    <location>57.37 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0212" default="board">
+	    <preinit tag="switches" type="word">0x0798</preinit>
+	    <location>64.55 12.76</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0213" default="board">
+	    <preinit tag="switches" type="word">0x0799</preinit>
+	    <location>72.18 12.76</location>
+	</node>
+
+	<node type="a319t" start="on" hid="0xBACA0214" default="board">
+	    <preinit tag="switches" type="word">0x0701</preinit>
+	    <location>3.97 27.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0215" default="board">
+	    <preinit tag="switches" type="word">0x0702</preinit>
+	    <location>11.28 27.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0216" default="board">
+	    <preinit tag="switches" type="word">0x0703</preinit>
+	    <location>18.65 27.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0217" default="board">
+	    <preinit tag="switches" type="word">0x0704</preinit>
+	    <location>25.77 27.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0218" default="board">
+	    <preinit tag="switches" type="word">0x0705</preinit>
+	    <location>35.83 27.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0219" default="board">
+	    <preinit tag="switches" type="word">0x0706</preinit>
+	    <location>43.27 27.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021A" default="board">
+	    <preinit tag="switches" type="word">0x0707</preinit>
+	    <location>54.10 27.20</location>
+	</node>
+
+	<node type="a319t" start="on" hid="0xBACA021B" default="board">
+	    <preinit tag="switches" type="word">0x0708</preinit>
+	    <location>3.97 35.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021C" default="board">
+	    <preinit tag="switches" type="word">0x0709</preinit>
+	    <location>11.28 35.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021D" default="board">
+	    <preinit tag="switches" type="word">0x0710</preinit>
+	    <location>18.65 35.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021E" default="board">
+	    <preinit tag="switches" type="word">0x0711</preinit>
+	    <location>25.77 35.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021F" default="board">
+	    <preinit tag="switches" type="word">0x0712</preinit>
+	    <location>35.83 35.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0220" default="board">
+	    <preinit tag="switches" type="word">0x0713</preinit>
+	    <location>43.27 35.20</location>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0221" default="board">
+	    <preinit tag="switches" type="word">0x0714</preinit>
+	    <location>54.10 35.20</location>
+	</node>
+
+
+    </nodes>
+</network>

@@ -1,0 +1,132 @@
+
+On the Renesas i/f, mainly for tag registration. All in hex, frames without STX, BCC, ETX.
+---------------------------------
+InfoType (used to be global(1) / local(0)) is overloaded with additional info:
+b0    - global / local flag
+b1-b3 - 0
+b4-b6 - (re)try number (original alrm is 0, be default up to 3 retries)
+b7    - set if no ack was issued (local alarm came from unregistered tag-button
+
+Example----------------------------
+On tag_101 local button 1 was pressed. On peg_2 101 is not registered, there is no other pegs. The 0x01 messages on the Renesas i/f are decoded, note that 'button' shows the number, type (G/L), retry and '?' for unregistered / unacked tags:
+
+<-E: [01 13 02 00 02 00 65 00 01 80 0d b6 a5 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 0 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+<-E: [01 13 02 00 02 00 65 00 01 90 0d b6 a7 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 1 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+<-E: [01 13 02 00 02 00 65 00 01 a0 0d b6 aa 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 2 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+<-E: [01 13 02 00 02 00 65 00 01 b0 0d b6 ab 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 3 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+	
+Now, global button 2 was pressed:
+<-E: [01 13 02 00 02 00 65 00 02 01 0e b6 b2 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 14:
+    button:   2 (G 0)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+------------------------------------------
+
+General issue: if Renesas issues a command shorter than 4 bytes (not counting the 3 framing bytes), it goes into a black hole. We can send nacks in this and a few other situations, if Renesas is prepared to handle them (without re-sending bad frames again). For 2.0, we should have error codes in nacks.
+
+Another (mostly academic) scenario for dropping input without a whisper is a (temporary) memory depletion. This may be acceptable, as chances are that the memory will be available when Renesas retries on timeout.
+
+------------------------------------------
+
+Get whole treg (tag register)
+-->: [14 08 00 00 00]
+<-U: [94 44 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00]
+All 20 (empty) elements returned.
+
+-->: [14 07 00 00]
+Into a black hole, as there is no index. Should we send a nack (see above)? Perhaps assume index == 0?
+
+------------------------------------------
+
+-->: [13 0b 02 00 13 65 00 03]
+<-U: [93 08 02 00 06]
+Registers tag 101 buttons 1, 2 at index 19
+
+-->: [13 0b 00 00 19 65 00 03]
+<-U: [93 08 02 00 06]
+Does NOTHING (bad index 0x19). Do you want a nack?
+
+-->: [13 0b 02 00 19 65 00 03]
+<-U: [93 08 02 00 06]
+Does NOTHING, as the node address must match (broadcast is disallowed). Note that the get (0x14) doesn't check the node address. Same question: do you want an ack?
+
+-->: [13 0b 02 00 0a 66 00 ff]
+<-U: [93 08 02 00 06]
+Registers all buttons on tag_102 at index 10.
+
+-->: [13 11 02 00 0c 67 00 01 68 00 02 68 00 03]
+<-U: [93 08 02 00 06]
+Registers 103.1, 104.2, and 104.1 and 104.2, starting at index 12. Note that we have redundant entries for 104.2, we don't check nor care about it.
+
+-->: [14 08 00 00 09]
+<-U: [94 29 02 00 09 00 00 00 66 00 ff 00 00 00 67 00 01 68 00 02 68 00 03 00 00 00 00 00 00 00 00 00 00 00 00 65 00 03]
+Shows treg from index 9 and what we did in all steps above.
+
+-------------------------------------------------------------
+
+-->: [15 07 00 00]
+<-U: [95 08 00 00 06]
+Nothing, bad node address. Nack would be better?
+
+-->: [15 07 02 00]
+<-U: [95 08 02 00 06]
+Clears treg.
+
+============================================================
+August 23: 'sympathetic learning mode':
+
+-->: [14 08 00 00 22]
+<-U: [94 09 02 00 22 00]
+Shows that the 'learning mode' is OFF. Note that node id is not checked, and x22 as good anything over 19.
+
+-->: [13 09 02 00 14 00]
+<-U: [93 08 02 00 15]
+Illegal! We keep tag_id mandatory even if it is ignored. Should be easier to handle at Renesas and in the future we have ready a mechanism to enter this special mode for specified tag(s).
+ 
+-->: [13 0b 02 00 14 0a 0b 00]
+<-U: [93 08 02 00 06]
+Enters the learning mode. ACKs are useless, so it may be verified:
+-->: [14 08 00 00 14]
+<-U: [94 09 02 00 14 01]
+Learning mode ON.
+
+-->: [13 0b 02 00 44 0c 0d 77]
+<-U: [93 08 02 00 06]
+This does nothing - only valid codes are 0 (ON) and 0xFF (OFF)
+
+-->: [13 0b 02 00 69 0e 0f ff]
+<-U: [93 08 02 00 06]
+This one switches learning OFF. To see it, one must does the 'get':
+
+-->: [14 08 00 00 44]
+<-U: [94 09 02 00 44 00]
+===================================================
+
+

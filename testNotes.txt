@@ -1,0 +1,77 @@
+Preliminary short stuff... vuee on apki.tcl with (modified!) uplug.tcl.
+
+Open UART hex on 2, switch debugging 'de 2'. Fragments below are from this window.
+Open PINS on 101.
+
+-->: [14 08 00 00 00]
+<-U: [94 44 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00]
+*** note that x14 ignores "node address" but needs the index for the array slice.
+
+-->: [14 07 00 00]
+*** goes to bush, visible in emul. Stupid nacks would be handy if properly dealt with in Renesas.
+
+Press button 1 (pin 0) on 101:
+<-E: [01 13 02 00 02 00 65 00 01 80 0d b6 a5 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 0 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+<-E: [01 13 02 00 02 00 65 00 01 90 0d b6 a7 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 1 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+<-E: [01 13 02 00 02 00 65 00 01 a0 0d b6 aa 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 2 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+<-E: [01 13 02 00 02 00 65 00 01 b0 0d b6 ab 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 13:
+    button:   1 (L 3 ?)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+*** uplug shows (Local, retry, ? for no ack)
+
+Press button 2 on 101:
+<-E: [01 13 02 00 02 00 65 00 02 01 0e b6 b2 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 14:
+    button:   2 (G 0)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+*** acked global
+
+-->: [13 0b 02 00 13 65 00 03]
+<-U: [93 08 02 00 06]
+*** registers buttons 1, 2 on entry [19]
+
+-->: [14 08 00 00 00]
+<-U: [94 44 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 65 00 03]
+
+Now 101's button 1 gets acked:
+<-E: [01 13 02 00 02 00 65 00 01 00 0f b6 b6 07 22 00]
+Event, peg = 0002 (2), tag = 0065 (101), ad = 34, sn = 15:
+    button:   1 (L 0)
+    voltage:  3.00
+    txpower:  7
+    age:      0
+A->: [81 08 02 00 06]
+
+Clearing treg:
+-->: [15 07 02 00]
+<-U: [95 08 02 00 06]
+
+-->: [14 08 00 00 00]
+<-U: [94 44 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00]
+
+*** I tried quirky things, seem to be working. Unfortunately, the i/f is really really bad, I don't think errors on the Renesas' end will be handled as expected, unless we'll get some clear and good protocol there.

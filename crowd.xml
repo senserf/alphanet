@@ -1,0 +1,59 @@
+
+<network nodes="15">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+
+    <xi:include href="CHANNELS/tabulated.xml"/>
+
+    <nodes>
+
+	<xi:include href="nodefs.xml"/>
+	
+	<node number="0" type="warp" start="on" hid="0xBACA0001">
+	    <location>5.0 5.0</location>
+	</node>
+	
+	<node number="1" type="warp" start="on" hid="0xBACA0002">
+	    <location>5.0 50.0</location>
+	</node>
+	<node number="2" type="warp" start="on" hid="0xBACA0003">
+	    <location>5.0 100.0</location>
+	</node>
+	<node number="3" type="chrt" start="on" hid="0xBACA0064">
+	    <location>50.0 100.0</location>
+	</node>
+	<node number="4" type="chrt" start="on" hid="0xBACA0065">
+	    <location>50.0 50.0</location>
+	</node>
+        <node number="5" type="chrt" start="on" hid="0xBACA0066">
+            <location>50.0 60.0</location>
+        </node>
+        <node number="6" type="chrt" start="on" hid="0xBACA0067">
+            <location>50.0 70.0</location>
+        </node>
+        <node number="7" type="chrt" start="on" hid="0xBACA0068">
+            <location>50.0 80.0</location>
+        </node>
+        <node number="8" type="chrt" start="on" hid="0xBACA0069">
+            <location>50.0 90.0</location>
+        </node>
+        <node number="9" type="chrt" start="on" hid="0xBACA006A">
+            <location>70.0 90.0</location>
+        </node>
+        <node number="10" type="warp" start="on" hid="0xBACA0004">
+            <location>5.0 90.0</location>
+        </node>
+        <node number="11" type="warp" start="on" hid="0xBACA0005">
+            <location>5.0 80.0</location>
+        </node>
+        <node number="12" type="warp" start="on" hid="0xBACA0006">
+            <location>5.0 70.0</location>
+        </node>
+        <node number="13" type="warp" start="on" hid="0xBACA0007">
+            <location>5.0 60.0</location>
+        </node>
+        <node number="14" type="warp" start="on" hid="0xBACA0008">
+            <location>25.0 60.0</location>
+        </node>
+    </nodes>
+</network>

@@ -1,0 +1,28 @@
+
+<network nodes="4">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+
+    <xi:include href="CHANNELS/tabulated.xml"/>
+
+    <nodes>
+	
+	<node number="0" type="a321p" start="on" hid="0xBACA0001" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>5.0 5.0</location>
+	</node>
+	
+	<node number="1" type="a321p" start="on" hid="0xBACA0002" default="board">
+	    <xi:include href="uart.xml"/>
+	    <location>5.0 50.0</location>
+	</node>
+	<node number="2" type="a319t" start="on" hid="0xBACA0065" default="board">
+	    <location>30.0 70.0</location>
+		<preinit tag="switches" type="word">0x1234</preinit>
+	</node>
+	<node number="3" type="a320t" start="on" hid="0xBACA0066" default="board">
+	    <location>30.0 90.0</location>
+	</node>
+	
+    </nodes>
+</network>

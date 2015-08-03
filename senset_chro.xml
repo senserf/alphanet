@@ -1,0 +1,31 @@
+<preinit tag="SSET" type="word">4</preinit>
+<sensors>
+	<input source="socket"></input>
+	<output target="socket"></output>
+	<sensor number="0" vsize="2" delay="0.01" init="10">3128</sensor>
+	<sensor number="1" vsize="4" delay="0.01" init="500">16380</sensor>
+	<sensor number="2" vsize="2" delay="0.01" init="50550">64000</sensor>
+	<sensor number="3" vsize="2" delay="0.01" init="0">15</sensor>
+
+	<sensor number="-1" vsize="2" delay="0.01" init="2501"> 2600 </sensor>
+	<sensor number="-2" vsize="2" delay="0.01" init="2134"> 4000 </sensor>
+</sensors>
+
+<!-- No EEPROM, IFLASH inherited from defaults. -->
+<eeprom/>
+
+<emul>
+	<output target="socket" type="held"></output>
+</emul>
+
+<ptracker>
+	<output target="socket"/>
+	<!-- Note: we do not model display power usage (should we?), but it
+	     is not much relevant. I am setting powerdown current to half-way
+	     between display off and on. -->
+	<module id="cpu">0.25 0.005</module>
+	<!-- The presence of radio (the first number) costs nothing on this
+	     device. -->
+	<module id="radio">0.0 16.0 30.7 30.7</module>
+	<module id="sensors">0.0 2.5</module>
+</ptracker>

@@ -1,0 +1,16 @@
+// pizda dupa Pawel TODO tags: why is commented out in all options*??
+// I vaguely remember there was a reason...
+
+// TARP_RTR {
+#ifdef TCV_TIMERS
+#undef TCV_TIMERS
+#endif
+#define TCV_TIMERS      1
+
+#ifdef TCV_HOOKS
+#undef TCV_HOOKS
+#endif
+#define TCV_HOOKS       1
+
+#define TARP_RTR        1
+// }TARP_RTR

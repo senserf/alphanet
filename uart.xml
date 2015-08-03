@@ -1,0 +1,4 @@
+<uart rate="115200" bsize="256,256" mode="f">
+	<input source="socket"/>
+	<output target="socket" type="held"/>
+</uart>

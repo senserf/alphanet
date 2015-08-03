@@ -1,0 +1,9 @@
+#ifdef  __SMURPH__
+#undef DIAG_MESSAGES
+#define DIAG_MESSAGES 2
+//#include "options_retries.inc"
+#endif
+#undef RADIO_USE_LEDS
+#define RADIO_USE_LEDS 0
+
+#include "options_pxopts.inc"

@@ -1,0 +1,44 @@
+	<defaults>
+	    <memory>8666 bytes</memory>
+	    <radio>
+	    	<power>2</power>
+	    	<preamble>32 bits</preamble>
+	    	<lbt>
+			delay			8msec
+			threshold		-109.0dBm
+	    	</lbt>
+	    	<backoff>
+			min			8msec
+			max			303msec
+	    	</backoff>
+	    </radio>
+	    <leds number="3">
+	    	<output target="socket"></output>
+	    </leds>
+	    <iflash size="256,2"></iflash>
+	    <uart rate="115200" bsize="12">
+		<input source="socket"></input>
+		<output target="socket" type="held"></output>
+	    </uart>
+		<sensors>
+			<input source="socket"></input>
+			<sensor number="-1" vsize="2" delay="0.01" init="2501"> 2600 </sensor>
+			<sensor number="0" vsize="2" delay="0.01">1</sensor>
+		</sensors>
+		<pins number="5">
+			<input source="socket"></input>
+			<buttons>0 1 2 3 4</buttons>
+		</pins>
+		<emul>
+			<output target="socket" type="held"></output>
+		</emul>
+		<ptracker>
+		  <output target="socket"/>
+		  <module id="cpu">0.3 0.0037</module>
+		  <module id="radio">0.0004 16.0 30.7 30.7</module>
+		  <module id="storage">0.030 0.030 10.0 15.0 17.0 16.0</module>
+		  <module id="sensors">0.0 2.5</module>
+		</ptracker>
+		<highlight>magenta goldenrod</highlight>
+	</defaults>
+

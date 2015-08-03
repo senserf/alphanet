@@ -1,0 +1,16 @@
+#undef UART_RATE
+#define UART_RATE 115200
+#undef RADIO_USE_LEDS
+#define RADIO_USE_LEDS 0
+#undef UART_RATE_SETTABLE
+#define UART_RATE_SETTABLE 0
+#undef UART_INPUT_BUFFER_LENGTH
+#define UART_INPUT_BUFFER_LENGTH 52
+#undef STORAGE_AT45XXX
+#define STORAGE_AT45XXX 0
+// I expect we'll need FIM
+// remember about RTR, TCV_TIMERS, TCV_HOOKS
+//#include "options_retries.inc"
+
+#include "options_pxopts.inc"
+

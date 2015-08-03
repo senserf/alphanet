@@ -1,0 +1,23 @@
+// This has been moved from the board definition to make boards indifferent
+// to the UART mode, such that the same boards can work with Alphanet 1.0,
+// Alphanet 1.5, and so on
+#define	UART_TCV_MODE	UART_TCV_MODE_F
+
+// In version 1.5, we do recalibration for the Peg every 10 seconds
+#define	RADIO_RECALIBRATE	10
+
+//#undef RADIO_USE_LEDS
+//#define RADIO_USE_LEDS 0
+// I expect we'll need FIM
+// remember about RTR, TCV_TIMERS, TCV_HOOKS
+
+#ifdef     __SMURPH__
+#undef DIAG_MESSAGES
+#define DIAG_MESSAGES	2
+#endif
+
+//#include "options_retries.inc"
+
+#include "options_pxopts.inc"
+
+

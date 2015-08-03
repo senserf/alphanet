@@ -1,0 +1,292 @@
+
+<network nodes="97">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+	<display>
+		<roamer image="bruges_plus2.gif" width="76.92" nodesize="10"
+			display="yes"/>
+	</display>
+
+    <xi:include href="CHANNELS/tabulated.xml"/>
+
+    <nodes>
+
+	<xi:include href="locations.xml"/>
+
+	<node type="a321p" start="on" hid="0xBACA0001" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA0002" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0003" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0004" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0005" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0006" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0007" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0008" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0009" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000A" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA000B" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000C" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000D" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000E" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA000F" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0010" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0011" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0012" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0013" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA0014" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0015" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0016" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0017" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0018" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0019" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001A" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+
+	<node type="a321p" start="on" hid="0xBACA001B" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001C" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001D" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001E" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA001F" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0020" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0xBACA0021" default="board">
+		<xi:include href="uart.xml"/>
+	</node>
+
+
+	<node type="a320t" start="on" hid="0xBACA0102" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0103" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0104" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0105" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0106" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0107" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0108" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0109" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010A" default="board">
+	</node>
+
+	<node type="a320t" start="on" hid="0xBACA010B" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010C" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010D" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010E" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA010F" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0110" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0111" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0112" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0113" default="board">
+	</node>
+
+	<node type="a320t" start="on" hid="0xBACA0114" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0115" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0116" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0117" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0118" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0119" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011A" default="board">
+	</node>
+
+	<node type="a320t" start="on" hid="0xBACA011B" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011C" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011D" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011E" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA011F" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0120" default="board">
+	</node>
+	<node type="a320t" start="on" hid="0xBACA0121" default="board">
+	</node>
+
+
+	<node type="a319t" start="on" hid="0xBACA0202" default="board">
+	    <preinit tag="switches" type="word">0x0782</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0203" default="board">
+	    <preinit tag="switches" type="word">0x0783</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0204" default="board">
+	    <preinit tag="switches" type="word">0x0784</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0205" default="board">
+	    <preinit tag="switches" type="word">0x0785</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0206" default="board">
+	    <preinit tag="switches" type="word">0x0786</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0207" default="board">
+	    <preinit tag="switches" type="word">0x0787</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0208" default="board">
+	    <preinit tag="switches" type="word">0x0788</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0209" default="board">
+	    <preinit tag="switches" type="word">0x0789</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020A" default="board">
+	    <preinit tag="switches" type="word">0x0790</preinit>
+	</node>
+
+	<node type="a319t" start="on" hid="0xBACA020B" default="board">
+	    <preinit tag="switches" type="word">0x0791</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020C" default="board">
+	    <preinit tag="switches" type="word">0x0792</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020D" default="board">
+	    <preinit tag="switches" type="word">0x0793</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020E" default="board">
+	    <preinit tag="switches" type="word">0x0794</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA020F" default="board">
+	    <preinit tag="switches" type="word">0x0795</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0210" default="board">
+	    <preinit tag="switches" type="word">0x0796</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0211" default="board">
+	    <preinit tag="switches" type="word">0x0797</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0212" default="board">
+	    <preinit tag="switches" type="word">0x0798</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0213" default="board">
+	    <preinit tag="switches" type="word">0x0799</preinit>
+	</node>
+
+	<node type="a319t" start="on" hid="0xBACA0214" default="board">
+	    <preinit tag="switches" type="word">0x0701</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0215" default="board">
+	    <preinit tag="switches" type="word">0x0702</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0216" default="board">
+	    <preinit tag="switches" type="word">0x0703</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0217" default="board">
+	    <preinit tag="switches" type="word">0x0704</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0218" default="board">
+	    <preinit tag="switches" type="word">0x0705</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0219" default="board">
+	    <preinit tag="switches" type="word">0x0706</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021A" default="board">
+	    <preinit tag="switches" type="word">0x0707</preinit>
+	</node>
+
+	<node type="a319t" start="on" hid="0xBACA021B" default="board">
+	    <preinit tag="switches" type="word">0x0708</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021C" default="board">
+	    <preinit tag="switches" type="word">0x0709</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021D" default="board">
+	    <preinit tag="switches" type="word">0x0710</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021E" default="board">
+	    <preinit tag="switches" type="word">0x0711</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA021F" default="board">
+	    <preinit tag="switches" type="word">0x0712</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0220" default="board">
+	    <preinit tag="switches" type="word">0x0713</preinit>
+	</node>
+	<node type="a319t" start="on" hid="0xBACA0221" default="board">
+	    <preinit tag="switches" type="word">0x0714</preinit>
+	</node>
+
+
+    </nodes>
+</network>

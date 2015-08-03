@@ -1,0 +1,34 @@
+
+This an initial attempt to marry spot with a survey tool. No future for this breed, but it may be handy to collect data at AT and later to integrate queries (not samples) into application messaging. The code is cloned from spot as of August 1, 2015. (git diff won't work, but diff against spot can be helpful)
+
+There is a new report type REP_LOCA (0xB1) with this layout (see oss_peg_tcve.cc::737):
+			/*
+				byte len = 11+32 (malloc 43 +1)
+				// out:
+				byte	seq;
+				word	local_host;
+				byte	efef;
+				byte	reptype;
+				word	pegid;
+				word	tagid;
+				word	ref;
+				byte	vec[32];
+			*/
+ref is a short timestamp at the source Tag. The vector follows Pawel's idea to have all 4x8 samples blasted and collected, for further study. This is the output (shred_plugin was not modified):
+-REP: 177 <02 00 66 00 05 00 5e 00 00 00 71 00 00 74 81 87 85 84 85 8d 84 85 91 8f 94 91 a4 a0 ae a4 9d 9a a2 a1 ac a2 9e 9d>
+
+I'm not sure if we should update AT docs yet - likely, all this is temporary.
+
+So, the Tag sends out these messages in 30 +/- 5 ms and proceeds with its regular functionality, i.e. alarms or hearbeats.
+
+Pegs collect vectors with a bit too relaxed zeal, see new msg_ping_in() and modified msg_pong_in() but it masses basic tests.
+
+The functionality may (should?) work on a global PHYSOPT_SETPOWER as well as per packet RADIO_OPTION_PXOPTIONS.
+
+RADIO_OPTION_PXOPTIONS proved to be nightmarish for seriously outdated net and tarp within LibComms. TARP_RTR is UNTESTED yet, I haven't even tried to compile it, we must confer with Pawel. Current setup that divides the per packet XP into net_pxopts and tarp_pxopts (latter name is badly misleading) must be either abandoned or tuned to tarp's select functions.
+
+Main points:
+- We should define clearly when SETPOWER should be used and when packet tail should dictate XP; perhaps we should try to accommodate both - SETPOWER (global) for packets in transit (including RTR) and per-packet for packets sourced on the node (including RTR!). SOFTWARE_CRC doesn't make this easier.
+- Would it be difficult to bring up LibComms up to date? It almost killed me today even if I wrote most of this crap once.
+- As with RTR, PXOPTIONS should be on Pegs and absent from Tags, although it design properly, both should behave with proxy messages or on nodes with forwarding OFF. I'm not sure if we designed & implemented them properly.
+=============
