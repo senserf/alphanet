@@ -921,11 +921,6 @@ proc iissue { code vals t { sopts "" } } {
 #			opref		- force specific opref
 #			repeat		- repetition count
 #
-	set ins [llength $vals]
-	if { $ins > 82 } {
-		error "command too long, $ins bytes, 82 bytes is the max"
-	}
-
 	set ns [cns $t]
 
 	foreach v { confirm repeat osq ref nodeid dump } {
@@ -1002,6 +997,11 @@ proc iissue { code vals t { sopts "" } } {
 
 	set ${ns}::plug(lastosq) [expr { $osq & 0x7f }]
 	set ${ns}::plug(lastref) [expr { $ref & 0x7f }]
+
+	set len [llength $out]
+	if { $len > 82 } {
+		error "command too long, $len bytes, 82 bytes is the max"
+	}
 
 	while 1 {
 		node_write $out $t
