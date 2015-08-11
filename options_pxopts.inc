@@ -1,4 +1,9 @@
 #define RADIO_OPTIONS RADIO_OPTION_PXOPTIONS
-// so we can change it unisono... I'm not sure but it may be a good idea
+// so we can change it unison... I'm not sure but it may be a good idea
 // not just for VUEE
 
+// Wire antenna on AP320
+// #define	CC1100_PATABLE { 0x00, 0x30, 0x04, 0x09, 0x19, 0x33, 0x86, 0xE0 }
+
+
+#define	CC1100_PATABLE { 0x01, 0x12, 0x09, 0x19, 0x33, 0x6C, 0x86, 0xE0 }

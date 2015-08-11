@@ -1,1 +1,1 @@
-{MOD IHEX} {TFN Image_nnnn.a43} {CNT 2} {FRM 201} {IFN Image_a319t.a43} {SRD /home/pawel/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {PFX BACA} {TRD /home/pawel/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {IDN BACADEAD}
+{MOD IHEX} {TFN Image_nnnn.a43} {CNT 2} {FRM 501} {IFN Image_a320t.a43} {SRD /home/pawel/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {PFX BACA} {TRD /home/pawel/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {IDN BACADEAD}
