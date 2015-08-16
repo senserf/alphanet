@@ -36,13 +36,14 @@ fsm ping {
 		// word pl;		
 		// pl = in_ping(msg, slot) / 4;
 		// net_opt (PHYSOPT_SETPOWER, &pl);
-		set_pxopts (0, in_ping(msg, slot) / 4, 0);
+		set_pxopts (PING_LBT_SETTING, in_ping(msg, slot) / 4, 0);
 		talk (msg, sizeof(msgPingType), TO_NET);
 		if (++in_ping(msg, slot) > 31) {
 			ufree (msg);
 			finish;
 		}
-		delay (25 + rnd() % 10, ITER);
+		// delay (25 + rnd() % 10, ITER);
+		delay (PING_SPACING, ITER);
 		release;
 }
 		

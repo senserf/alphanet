@@ -59,7 +59,8 @@ Clear:
 		loca_vec [in_ping(buf, slot)] = (word)rssi;
 		return;
 	}
-	if (seconds() - loca_ts > 2) { // 3 may be 2 and a bit
+	if (seconds() - loca_ts > 2 /* && loca_id != in_header(buf, snd) */) {
+		// 3 may be 2 and a bit
 		loca_out();
 		goto Clear;
 	}

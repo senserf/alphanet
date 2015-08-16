@@ -7,6 +7,10 @@
 
 #include "commons.h"
 
+// 1 means OFF, 0 means 0N
+#define	PING_LBT_SETTING	1
+#define	PING_SPACING		(5 + (rnd () & 7))
+
 extern pongParamsType  pong_params;
 
 extern char pong_frame [sizeof(msgPongType) + sizeof(pongPloadType)];
