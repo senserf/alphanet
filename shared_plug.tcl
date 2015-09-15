@@ -2161,6 +2161,7 @@ proc command_setassoc { t } {
 			error "-clear cannot be mixed with any other arguments"
 		}
 		set opc $CODES(CMD_CLR_ASSOC)
+		set vals [list 0]
 	} else {
 		set opc $CODES(CMD_SET_ASSOC)
 		if { $from == "" } {

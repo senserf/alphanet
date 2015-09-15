@@ -42,6 +42,12 @@ void init_inout () {
                 reset();
         }
 	net_opt (PHYSOPT_SETSID, &net_id);
+#if DEF_CHAN != 0
+	{
+		word ch = DEF_CHAN;
+		net_opt (PHYSOPT_SETCHANNEL, &ch);
+	}
+#endif
 	local_host = (word)host_id;
 	oss_ini ();
 }
