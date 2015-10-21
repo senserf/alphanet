@@ -8,6 +8,7 @@
 #include "inout.h"
 #include "vartypes.h"
 #include "tag_mgr.h"
+#include "loca.h"
 
 /**************************************************************************
 tagList is a simple list of structs with Master-unconfirmed tags. New alarms
@@ -113,9 +114,16 @@ returns 1 if report goes global, 0 otherwise
 *************/
 Boolean report_tag (char * td) {
 	char  * mp;
-	Boolean globa;
+	Boolean globa = is_global (td + sizeof(tagDataType));
 	word	siz = sizeof(msgReportType) + sizeof(pongDataType) +
 			in_pdt(td, len);
+
+	if (loca.id == in_tdt(td, tagid)) {
+		if (globa)
+				siz += LOCAVEC_SIZ;
+			else
+				loca_out (YES);
+	}
 
 	mp = get_mem (siz, NO); // continue if no mem
 
@@ -135,8 +143,12 @@ Boolean report_tag (char * td) {
 
 	memcpy (mp + sizeof(msgReportType), td + sizeof(tagDataType),
 		siz - sizeof(msgReportType));
-		
-	globa = is_global (mp + sizeof(msgReportType));
+	
+	if (globa && loca.id == in_tdt(td, tagid)) {
+		memcpy (mp + siz -LOCAVEC_SIZ, loca.vec, LOCAVEC_SIZ);
+		loca_out (NO);
+	}
+	// globa = is_global (mp + sizeof(msgReportType));
 	talk (mp, siz, globa ? TO_ALL : TO_OSS); // will NOT go TO_NET on Master. see talk()
 
 #if _TMGR_DBG

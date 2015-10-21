@@ -1,7 +1,7 @@
 #ifndef __commons_h__
 #define __commons_h__
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2014.                          */
+/* Copyright (C) Olsonet Communications, 2015.                          */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 
@@ -168,7 +168,7 @@ typedef struct msgLocaStruct {
     headerType  header;
 	word		id;
 	word		ref;
-	byte		vec[32];	
+	byte		vec[32]; // LOCAVEC_SIZ in loca.h
 } msgLocaType;
 #define in_loca(buf, field)     (((msgLocaType *)(buf))->field)
 

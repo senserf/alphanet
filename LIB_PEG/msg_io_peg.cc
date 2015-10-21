@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2002 - 2014                    */
+/* Copyright (C) Olsonet Communications, 2002 - 2015                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 
@@ -8,38 +8,7 @@
 #include "inout.h"
 #include "tag_mgr.h"
 #include "form.h"
-
-// let's do it just for one tag; we'll see how (if?) surveys can be combined with 'base' praxis
-// likely, we'll do surveys with separate 'survey tags' and actual location queries (selected plevs)
-// might fit in reports from 'regular tags'...
-// when done properly, it won't be here and in a decent struct
-static lword loca_ts;
-static word loca_id;
-static word loca_ref;
-static byte loca_vec[32];
-
-static void loca_out () {
-	char  * mp;
-	mp = get_mem (sizeof(msgLocaType), NO);
-	if (mp == NULL) {
-		app_diag_S ("Loca failed");
-		return;
-	}
-
-	memset (mp, 0, sizeof(msgLocaType));
-	in_header(mp, msg_type) = msg_loca;
-	in_header(mp, rcv) = master_host;
-	in_loca(mp, id) = loca_id;
-	in_loca(mp, ref) = loca_ref;
-	memcpy (in_loca(mp, vec), loca_vec, 32);
-	talk (mp, sizeof(msgLocaType), TO_ALL); // will NOT go TO_NET on Master. see talk()
-	
-	ufree (mp);
-	loca_ts = 0;
-	loca_id = 0;
-	loca_ref = 0;
-	memset (loca_vec, 0, 32);
-}
+#include "loca.h"
 
 void msg_master_in (char * buf) {
 
@@ -52,20 +21,20 @@ void msg_master_in (char * buf) {
 
 void msg_ping_in (char * buf, word rssi) {
 Clear:
-	if (loca_id == 0) { // first elem
-		loca_ts = seconds();
-		loca_id = in_header(buf, snd);
-		loca_ref = in_ping(buf, ref);
-		loca_vec [in_ping(buf, slot)] = (word)rssi;
+	if (loca.id == 0) { // first elem
+		loca.ts = seconds();
+		loca.id = in_header(buf, snd);
+		loca.ref = in_ping(buf, ref);
+		loca.vec [in_ping(buf, slot)] = (word)rssi;
 		return;
 	}
-	if (seconds() - loca_ts > 2 /* && loca_id != in_header(buf, snd) */) {
+	if (seconds() - loca.ts > 2 /* && loca.id != in_header(buf, snd) */) {
 		// 3 may be 2 and a bit
-		loca_out();
+		loca_out(YES);
 		goto Clear;
 	}
-	if (loca_id == in_header(buf, snd))
-		loca_vec [in_ping(buf, slot)] = (word)rssi;
+	if (loca.id == in_header(buf, snd))
+		loca.vec [in_ping(buf, slot)] = (word)rssi;
 	// else another tag cut in - leave it alone
 }
 
@@ -75,8 +44,8 @@ void msg_pong_in (char * buf, word rssi) {
 	msgPongAckType  pong_ack = {{msg_pongAck,0,0,0,0,1,1,0}};
 
 	// we've made ANY pong_in a loca watchdog
-	if (loca_id == in_header(buf, snd) || loca_id != 0 && seconds() - loca_ts > 2)
-		loca_out();
+	if (loca.id != in_header(buf, snd) && loca.id != 0 && seconds() - loca.ts > 2)
+		loca_out(YES);
 	
 	if (needs_ack (in_header(buf, snd), buf + sizeof(headerType), rssi)) {
 		pong_ack.header.rcv = in_header(buf, snd);
