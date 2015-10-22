@@ -10,7 +10,10 @@
     <xi:include href="CHANNELS/tabulated.xml"/>
 
     <nodes>
-
+	<defaults>
+	<highlight fg="black" bg="white">magenta blue</highlight>
+	</defaults>
+	
 	<xi:include href="locations.xml"/>
 
 	<node type="a321p" start="on" hid="0xBACA0001" default="board">

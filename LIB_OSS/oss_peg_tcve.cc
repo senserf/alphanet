@@ -10,6 +10,7 @@
 #include "inout.h"
 #include "tcvphys.h"
 #include "phys_uart.h"
+#include "loca.h"
 
 // only for heartbeat, we'll see
 #include "looper.h"
@@ -648,10 +649,10 @@ void oss_tx (char * b, word siz) {
 				byte	fl;
 				byte	dial;
 			*/			
-			if ((bu = get_mem (18, NO)) == NULL)
+			if ((bu = get_mem (siz > LOCAVEC_SIZ? LOCAVEC_SIZ +18 : 18, NO)) == NULL)
 				return;
 			
-			bu[0] = 17;
+			bu[0] = siz > LOCAVEC_SIZ ? LOCAVEC_SIZ +17 : 17;
 			bu[1] = 0; // would be 0x80 if we wanted ack (say, alrms on the master could be 'more reliable')
 			bu[2] = (byte)local_host;
 			bu[3] = (byte)(local_host >> 8);
@@ -680,6 +681,11 @@ void oss_tx (char * b, word siz) {
 			// board specific will bu[16] |= global flag
 			// board-specific bu[17] = dial
 			board_out (b + sizeof(msgReportType), bu);
+			
+			// loca vector
+			if (siz > LOCAVEC_SIZ)
+				memcpy (&bu[18], b, LOCAVEC_SIZ);
+				
 			_oss_out (bu, NO);
 			break;
 

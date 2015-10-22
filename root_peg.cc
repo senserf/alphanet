@@ -78,10 +78,12 @@ void process_incoming (char * buf, word size, word rssi) {
 		
 	case msg_loca:
 		talk (buf, size, TO_OSS);
+		// app_diag_S ("loca %u", size);
 		return;
 
 	case msg_report:
 		msg_report_in (buf, size);
+		// app_diag_S ("rep %u", size);
 		return;
 
 	case msg_reportAck:
