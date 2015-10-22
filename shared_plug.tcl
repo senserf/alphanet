@@ -2602,14 +2602,53 @@ proc report_event { pay t sta } {
 		append res " dia=$bb"
 	}
 
+	if { [llength $pay] >= 32 } {
+		# location report
+		set rss ""
+		for { set i 0 } { $i < 32 } { incr i } {
+			lappend rss [get_b pay]
+		}
+		append res "\n\n[out_location $peg $tag $seq $rss]"
+	}
+
 	if { $pay != "" } {
-		append res " <[toh $pay]>"
+		append res "\nTail: <[toh $pay]>"
 	}
 
 	set status $CODES(RC_OK)
 
 	return $res
 }
+
+proc out_location { peg tag ref rss } {
+
+	set res "location: peg=$peg tag=$tag ref=$ref\n"
+
+	for { set pl 0 } { $pl < 8 } { incr pl } {
+		set ac 0
+		set nc 0
+		append res "    pl$pl ="
+		for { set i 0 } { $i < 4 } { incr i } {
+			set v [lindex $rss $i]
+			if $v {
+				incr nc
+				set ac [expr { $ac + $v }]
+			}
+			append res " [format %3d $v]"
+		}
+		if $nc {
+			set av [format %6.2f [expr { double($ac) / $nc }]]
+		} else {
+			set av " ------"
+		}
+		append res " | avg: $av\n"
+		set rss [lrange $rss 4 end]
+	}
+
+	return $res
+}
+
+
 
 proc report_location { pay t sta } {
 
@@ -2633,28 +2672,7 @@ proc report_location { pay t sta } {
 		return $res
 	}
 
-	append res " peg=$peg tag=$tag ref=$ref\n"
-
-	for { set pl 0 } { $pl < 8 } { incr pl } {
-		set ac 0
-		set nc 0
-		append res "    pl$pl ="
-		for { set i 0 } { $i < 4 } { incr i } {
-			set v [lindex $rss $i]
-			if $v {
-				incr nc
-				set ac [expr { $ac + $v }]
-			}
-			append res " [format %3d $v]"
-		}
-		if $nc {
-			set av [format %6.2f [expr { double($ac) / $nc }]]
-		} else {
-			set av " ------"
-		}
-		append res " | avg: $av\n"
-		set rss [lrange $rss 4 end]
-	}
+	set res [out_location $peg $tag $ref $rss]
 
 	set statuc $CODES(RC_OK)
 

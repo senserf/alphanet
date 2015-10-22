@@ -684,7 +684,8 @@ void oss_tx (char * b, word siz) {
 			
 			// loca vector
 			if (siz > LOCAVEC_SIZ)
-				memcpy (&bu[18], b, LOCAVEC_SIZ);
+				memcpy (&bu[18], b + siz - LOCAVEC_SIZ,
+					LOCAVEC_SIZ);
 				
 			_oss_out (bu, NO);
 			break;

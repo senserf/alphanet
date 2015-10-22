@@ -81,7 +81,7 @@ typedef pongPloadType2 pongPloadType;
 typedef pongPloadType3 pongPloadType;
 #endif
 
-#if defined(BOARD_ALPHANET_AP320_PANIC) || defined(BOARD_ALPHANET_AP331_PANIC) || defined(BOARD_ALPHANET_PANIC_OLIMEX)
+#if defined(BOARD_ALPHANET_AP320_PANIC) || defined(BOARD_ALPHANET_AP331_PANIC) || defined(BOARD_ALPHANET_PANIC_OLIMEX) || defined(BOARD_ALPHANET_TAG_WARSAW)
 #define BTYPE   BTYPE_AT_BUT1
 typedef pongPloadType4 pongPloadType;
 #endif
