@@ -742,7 +742,7 @@ void oss_tx (char * b, word siz) {
 
 		case msg_loca:
 			/*
-				byte len = 11+32 (malloc 43 +1)
+				byte len = 11+LOCAVEC_SIZ (malloc 11+LOCAVEC_SIZ +1)
 				// out:
 				byte	seq;
 				word	local_host;
@@ -751,12 +751,12 @@ void oss_tx (char * b, word siz) {
 				word	pegid;
 				word	tagid;
 				word	ref;
-				byte	vec[32];
+				byte	vec[LOCAVEC_SIZ];
 			*/			
-			if ((bu = get_mem (44, NO)) == NULL)
+			if ((bu = get_mem (12 +LOCAVEC_SIZ, NO)) == NULL)
 				return;
 			
-			bu[0] = 43;
+			bu[0] = 11 +LOCAVEC_SIZ;
 			bu[1] = 0;
 			bu[2] = (byte)local_host;
 			bu[3] = (byte)(local_host >> 8);
@@ -773,7 +773,7 @@ void oss_tx (char * b, word siz) {
 			bu[9] = (byte)(in_loca(b, id) >> 8);
 			bu[10] = (byte)in_loca(b, ref);
 			bu[11] = (byte)(in_loca(b, ref) >> 8);
-			memcpy (&bu[12], in_loca(b, vec), 32);
+			memcpy (&bu[12], in_loca(b, vec), LOCAVEC_SIZ);
 			_oss_out (bu, NO);
 			break;
 			

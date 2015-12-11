@@ -66,8 +66,10 @@ static void stats_ () {
 		(word)((seconds() % 3600) / 60),
 		(word)(seconds() % 60),
 		mem, mmin);
-	app_diag_U (b);
-	ufree (b);
+	if (b) {
+		app_diag_U (b);
+		ufree (b);
+	}
 }
 #endif
 
