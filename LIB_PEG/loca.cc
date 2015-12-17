@@ -22,7 +22,7 @@ void loca_out (Boolean sendLoca) {
 		mp = get_mem (sizeof(msgLocaType), NO);
 		if (mp == NULL) {
 			app_diag_S ("Loca failed");
-			return;
+			goto Clear;
 		}
 
 		memset (mp, 0, sizeof(msgLocaType));
@@ -35,6 +35,7 @@ void loca_out (Boolean sendLoca) {
 		ufree (mp);
 	}
 
+Clear:
 	loca.ts = 0;
 	loca.id = 0;
 	loca.ref = 0;
