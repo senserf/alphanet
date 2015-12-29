@@ -3,7 +3,7 @@
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="bruges_plus2.gif" width="76.92" nodesize="10"
+		<roamer image="DATAFILES/bruges_plus2.gif" width="76.92" nodesize="10"
 			display="yes"/>
 	</display>
 
@@ -14,110 +14,110 @@
 	<highlight fg="black" bg="white">magenta blue</highlight>
 	</defaults>
 	
-	<xi:include href="locations.xml"/>
+	<xi:include href="DATAFILES/locations.xml"/>
 
 	<node type="a321p" start="on" hid="0xBACA0001" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
 	<node type="a321p" start="on" hid="0xBACA0002" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0003" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0004" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0005" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0006" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0007" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0008" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0009" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA000A" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
 	<node type="a321p" start="on" hid="0xBACA000B" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA000C" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA000D" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA000E" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA000F" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0010" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0011" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0012" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0013" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
 	<node type="a321p" start="on" hid="0xBACA0014" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0015" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0016" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0017" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0018" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0019" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA001A" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
 	<node type="a321p" start="on" hid="0xBACA001B" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA001C" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA001D" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA001E" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA001F" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0020" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<node type="a321p" start="on" hid="0xBACA0021" default="board">
-		<xi:include href="uart.xml"/>
+		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
 

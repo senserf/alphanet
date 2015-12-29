@@ -1,0 +1,33 @@
+<locations>
+
+    <location node="0"> 42.200 4.000 </location>
+    <location node="1"> 46.600 4.000 </location>
+    <location node="2"> 37.800 4.000 </location>
+    <location node="3"> 37.800 7.300 </location>
+    <location node="4"> 42.200 7.300 </location>
+    <location node="5"> 46.600 7.300 </location>
+
+    <location node="6"> 18.000 2.900 </location>
+    <location node="7"> 21.500 2.900 </location>
+    <location node="8"> 25.000 2.900 </location>
+    <location node="9"> 28.500 2.900 </location>
+    <location node="10"> 32.000 2.900 </location>
+
+    <location node="11"> 61.800 38.500 </location>
+    <location node="12"> 62.800 27.500 </location>
+    <location node="13"> 56.800 19.900 </location>
+    <location node="14"> 8.600 26.800 </location>
+    <location node="15"> 27.100 42.100 </location>
+    <location node="16"> 27.200 22.300 </location>
+    <location node="17"> 27.200 12.800 </location>
+    <location node="18"> 10.900 12.600 </location>
+    <location node="19"> 7.600 25.500 </location>
+    <location node="20"> 10.500 37.100 </location>
+    <location node="21"> 61.600 26.400 </location>
+    <location node="22"> 61.200 9.600 </location>
+    <location node="23"> 55.900 19.000 </location>
+    <location node="24"> 42.600 15.500 </location>
+    <location node="25"> 45.300 29.300 </location>
+    <location node="26"> 47.600 39.800 </location>
+    <location node="27"> 54.700 32.500 </location>
+</locations>

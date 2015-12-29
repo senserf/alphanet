@@ -8,16 +8,16 @@
     <nodes>
 
 	<node number="0" type="a321p" start="on" hid="0xBACA0001" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
 	    <location>5.0 5.0</location>
 	</node>
 	
 	<node number="1" type="a321p" start="on" hid="0xBACA0002" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
 	    <location>5.0 50.0</location>
 	</node>
 	<node number="2" type="a321p" start="on" hid="0xBACA0003" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
 	    <location>5.0 100.0</location>
 	</node>
 	<node number="3" type="a320t" start="on" hid="0xBACA0064" default="board">
@@ -46,23 +46,23 @@
             <location>70.0 90.0</location>
         </node>
         <node number="10" type="a321p" start="on" hid="0xBACA0004" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
             <location>5.0 90.0</location>
         </node>
         <node number="11" type="a321p" start="on" hid="0xBACA0005" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
             <location>5.0 80.0</location>
         </node>
         <node number="12" type="a321p" start="on" hid="0xBACA0006" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
             <location>5.0 70.0</location>
         </node>
         <node number="13" type="a321p" start="on" hid="0xBACA0007" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
             <location>5.0 60.0</location>
         </node>
         <node number="14" type="a321p" start="on" hid="0xBACA0008" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
             <location>25.0 60.0</location>
         </node>
     </nodes>

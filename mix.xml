@@ -12,7 +12,7 @@
 	</node>
 	
 	<node number="1" type="a321p" start="on" hid="0xBACA0002" default="board">
-	    <xi:include href="uart.xml"/>
+	    <xi:include href="DATAFILES/uart.xml"/>
 	    <location>5.0 50.0</location>
 	</node>
 	<node number="2" type="warp" start="on" hid="0xBACA0003" default="board">

@@ -6,7 +6,7 @@
     <xi:include href="CHANNELS/tabulated.xml"/>
 
     <nodes>
-	<xi:include href="nodefs.xml"/>
+	<xi:include href="DATAFILES/nodefs.xml"/>
 	
 	<node number="0" type="warp" start="on" hid="0xBACA0001">
 	    <location>5.0 5.0</location>
