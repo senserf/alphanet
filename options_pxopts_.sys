@@ -5,5 +5,7 @@
 // Wire antenna on AP320
 // #define	CC1100_PATABLE { 0x00, 0x30, 0x04, 0x09, 0x19, 0x33, 0x86, 0xE0 }
 
-
-#define	CC1100_PATABLE { 0x01, 0x12, 0x09, 0x19, 0x33, 0x6C, 0x86, 0xE0 }
+// Replaced entries 5 and 6 from 6C to 64 and 86 to B6 (PG 151230)
+#define	CC1100_PATABLE { 0x01, 0x12, 0x09, 0x19, 0x33, 0x64, 0xB6, 0xE0 }
+// The idea is to have approximately 10-point (dB) increments, except for
+// the last two entries (it almost works, at least in my experiments)
