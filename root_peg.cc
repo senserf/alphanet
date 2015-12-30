@@ -27,6 +27,7 @@ static void init () {
 		leds (MASTER_STATUS_LED, 2);
 #endif
         tarp_ctrl.param = 0xB2; // level 2, rec 3, slack 1, fwd off
+	tarp_ctrl.param = 0xB0; // trying slack 0
 		runfsm mbeacon;
 		tagList.block = YES;
 	} else {
@@ -34,6 +35,7 @@ static void init () {
 		leds (MASTER_STATUS_LED, 0);
 #endif
         	tarp_ctrl.param = 0xB3; // level 2, rec 3, slack 1, fwd on
+		tarp_ctrl.param = 0xB1; // trying slack 0
 		runfsm looper;
 	}
 	runfsm hear;

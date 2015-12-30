@@ -81,6 +81,10 @@ fsm looper {
 				in_tdt(tp, refTime));
 #endif
 			in_tdt(tp, marka) = tagList.marka;
+			
+			// NO RETRIES as of Dec. 2015
+			app_diag_S ("NO RETRIES??");
+			
 			(void) report_tag (tp);
 			delay (1024, TAG);
 			release;

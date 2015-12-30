@@ -28,14 +28,20 @@ Clear:
 		loca.vec [in_ping(buf, slot)] = (word)rssi;
 		return;
 	}
-	if (seconds() - loca.ts > 2 /* && loca.id != in_header(buf, snd) */) {
-		// 3 may be 2 and a bit
+	
+	if (loca.id == in_header(buf, snd) && loca.ref == in_ping(buf, ref)) {
+		loca.vec [in_ping(buf, slot)] = (word)rssi;
+	} else {
+		if (loca.id == in_header(buf, snd) || seconds() - loca.ts > LOCA_TOUT_PING) {
+#if LOCA_TRAC
+		diag ("LOCA clr ping %u %u %u", loca.id, in_header(buf, snd),
+			(word)(seconds() - loca.ts));
+#endif
 		loca_out(YES);
 		goto Clear;
+		}
+		// else another tag cut in early - ignore
 	}
-	if (loca.id == in_header(buf, snd))
-		loca.vec [in_ping(buf, slot)] = (word)rssi;
-	// else another tag cut in - leave it alone
 }
 
 void msg_pong_in (char * buf, word rssi) {
@@ -44,9 +50,14 @@ void msg_pong_in (char * buf, word rssi) {
 	msgPongAckType  pong_ack = {{msg_pongAck,0,0,0,0,1,1,0}};
 
 	// we've made ANY pong_in a loca watchdog
-	if (loca.id != in_header(buf, snd) && loca.id != 0 && seconds() - loca.ts > 2)
+	if (loca.id != in_header(buf, snd) && loca.id != 0 && seconds() - loca.ts > LOCA_TOUT_PONG) {
+#if LOCA_TRAC
+		diag ("LOCA clr pong %u %u %u", loca.id, in_header(buf, snd),
+			(word)(seconds() - loca.ts));
+#endif
 		loca_out(YES);
-	
+	}
+
 	if (needs_ack (in_header(buf, snd), buf + sizeof(headerType), rssi)) {
 		pong_ack.header.rcv = in_header(buf, snd);
 		pong_ack.dupeq = in_pong(buf, pd).dupeq;

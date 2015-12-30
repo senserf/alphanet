@@ -8,6 +8,6 @@
 #endif
 #define TCV_HOOKS       1
 
-#define TARP_RTR        1
+#define TARP_RTR        2
 #define TARP_MAXHOPS    5
 

@@ -11,7 +11,7 @@
  * "Virtual" stuff needed by NET & TARP =======================================
  */
 word guide_rtr (headerType *  b) {
-        return (b->rcv == 0 || b->msg_type  == msg_pong ||
+        return (b->rcv == 0 || b->msg_type  == msg_pong || b->msg_type  == msg_ping ||
                         b->msg_type == msg_pongAck) ? 1 : 2;
 }
 

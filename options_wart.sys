@@ -8,7 +8,8 @@
 #undef STORAGE_AT45XXX
 #define STORAGE_AT45XXX 0
 // I expect we'll need FIM
-//#include "options_retries.inc"
 
 #include "options_pxopts_.sys"
+#ifdef     __SMURPH__
 #include "options_tarp_.sys"
+#endif

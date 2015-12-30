@@ -9,14 +9,11 @@
 //#undef RADIO_USE_LEDS
 //#define RADIO_USE_LEDS 0
 // I expect we'll need FIM
-// remember about RTR, TCV_TIMERS, TCV_HOOKS
 
 #ifdef     __SMURPH__
 #undef DIAG_MESSAGES
 #define DIAG_MESSAGES	2
 #endif
-
-//#include "options_retries.inc"
 
 #include "options_pxopts_.sys"
 #include "options_tarp_.sys"

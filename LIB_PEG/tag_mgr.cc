@@ -18,7 +18,10 @@ overwrite alarms. Acks from Master remove (del) corresponding entries.
 tagListType tagList;
 Boolean learn_mod = 0;
 
+// we've got rid of retries... it sucks, all is incoherent, rewrite? chle chle
+// #define	_TMGR_MAX_RELIABLE	12
 #define	_TMGR_MAX_RELIABLE	12
+
 #define _TMGR_DBG	0
 void reset_tags () {
 
@@ -122,7 +125,7 @@ Boolean report_tag (char * td) {
 		if (globa)
 				siz += LOCAVEC_SIZ;
 			else
-				loca_out (YES);
+				loca_out (YES);  // that is for local alrms (distinct loca msgs)
 	}
 
 	mp = get_mem (siz, NO); // continue if no mem
@@ -202,6 +205,10 @@ void ins_tag (char * buf, word rssi) { // it is msg_pong in buf
 
 	globa = report_tag (ptr);
 
+// this is a kludge to get rid of report retries (and rely on TARP_RTR)
+// highly debatable, but may help with delivering location data from more pegs
+// NO RETRIES
+#if 0
 	if (local_host == master_host) { // no insertions on Master
 		globa = NO;
 	} else {
@@ -233,6 +240,9 @@ void ins_tag (char * buf, word rssi) { // it is msg_pong in buf
 			in_tdt(ptr, tagid), tagList.alrms, tagList.evnts);
 #endif
 	} else 				// ... and free the element
+#endif
+// end of NO RETRIES
+
 		ufree (ptr);
 }
 

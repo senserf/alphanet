@@ -7,6 +7,16 @@
 
 //+++ loca.cc
 
+// in seconds... likely, a single constant will do
+#define LOCA_TOUT_PING 5
+#define LOCA_TOUT_PONG 5
+
+#ifdef __SMURPH__
+#define LOCA_TRAC	1
+#else
+#define LOCA_TRAC	0
+#endif
+
 // be careful with messages: 32 maxes out current report packets
 // also, this 32 is hardcoded in commons.h:msgLocaType
 #define LOCAVEC_SIZ	32
