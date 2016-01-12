@@ -114,6 +114,10 @@ Boolean needs_ack ( word id, char * b, word rss) { // b point at pdt (and option
 
 /*************
 returns 1 if report goes global, 0 otherwise
+With location data (optionally) in, there is more:
+- refTime is updated on these that go to the master
+- locat flag is set to remove master's reportAcks
+All this should be reworked if we get back to report retries
 *************/
 Boolean report_tag (char * td) {
 	char  * mp;
@@ -121,11 +125,14 @@ Boolean report_tag (char * td) {
 	word	siz = sizeof(msgReportType) + sizeof(pongDataType) +
 			in_pdt(td, len);
 
+	in_pdt(td, locat) = NO;
 	if (loca.id == in_tdt(td, tagid)) {
-		if (globa)
+		if (globa) {
 				siz += LOCAVEC_SIZ;
-			else
+				in_pdt(td, locat) = YES;
+			} else {
 				loca_out (YES);  // that is for local alrms (distinct loca msgs)
+			}
 	}
 
 	mp = get_mem (siz, NO); // continue if no mem
@@ -138,7 +145,7 @@ Boolean report_tag (char * td) {
 	memset (mp, 0, siz);
 	in_header(mp,  msg_type) = msg_report;
 	in_header(mp,  rcv) = master_host;
-	in_report(mp, ref) = in_tdt(td, refTime);
+	in_report(mp, ref) = in_pdt(td, locat) ? loca.ref : in_tdt(td, refTime);
 	in_report(mp, tagid) = in_tdt(td, tagid);
 	in_report(mp, rssi) = in_tdt(td, rssi);
 	in_report(mp, ago) = (word)(seconds() - in_tdt(td, refTime)) > 255 ?
@@ -147,7 +154,8 @@ Boolean report_tag (char * td) {
 	memcpy (mp + sizeof(msgReportType), td + sizeof(tagDataType),
 		siz - sizeof(msgReportType));
 	
-	if (globa && loca.id == in_tdt(td, tagid)) {
+	// if (globa && loca.id == in_tdt(td, tagid)) { equivalent... I hope:
+	if (in_pdt(td, locat)) {
 		memcpy (mp + siz -LOCAVEC_SIZ, loca.vec, LOCAVEC_SIZ);
 		loca_out (NO);
 	}

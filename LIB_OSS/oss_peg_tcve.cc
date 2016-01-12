@@ -631,7 +631,7 @@ void oss_tx (char * b, word siz) {
 		case msg_report:
 
 			/*
-				byte len = 17 (malloc 17 +1)
+				byte len = 18 (malloc 18 +1) or +2+LOCAVEC_SIZ with loca data
 				// out:
 				byte	seq;
 				word	local_host;
@@ -648,11 +648,16 @@ void oss_tx (char * b, word siz) {
 				// Args
 				byte	fl;
 				byte	dial;
+				byte	locat; // 1 - with location data
+				// locat == 1 only
+				word	ref;
+				byte	locavec[LOCAVEC_SIZ];
 			*/			
-			if ((bu = get_mem (siz > LOCAVEC_SIZ? LOCAVEC_SIZ +18 : 18, NO)) == NULL)
+			if ((bu = get_mem (((pongDataType *)(b + sizeof(msgReportType)))->locat ?
+					LOCAVEC_SIZ +21 : 19, NO)) == NULL)
 				return;
 			
-			bu[0] = siz > LOCAVEC_SIZ ? LOCAVEC_SIZ +17 : 17;
+			bu[0] = ((pongDataType *)(b + sizeof(msgReportType)))->locat ? LOCAVEC_SIZ +20 : 18;
 			bu[1] = 0; // would be 0x80 if we wanted ack (say, alrms on the master could be 'more reliable')
 			bu[2] = (byte)local_host;
 			bu[3] = (byte)(local_host >> 8);
@@ -681,12 +686,15 @@ void oss_tx (char * b, word siz) {
 			// board specific will bu[16] |= global flag
 			// board-specific bu[17] = dial
 			board_out (b + sizeof(msgReportType), bu);
-			
-			// loca vector
-			if (siz > LOCAVEC_SIZ)
-				memcpy (&bu[18], b + siz - LOCAVEC_SIZ,
+			bu[18] = ((pongDataType *)(b + sizeof(msgReportType)))->locat;
+
+			// loca ref & vector
+			if (((pongDataType *)(b + sizeof(msgReportType)))->locat) {
+				bu[19] = (byte)in_report(b, ref);
+				bu[20] = (byte)(in_report(b, ref) >> 8);
+				memcpy (&bu[21], b + siz - LOCAVEC_SIZ,
 					LOCAVEC_SIZ);
-				
+			}	
 			_oss_out (bu, NO);
 			break;
 

@@ -18,7 +18,7 @@ loca_t	loca;
 void loca_out (Boolean sendLoca) {
 	char  * mp;
 
-	if (sendLoca) {
+	if (sendLoca && seconds() - loca.ref < LOCA_TOUT_LREP) {
 		mp = get_mem (sizeof(msgLocaType), NO);
 		if (mp == NULL) {
 			app_diag_S ("Loca failed");

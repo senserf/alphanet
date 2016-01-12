@@ -126,7 +126,9 @@ typedef struct pongDataStruct {
     word 	trynr    :3;
 	word	dupeq	 :4;
 	word	noack	 :1;	// doesn't really belong here, but this place is handy
-    word	spare    :2;
+	// note that loca field doesn't have to be filled on tags (in fact, it likely is better to have pegs decide)
+    word	locat    :1;	// a kludge to signal source of location data bursts
+    word	spare    :1;
 } pongDataType; // 4B (+len bytes of pload serialized after this)
 
 typedef struct tagDataStruct {

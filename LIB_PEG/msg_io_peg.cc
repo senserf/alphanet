@@ -86,8 +86,12 @@ void msg_report_in (char * buf, word siz) {
 	msgReportAckType ack = {{msg_reportAck,0,0,0,0,0,0,0}};
 
 	// eliminate unnecessary RACKs for heartbeat 'alarms' (in 1.5, not in 1.0)
-	if (((pongDataType *)(buf + sizeof(msgReportType)))->alrm_id == 0) { // heartbeat
-		app_diag_D ("No RACK for alrm0 %u #%u", in_header(buf, snd), in_report(buf, ref));
+	// or alrms with location data
+	if (((pongDataType *)(buf + sizeof(msgReportType)))->alrm_id == 0 ||
+		((pongDataType *)(buf + sizeof(msgReportType)))->locat) {
+		app_diag_D ("No RACK %u #%u %u %u", in_header(buf, snd), in_report(buf, ref),
+		((pongDataType *)(buf + sizeof(msgReportType)))->alrm_id,
+		((pongDataType *)(buf + sizeof(msgReportType)))->locat);
 	} else {
 		ack.header.rcv = in_header(buf, snd);
 		ack.ref = in_report(buf, ref);

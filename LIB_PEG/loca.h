@@ -8,11 +8,14 @@
 //+++ loca.cc
 
 // in seconds... likely, a single constant will do
-#define LOCA_TOUT_PING 5
-#define LOCA_TOUT_PONG 5
+// 10 comes from 4 tries 3s apart, after loca burst (3*3+1)
+#define LOCA_TOUT_PING 10
+#define LOCA_TOUT_PONG 10
+// after _LREP loca data is cleared but not sent
+#define LOCA_TOUT_LREP 30
 
 #ifdef __SMURPH__
-#define LOCA_TRAC	1
+#define LOCA_TRAC	0
 #else
 #define LOCA_TRAC	0
 #endif
