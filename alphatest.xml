@@ -2,7 +2,13 @@
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="DATAFILES/alphatest.gif" width="69.22" nodesize="10"
+		<roamer image="DATAFILES/alpha_level0.gif" nodesize="10"
+			name="Level0"
+			box="0.0 0.0 0.0 29.2 41.5 4.0"
+			display="yes"/>
+		<roamer image="DATAFILES/alpha_level1.gif" nodesize="10"
+			name="Level1"
+			box="0.0 0.0 4.0 29.2 41.5 8.0"
 			display="yes"/>
 	</display>
 
