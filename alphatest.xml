@@ -10,6 +10,7 @@
 			name="Level1"
 			box="0.0 0.0 4.0 29.2 41.5 8.0"
 			display="yes"/>
+		<roamer name="raw"/>
 	</display>
 
     <xi:include href="CHANNELS/tabulated.xml"/>
