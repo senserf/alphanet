@@ -4,6 +4,9 @@
 /* ==================================================================== */
 #include "ap320_tag.h"
 #include "alrms.h"
+#ifndef  __SMURPH__
+#include "buttons.h"
+#endif
 
 ap320_t	ap320;
 

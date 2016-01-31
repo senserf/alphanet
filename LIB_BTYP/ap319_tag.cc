@@ -4,6 +4,9 @@
 /* ==================================================================== */
 #include "ap319_tag.h"
 #include "alrms.h"
+#ifndef  __SMURPH__
+#include "buttons.h"
+#endif
 
 ap319_t	ap319;
 

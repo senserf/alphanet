@@ -1,6 +1,6 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2014        			*/
-/* All rights reserved.							*/
+/* Copyright (C) Olsonet Communications, 2016		        			*/
+/* All rights reserved.													*/
 /* ==================================================================== */
 
 #include "commons.h"
@@ -122,16 +122,16 @@ All this should be reworked if we get back to report retries
 Boolean report_tag (char * td) {
 	char  * mp;
 	Boolean globa = is_global (td + sizeof(tagDataType));
-	word	siz = sizeof(msgReportType) + sizeof(pongDataType) +
-			in_pdt(td, len);
-
+	word	siz = sizeof(msgReportType) + sizeof(pongDataType) + in_pdt(td, len);
+	word	lslot = loca_find (in_tdt(td, tagid), 0);
+	
 	in_pdt(td, locat) = NO;
-	if (loca.id == in_tdt(td, tagid)) {
+	if (lslot < LOCA_SNUM) {
 		if (globa) {
 				siz += LOCAVEC_SIZ;
 				in_pdt(td, locat) = YES;
 			} else {
-				loca_out (YES);  // that is for local alrms (distinct loca msgs)
+				loca_out (lslot, YES);  // that is for local alrms (distinct loca msgs)
 			}
 	}
 
@@ -145,7 +145,7 @@ Boolean report_tag (char * td) {
 	memset (mp, 0, siz);
 	in_header(mp,  msg_type) = msg_report;
 	in_header(mp,  rcv) = master_host;
-	in_report(mp, ref) = in_pdt(td, locat) ? loca.ref : in_tdt(td, refTime);
+	in_report(mp, ref) = in_pdt(td, locat) ? locarr[lslot].ref : in_tdt(td, refTime);
 	in_report(mp, tagid) = in_tdt(td, tagid);
 	in_report(mp, rssi) = in_tdt(td, rssi);
 	in_report(mp, ago) = (word)(seconds() - in_tdt(td, refTime)) > 255 ?
@@ -154,10 +154,9 @@ Boolean report_tag (char * td) {
 	memcpy (mp + sizeof(msgReportType), td + sizeof(tagDataType),
 		siz - sizeof(msgReportType));
 	
-	// if (globa && loca.id == in_tdt(td, tagid)) { equivalent... I hope:
 	if (in_pdt(td, locat)) {
-		memcpy (mp + siz -LOCAVEC_SIZ, loca.vec, LOCAVEC_SIZ);
-		loca_out (NO);
+		memcpy (mp + siz -LOCAVEC_SIZ, locarr[lslot].vec, LOCAVEC_SIZ);
+		loca_out (lslot, NO);
 	}
 	// globa = is_global (mp + sizeof(msgReportType));
 	talk (mp, siz, globa ? TO_ALL : TO_OSS); // will NOT go TO_NET on Master. see talk()
@@ -181,7 +180,7 @@ Boolean report_tag (char * td) {
 void ins_tag (char * buf, word rssi) { // it is msg_pong in buf
 
 	Boolean force = in_pong(buf, pd).alrm_id == 0 ? NO : YES;
-	Boolean globa;
+	// Boolean globa; // keep this if we ever return to retries
 	word ret = del_tag (in_header(buf, snd), 0, in_pong(buf, pd).dupeq, 
 			force);
 	char * ptr;
@@ -211,7 +210,8 @@ void ins_tag (char * buf, word rssi) { // it is msg_pong in buf
 	in_tdt(ptr, marka) = tagList.marka;
 	in_tdt(ptr, nel) = tagList.nel;
 
-	globa = report_tag (ptr);
+	// globa = report_tag (ptr);
+	(void)report_tag (ptr);
 
 // this is a kludge to get rid of report retries (and rely on TARP_RTR)
 // highly debatable, but may help with delivering location data from more pegs

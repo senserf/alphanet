@@ -10,6 +10,9 @@
 #include "inout.h"
 #include "net.h"
 #include "alrms.h"
+#ifndef  __SMURPH__
+#include "buttons.h"
+#endif
 
 fsm acc;
 fsm lcd_mon;

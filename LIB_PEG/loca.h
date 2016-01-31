@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2002 - 2015                    */
+/* Copyright (C) Olsonet Communications, 2002 - 2016                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 #ifndef __loca_h
@@ -11,11 +11,16 @@
 // 10 comes from 4 tries 3s apart, after loca burst (3*3+1)
 #define LOCA_TOUT_PING 10
 #define LOCA_TOUT_PONG 10
-// after _LREP loca data is cleared but not sent
-#define LOCA_TOUT_LREP 30
+
+// Audit at freq LOCA_TOUT_AUDIT/2. It seems better than unused old bursts.
+// Should not be less than max(_PING, _PONG)
+#define LOCA_TOUT_AUDIT 14
+
+// number of simultaneous tag bursts collections
+#define LOCA_SNUM	3
 
 #ifdef __SMURPH__
-#define LOCA_TRAC	0
+#define LOCA_TRAC	1
 #else
 #define LOCA_TRAC	0
 #endif
@@ -30,7 +35,10 @@ typedef struct locaStruct {
 	byte 	vec[LOCAVEC_SIZ];
 } loca_t;
 
-extern loca_t	loca;
-void loca_out (Boolean sendLoca);
+extern loca_t	locarr[];	// now 40B per slot
 
+void loca_out (word ind, Boolean sendLoca);
+word loca_find (word id, word tout);
+void loca_ld (word lsl, word id, word ref, word bsl, word rss);
+fsm locaudit;
 #endif

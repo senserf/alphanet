@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2002 - 2014                    */
+/* Copyright (C) Olsonet Communications, 2002 - 2016                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 
@@ -10,6 +10,7 @@
 #include "tag_mgr.h"
 #include "msg_io_peg.h"
 #include "net.h"
+#include "loca.h"
 
 fsm mbeacon;
 static void init () {
@@ -37,6 +38,7 @@ static void init () {
         	tarp_ctrl.param = 0xB3; // level 2, rec 3, slack 1, fwd on
 		tarp_ctrl.param = 0xB1; // trying slack 0
 		runfsm looper;
+		runfsm locaudit;
 	}
 	runfsm hear;
 }

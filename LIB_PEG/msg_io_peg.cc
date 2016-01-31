@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2002 - 2015                    */
+/* Copyright (C) Olsonet Communications, 2002 - 2016                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 
@@ -20,27 +20,31 @@ void msg_master_in (char * buf) {
 }
 
 void msg_ping_in (char * buf, word rssi) {
-Clear:
-	if (loca.id == 0) { // first elem
-		loca.ts = seconds();
-		loca.id = in_header(buf, snd);
-		loca.ref = in_ping(buf, ref);
-		loca.vec [in_ping(buf, slot)] = (word)rssi;
-		return;
-	}
-	
-	if (loca.id == in_header(buf, snd) && loca.ref == in_ping(buf, ref)) {
-		loca.vec [in_ping(buf, slot)] = (word)rssi;
-	} else {
-		if (loca.id == in_header(buf, snd) || seconds() - loca.ts > LOCA_TOUT_PING) {
 #if LOCA_TRAC
-		diag ("LOCA clr ping %u %u %u", loca.id, in_header(buf, snd),
-			(word)(seconds() - loca.ts));
+	word bnum, bslo;
 #endif
-		loca_out(YES);
-		goto Clear;
+	// nonzero LOCA_TOUT_PING will send out older bursts in separate loca reports
+	word lslot = loca_find (in_header(buf, snd), LOCA_TOUT_PING);
+	
+	if (lslot < LOCA_SNUM) { // found the tag
+		if (locarr[lslot].ref == in_ping(buf, ref)) { // ongoing collection of this burst
+			locarr[lslot].vec [in_ping(buf, slot)] = rssi;
+		} else { // unfinished business from this tag
+
+#if LOCA_TRAC
+			bnum = bslo = 0;
+			while (bslo < LOCAVEC_SIZ) {
+				if (locarr[lslot].vec[bslo] != 0) bnum++;
+				bslo++;
+			}
+			app_diag_U ("LOCA self-clr ping %u %u %u",
+				in_header(buf, snd), bslo, (word)(seconds() - locarr[lslot].ts));
+#endif
+			loca_out (lslot, YES); // will send separate report
+			loca_ld (lslot, in_header(buf, snd), in_ping(buf, ref), in_ping(buf, slot), rssi);
 		}
-		// else another tag cut in early - ignore
+	} else { // first msg of the burst (will quietly(?) be ignored if no place in locarr)
+		loca_ld (LOCA_SNUM, in_header(buf, snd), in_ping(buf, ref), in_ping(buf, slot), rssi);
 	}
 }
 
@@ -50,13 +54,8 @@ void msg_pong_in (char * buf, word rssi) {
 	msgPongAckType  pong_ack = {{msg_pongAck,0,0,0,0,1,1,0}};
 
 	// we've made ANY pong_in a loca watchdog
-	if (loca.id != in_header(buf, snd) && loca.id != 0 && seconds() - loca.ts > LOCA_TOUT_PONG) {
-#if LOCA_TRAC
-		diag ("LOCA clr pong %u %u %u", loca.id, in_header(buf, snd),
-			(word)(seconds() - loca.ts));
-#endif
-		loca_out(YES);
-	}
+	// nonzero LOCA_TOUT_PONG will send out older bursts in separate loca reports
+	(void)loca_find (in_header(buf, snd), LOCA_TOUT_PONG);
 
 	if (needs_ack (in_header(buf, snd), buf + sizeof(headerType), rssi)) {
 		pong_ack.header.rcv = in_header(buf, snd);

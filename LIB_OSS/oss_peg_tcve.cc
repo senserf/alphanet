@@ -333,7 +333,6 @@ static void cmd_get (byte * buf, word len) {
 static void cmd_set (byte * buf, word len) {
 	byte * bend = buf + len; // 1st out the buf
 	byte * ptr = buf +3 +4;
-	char * obu = NULL;
 	byte oprc = RC_OK;
 	
 	while (oprc == RC_OK && ptr < bend) {
