@@ -13,7 +13,7 @@
 		<roamer name="raw"/>
 	</display>
 
-    <xi:include href="CHANNELS/tabulated.xml"/>
+    <xi:include href="DATAFILES/alphachannel.xml"/>
 
     <nodes>
 	<defaults>
