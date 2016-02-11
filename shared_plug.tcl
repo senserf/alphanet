@@ -1280,7 +1280,7 @@ variable PARLIST {
 		  { "audit"   	 12 	sg	w	0	0xffff 	}
 		  { "autoack"  	 13 	sg	by	0	1	}
 		  { "beacon"  	 14 	sg	w	0	0xffff	}
-		  { "version" 	 15 	g	ws			}
+		  { "version" 	 15 	g	wx			}
 		  { "uptime"  	 26 	g	l			}
 		  { "memstat" 	 27 	g	ww			}
 		  { "meminfo" 	 28 	g	ww			}
@@ -2670,6 +2670,13 @@ proc nrssv { rss } {
 proc out_location { peg tag ref rss } {
 
 	set res "location: peg=$peg tag=$tag ref=$ref\n"
+
+	# include the raw vector
+	append res "RAW:"
+	foreach r $rss {
+		append res " [format %3d $r]"
+	}
+	append res "\nNRM:"
 
 	if [catch { nrssv $rss } rss] {
 		append res " BAD RSS VECTOR: $rss!\n"

@@ -37,6 +37,18 @@ fsm ping {
 		// pl = in_ping(msg, slot) / 4;
 		// net_opt (PHYSOPT_SETPOWER, &pl);
 		set_pxopts (PING_LBT_SETTING, in_ping(msg, slot) / 4, 0);
+		// PG: talk doesn't wait for memory; as we have an FSM to send
+		// these pings, and they form a burst, perhaps it would make
+		// sense to wait for memory, if not available immediately,
+		// because the burst is not completely unlikely to momentarily
+		// deplete it (esepecially with LBT on), so I would replace the
+		// command below with:
+		//
+		// net_tx (ITER, msg, sizeof (msgPingType), 0);
+		//
+		// Note the even though bursts are sent with LBT off, a packet
+		// in front may be blocking the queue
+		//
 		talk (msg, sizeof(msgPingType), TO_NET);
 		if (++in_ping(msg, slot) > 31) {
 			ufree (msg);

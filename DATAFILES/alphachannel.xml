@@ -10,7 +10,12 @@
 		<xi:include href="DATAFILES/alphaatt.xml"/>
 	</propagation>
 
-	<cutoff>-115.0dBm</cutoff>
+	<cutoff>
+		<!--
+			Make this 6dB below BN
+		-->
+		-135.0dBm
+	</cutoff>
 
 	<ber>
 		  	SIR	   BER
