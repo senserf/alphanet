@@ -1232,6 +1232,11 @@ proc iresponse { opc pay t } {
 	return $sta
 }
 
+proc tstamp { } {
+
+	return [clock format [clock seconds] -format "%H:%M:%S"]
+}
+
 proc ireport { pay t } {
 
 	variable REPO
@@ -1239,7 +1244,7 @@ proc ireport { pay t } {
 
 	set opc [get_b pay]
 
-	set res "-REP:"
+	set res "[tstamp]-REP:"
 
 	if [info exists REPO($opc)] {
 		set sta $CODES(RC_OK)
@@ -2609,7 +2614,7 @@ proc report_event { pay t sta } {
 		while { $pay != "" } {
 			lappend rss [get_b pay]
 		}
-		append res "\n\n[out_location $peg $tag $ref $rss]"
+		append res "\n[out_location $peg $tag $ref $rss]"
 	}
 
 	set status $CODES(RC_OK)
