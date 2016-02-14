@@ -44,7 +44,7 @@ fsm fifek_test {
 	state LOOP:
 		char *ptr;
 
-		if (seconds() - ts > 10) {
+		if ((word)(seconds() - ts) > 10) {
 			mem = memfree(0, &mmin);
 			ts = seconds();
 			app_diag_U ("FIT loops(%u) %u.%u %u %u %u",

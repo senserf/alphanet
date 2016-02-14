@@ -43,7 +43,7 @@ word loca_find (word id, word tout) {
 #endif
 	word i = 0;
 	while (i < LOCA_SNUM && locarr[i].id != id) {
-		if (locarr[i].id && tout && seconds() - locarr[i].ts > tout) {
+		if (locarr[i].id && tout && (word)(seconds() - locarr[i].ts) > tout) {
 
 #if LOCA_TRAC
 			bnum = bslo = 0;
