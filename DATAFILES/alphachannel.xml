@@ -1,30 +1,32 @@
-<channel bn="-129.0dBm">
+<channel bn="-116.0dBm">
 
 	<!--
-		Set BN 3dB below the power level corresponding to RSSI = 24
-		which we shall consider minimum receivable
+		Set BN 3dB below the power level corresponding to RSSI = 50
+		which we shall consider minimum receivable:
+			50 / 2 - 138.0 - 3.0 = -116
 	-->
 
-	<propagation type="sampled" samples="DATAFILES/alphasamples.txt"
-            average="4,0.1">
-		<xi:include href="DATAFILES/alphaatt.xml"/>
+	<propagation type="sampled"
+		samples="DATAFILES/alphasamples.txt"
+            	average="4,0.1">
+			<xi:include href="DATAFILES/alphaatt.xml"/>
 	</propagation>
 
 	<cutoff>
 		<!--
-			Make this 6dB below BN
+			Set this to 6dB below BN
 		-->
-		-135.0dBm
+		-122.0dBm
 	</cutoff>
 
 	<ber>
 		  	SIR	   BER
-			67.0	0.5E-7
-			56.0	1.0E-7
-			23.0	1.0E-6
-			16.0	1.0E-5
-			 8.0	1.0E-4
-			 5.0    2.0E-2
+			61.0	0.5E-10
+			56.0	1.0E-10
+			23.0	1.0E-9
+			16.0	1.0E-8
+			 8.0	1.0E-6
+			 5.0    2.0E-4
 	 		 0.0    9.9E-1
 	</ber>
 
@@ -45,8 +47,7 @@
 			RSS is supposed to be in dBm with 1/2 dBm resolution.
 			So the span is 128 dBm with some initial values of RSS
 			deemed non-receivable. The minimum value I spotted in
-			the sample file was 18. There are a few values in low
-			20-ties.
+			the sample file was 54.
 
 			The official formula to transform RSSI into dBM (from
 			the manual) is this:
@@ -57,24 +58,15 @@
 			a nonnegative (unsigned) 8-bit number. This basically
 			boils down to rss / 2 - 138.
 
-				RSS =  24	=>	-126 dBm
-				RSS = 150	=>	 -63 dBm
-				RSS = 254	=>	 -11 dBm
-
-			So I am setting RSS = 25 correspond to -103.0 dBm
-			yielding 5.0dB above the BN. The BER at that signal
-			level should be of order 0.02 yielding about 0.1
-			chance of receiving correctly 100 bits.
-
-			The max RSS = 255 thus translates into -103 + 120 =
-			17 dBm, which is impossible. But the max value I see in
-			the samples is 149 => -41 dBm, which looks fair enough.
-			This is the S/N ratio of 67 dBm (which we should look
-			at as a maximum [virtually perfect reception].
+			The max RSS = 255 thus translates into -10.5 dBm.
+			The max value I see in the samples is 165 => -55.5 dBm,
+			which looks fair enough. This is the S/N ratio of
+			60.5 dBm (which we should look at as a maximum
+			[virtually perfect] reception).
 		-->
 
 		RSS =  0	==>		-138.0 dBm
-		RSS =  24	==>		-126.0 dBm
+		RSS =  50	==>		-113.0 dBm
 		RSS = 255	==>		 -10.5 dBm
 
 	</rssi>

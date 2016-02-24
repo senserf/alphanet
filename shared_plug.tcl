@@ -920,6 +920,7 @@ proc iissue { code vals t { sopts "" } } {
 #			sequence	- force specific sequence number
 #			opref		- force specific opref
 #			repeat		- repetition count
+#                       remote		- remote Node Id
 #
 	set ns [cns $t]
 
@@ -977,10 +978,19 @@ proc iissue { code vals t { sopts "" } } {
 	}
 
 	# sequence number + Node Id + opcode + refnum
-	if { $nodeid == "" } {
+	if [dict exists $sopts "nodeid"] {
+		set nid [dict get $sopts "nodeid"]
+	} elseif { $nodeid == "" } {
 		set nid 0
 	} else {
 		set nid $nodeid
+	}
+
+	# remote Node Id
+	if [dict exists $sopts "remote"] {
+		set rid [dict get $sopts "remote"]
+	} else {
+		set rid $nid
 	}
 
 	set out ""
@@ -988,7 +998,7 @@ proc iissue { code vals t { sopts "" } } {
 	put_w out $nid
 	put_b out $code
 	put_b out $ref
-	put_w out $nid
+	put_w out $rid
 	set out [concat $out $vals]
 
 	if $dump {
@@ -1133,6 +1143,12 @@ proc sendack { r t } {
 
 	foreach v { isq laststat nodeid dump } {
 		set $v [varvar ${ns}::plug($v)]
+	}
+
+	if { $nodeid != "" } {
+		set nid $nodeid
+	} else {
+		set nid 0
 	}
 
 	set vals ""
@@ -1292,7 +1308,8 @@ variable PARLIST {
 		  { "sniff"   	 29 	sg	by	0	1	}
 	}
 
-variable STDOPTS { "ack" "response" "sequence" "opref" "repeat" }
+variable STDOPTS { "ack" "response" "sequence" "opref" "repeat" "remote"
+			"nodeid" }
 
 proc cselector { } {
 #
@@ -1368,14 +1385,14 @@ proc stdopts { r k } {
 		error "a numerical value expected after -$k"
 	}
 
+	set min 0
 	if { $k == "repeat" } {
 		set max 9
-		set min 0
+	} elseif { $k == "remote" || $k == "nodeid" } {
+		set max 65535
 	} else {
 		set max 127
-		if { $k == "opref" } {
-			set min 0
-		} else {
+		if { $k != "opref" } {
 			set min 1
 		}
 	}
