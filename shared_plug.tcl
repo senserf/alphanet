@@ -920,6 +920,7 @@ proc iissue { code vals t { sopts "" } } {
 #			sequence	- force specific sequence number
 #			opref		- force specific opref
 #			repeat		- repetition count
+#			local		- local Node Id
 #                       remote		- remote Node Id
 #
 	set ns [cns $t]
@@ -978,8 +979,8 @@ proc iissue { code vals t { sopts "" } } {
 	}
 
 	# sequence number + Node Id + opcode + refnum
-	if [dict exists $sopts "nodeid"] {
-		set nid [dict get $sopts "nodeid"]
+	if [dict exists $sopts "local"] {
+		set nid [dict get $sopts "local"]
 	} elseif { $nodeid == "" } {
 		set nid 0
 	} else {
@@ -1309,7 +1310,7 @@ variable PARLIST {
 	}
 
 variable STDOPTS { "ack" "response" "sequence" "opref" "repeat" "remote"
-			"nodeid" }
+			"local" }
 
 proc cselector { } {
 #
@@ -1388,7 +1389,7 @@ proc stdopts { r k } {
 	set min 0
 	if { $k == "repeat" } {
 		set max 9
-	} elseif { $k == "remote" || $k == "nodeid" } {
+	} elseif { $k == "remote" || $k == "local" } {
 		set max 65535
 	} else {
 		set max 127
