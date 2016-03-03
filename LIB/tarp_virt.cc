@@ -12,7 +12,8 @@
  */
 word guide_rtr (headerType *  b) {
         return (b->rcv == 0 || b->msg_type  == msg_pong || b->msg_type  == msg_ping ||
-                        b->msg_type == msg_pongAck) ? 1 : 2;
+                        b->msg_type == msg_pongAck ||
+						b->msg_type == msg_rpc || b->msg_type == msg_rpcAck) ? 1 : 2;
 }
 
 int tr_offset (headerType *h) {

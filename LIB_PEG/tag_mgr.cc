@@ -9,6 +9,7 @@
 #include "vartypes.h"
 #include "tag_mgr.h"
 #include "loca.h"
+#include "pegs.h"
 
 /**************************************************************************
 tagList is a simple list of structs with Master-unconfirmed tags. New alarms
@@ -16,7 +17,6 @@ from an already present tag overwrite (del, ins) the entry. Events don't
 overwrite alarms. Acks from Master remove (del) corresponding entries.
 ***************************************************************************/
 tagListType tagList;
-Boolean learn_mod = 0;
 
 // we've got rid of retries... it sucks, all is incoherent, rewrite? chle chle
 // #define	_TMGR_MAX_RELIABLE	12
@@ -104,7 +104,7 @@ Boolean is_global ( char * b) { // b point at pdt (and optional board-specific p
 #define LEARN_THOLD	150
 Boolean needs_ack ( word id, char * b, word rss) { // b point at pdt (and optional board-specific ppt)
 
-	if (is_global (b) || learn_mod && rss >= LEARN_THOLD)
+	if (is_global (b) || pegfl.learn_mod && rss >= LEARN_THOLD)
 		return YES;
 
 	return (in_treg (id, (byte)((pongDataType *)b)->alrm_id));
@@ -339,12 +339,12 @@ void b2treg (word l, byte * b) {
 		
 	// special case: illegal index deals with 'learning mode'
 	if (n == 0) {
-		i = learn_mod;
+		i = pegfl.learn_mod;
 		if (*(b+3) == 0) { // learning on
-			learn_mod = YES;
+			pegfl.learn_mod = YES;
 		} else {
 			if (*(b+3) == 0xff) { // learning off
-				learn_mod = NO;
+				pegfl.learn_mod = NO;
 			} // else do nothing - no error codes, shitty acks
 		}
 #if _TMGR_DBG
@@ -366,12 +366,18 @@ void b2treg (word l, byte * b) {
 
 }
 
+// The signature changed when rpc was introduced: we need subslices. This is crap anyway,
+// inspired by not that thoughtful Renesas desires, perhaps will change one day.
 // we don't want to mess with oss allocation here, caller must do it and put the index in *b
-void treg2b (byte *b) {
+void treg2b (byte *b, word num) {
 	word i = *b;
 	byte * ptr = b +1;
 	
-	while (i < TREG_NUM) {
+	num += i;
+	if (num > TREG_NUM)
+		num = TREG_NUM;
+		
+	while (i < num) {
 		memcpy (ptr, &my_tags.tid[i], 2);
 		*(ptr +2) = my_tags.bmask[i++];
 		ptr += 3;

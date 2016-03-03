@@ -94,14 +94,12 @@ void talk (char * buf, sint size, word whoto) {
 		return;
 	}
 
-        if (in_header(buf, rcv) != local_host && whoto != TO_OSS) {
-// dupa fix this net_tx, swerrs & dbg in it?
-        	if (net_tx (WNONE, buf, size, 0) == 0) {
-                	app_diag_D ("Sent(%d) %u to %u", size,
-                        	in_header(buf, msg_type),
-                        	in_header(buf, rcv));
-        	} else {
-                	app_diag_S ("NETx %u failed", in_header(buf, msg_type));
+	if (in_header(buf, rcv) != local_host && whoto != TO_OSS) {
+        if (net_tx (WNONE, buf, size, 0) == 0) {
+			app_diag_D ("Sent(%d) %u to %u", size,
+				in_header(buf, msg_type), in_header(buf, rcv));
+        } else {
+			app_diag_S ("NETx %u failed", in_header(buf, msg_type));
 		}
 	}
 

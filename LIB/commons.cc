@@ -160,7 +160,6 @@ void fifek_reset (fifek_t *fif, word siz) {
 #undef _FIFEK_DBG
 
 // for now, note that we violate nomenclature to maintain intentions: this is NOT for TARP...
-// I've just realize this is wrong, at least for RTR. Let's leave it for now. dupa pizda TODO Pawel tags...
 void set_pxopts (word n, word xp, word cav) {
 #if (RADIO_OPTIONS & RADIO_OPTION_PXOPTIONS)
 	net_pxopts = ((xp & 7) << 12) | (cav & 0x0fff);

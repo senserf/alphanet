@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2002 - 2014                    */
+/* Copyright (C) Olsonet Communications, 2002 - 2016                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 #include "commons.h"
@@ -11,80 +11,85 @@
 #include "tcvphys.h"
 #include "phys_uart.h"
 #include "loca.h"
+#include "pegs.h"
 
 // only for heartbeat, we'll see
 #include "looper.h"
 
 #include "tcve_insert.cc"
 
-typedef struct statsStruct {
-	word	type :8;
-	word	len	 :8;
-	word	nid;
-	word	mid;
-	word	up_l;
-	word	up_h;
-	word	mem;
-	word	min;
-} stats_t; // 14B
+#define _OSS_FR_LEN	3
+/*
 
-/*  in 1.5 little is mutable so it doesn't matter. Let's have version, lh, master, uptime and memfree
-	byte len = 24 (malloc 24 +1)
-	// out:
-	byte	seq;
-	word	lh;
-	byte	efef;
-	byte	reptype;// REP_LOG
-	byte	sv;		// let's go with _I (info)
-	byte	tp;		// #dbg# 0 - stats
-	byte	it1; 	// word in hex 0x81
-	word	ver;
-	// lh is in the frame, it is enough even if we go remotely(?)
-	byte 	it3;	// word 0xC1
-	word	master_host;
-	byte	it4;	// lword 0xC2
-	lword	uptime;
-	byte	it5;	// word 0xC1
-	word	mem;
-	byte	it6;	// word 0xC1
-	word	mmin;
-
+	I'm not sure if this won't change again, but for now (Feb. 2015):
+	
+	If obuf goes to OSSI, via fifek. So, obuf[0] is the length of the rest,
+	Then, _OSS_FR_LEN follows, now 3B
+	OSS data starts from b[_OSS_FR_LEN +1]:
+	e.g.
+	b[0] - fifek head with OSS content's length
+	b[1]... OSS content which contains
+	b[4]... OSS data
+	
+	If obuf goes via RF, it is the header plus OSS data
 */
-static void stats () {
+
+// len: of OSS data (_OSS_FR_LEN (3B) less than 'OSS content')
+static void wrap_send (byte * b, word len, word rmt) { // assumed perfect buffers & lengths
+	if (rmt) {
+		memset (b, 0, sizeof(msgRpcAckType));
+		in_header(b, msg_type)	= msg_rpcAck;
+		in_header(b, rcv) 		= rmt;
+		in_header(b, hco)		= 1;
+		in_header(b, prox)		= 1;
+		b[sizeof(msgRpcAckType)] = (byte)len;
+		talk ((char *)b, len +sizeof(msgRpcAckType)+1, TO_NET);
+		ufree (b);
+	} else {
+		b[0] = len +_OSS_FR_LEN;
+		b[1] = 0;
+		b[2] = (byte)local_host;
+		b[3] = (byte)(local_host >> 8);
+		_oss_out ((char *)b, NO);
+	}
+}
+
+#define _CONST_LEN 21
+static void stats (word rmt) {
 	word mmin, mem;
-	byte * b = (byte *)get_mem (24 +1, NO);
+	byte * b = (byte *)get_mem (rmt ? sizeof(msgRpcAckType) + _CONST_LEN +1: _CONST_LEN +_OSS_FR_LEN +1, NO);
+	word ind = rmt ? sizeof(msgRpcAckType) +1: _OSS_FR_LEN +1;
+
 	if (b == NULL)
 		return;
 
 	mem = memfree(0, &mmin);
-	b[0]  = 24;
-	b[1]  = 0;
-	b[2]  = (byte)local_host;
-	b[3]  = (byte)(local_host >> 8);
-	b[4]  = 0xFF;
-	b[5]  = REP_LOG;
-	b[6]  = D_INFO;
-	b[7]  = 0;
-	b[8]  = 0x81;
-	b[9]  = SYSVER_min;
-	b[10] = SYSVER_MAJ;
-	b[11] = 0xC1;
-	b[12] = (byte)master_host;
-	b[13] = (byte)(master_host >> 8);
-	b[14] = 0xC2;
-	b[15] = (byte)seconds();
-	b[16] = (byte)(seconds() >> 8);
-	b[17] = (byte)(seconds() >> 16);
-	b[18] = (byte)(seconds() >> 24);
-	b[19] = 0xC1;
-	b[20] = (byte)mem;
-	b[21] = (byte)(mem >> 8);
-	b[22] = 0xC1;
-	b[23] = (byte)mmin;
-	b[24] = (byte)(mmin >> 8);
 
-	_oss_out ((char *)b, NO);
+	b[ind++]  = 0xFF;
+	b[ind++]  = REP_LOG;
+	b[ind++]  = D_INFO;
+	b[ind++]  = 0;
+	b[ind++]  = 0x81;
+	b[ind++]  = SYSVER_min;
+	b[ind++] = SYSVER_MAJ;
+	b[ind++] = 0xC1;
+	b[ind++] = (byte)master_host;
+	b[ind++] = (byte)(master_host >> 8);
+	b[ind++] = 0xC2;
+	b[ind++] = (byte)seconds();
+	b[ind++] = (byte)(seconds() >> 8);
+	b[ind++] = (byte)(seconds() >> 16);
+	b[ind++] = (byte)(seconds() >> 24);
+	b[ind++] = 0xC1;
+	b[ind++] = (byte)mem;
+	b[ind++] = (byte)(mem >> 8);
+	b[ind++] = 0xC1;
+	b[ind++] = (byte)mmin;
+	b[ind] = (byte)(mmin >> 8);
+	
+	wrap_send (b, _CONST_LEN, rmt);
 }
+#undef _CONST_LEN
 
 // this is a 'low level' (n)ack
 static void sack (byte seq, byte status) {
@@ -106,34 +111,33 @@ static void sack (byte seq, byte status) {
 
 // This is an 'empty' (no payload) response. It seems that this may be more popular that low-level acks.
 // Note that we assume that RC_OK is returned in the frame - otherwise we wouldn't be here.
-static void nop_resp (byte opco, byte opre, byte oprc) {
-	char *b;
-
+#define _CONST_LEN 5
+static void nop_resp (byte opco, byte opre, byte oprc, word rmt) {
+	byte * b;
+	word ind = rmt ? sizeof(msgRpcAckType) +1: _OSS_FR_LEN +1;
+		
 	if (!(opre & 0x80)) { // no 'op ack' was requested
 		if (oprc != RC_OK)
 			app_diag_S ("silent opco %x oprc %x", opco, oprc);
 		return;
 	}
 
-	if ((b = get_mem (1+3+5, NO)) == NULL) {
-		app_diag_S ("nop_resp mem 9 %u", opco);
+	if ((b = (byte *)get_mem (rmt ? sizeof(msgRpcAckType) + _CONST_LEN +1: _CONST_LEN +_OSS_FR_LEN +1, NO)) == NULL) {
+		app_diag_S ("nop_resp mem %u", opco);
 		return;
 	}
 	
-	b [0] = 8; // frame's length;
-	b [1] = 0;
+	b [ind++] = opco;
+	b [ind++] = opre;
+	b [ind++] = oprc;
+	b [ind++] = (byte)local_host;
+	b [ind] = (byte)(local_host >> 8);
+
+	wrap_send (b, _CONST_LEN, rmt);
 	
-	((address)b) [1] = local_host;
-	
-	b [4] = opco;
-	b [5] = opre;
-	b [6] = oprc;
-	b [7] = b[2];
-	b [8] = b[3];
-	
-	_oss_out (b, NO);
 }
-	
+#undef _CONST_LEN
+
 ///////////////// oss in ////////////////
 
 // lengths of the pair (code,val). static par_lengths can be wrapped in a proc call to go on stack...
@@ -155,7 +159,8 @@ static const byte par_len[PAR_CODE_SIZE] = { 0,
 										2, // PAR_AUTOACK
 										3, // PAR_BEAC
 										3, // ATTR_VER 0x0F
-										0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+										2, // PAR_PMOD 0x10
+										0, 0, 0, 0, 0, 0, 0, 0, 0,
 										5, // ATTR_UPTIME 0x1A
 										5, // ATTR_MEM1
 										5, // ATTR_MEM2
@@ -210,6 +215,9 @@ static byte get_param (byte * ptr, byte pcode) {
 			*ptr = SYSVER_min;
 			*(ptr +1) = SYSVER_MAJ;
 			break;
+		case PAR_PMOD:
+			*ptr = pegfl.peg_mod;
+			break;
 		case ATTR_UPTIME:
 			*ptr = (byte)seconds();
 			*(ptr +1) = (byte)(seconds() >> 8);
@@ -256,7 +264,11 @@ static byte set_param (byte * ptr) {
 			else
 				tarp_ctrl.param &= 0xFE;
 			break;
-			
+
+		case PAR_PMOD:
+			pegfl.peg_mod = *(ptr+1);
+			break;
+
 		case PAR_MID:
 		case PAR_NID:
 		case PAR_TARP_L:
@@ -275,15 +287,16 @@ static byte set_param (byte * ptr) {
 	return rc;
 }
 
-// confusing: 3 - frame head, 4 - request op fields, 5 - response op fields
-static void cmd_get (byte * buf, word len) {
+// confusing: _OSS_FR_LEN - frame head (for out only), 4 - request op fields, 5 - response op fields
+static void cmd_get (byte * buf, word len, word rmt) {
+
 	byte * bend = buf + len; // 1st out
-	byte * ptr = buf +3 +4;
-	byte * obu = NULL;
-	byte * otr;
+	byte * ptr = buf +4;	 // 1st param
+	byte * obu;
 	byte oprc = RC_OK;
-	byte reslen = 3 +5; // 3 frame + 5 op_ fields, not counting params yet
-	
+	byte reslen = 5;		// + 5 op_ fields, not counting params yet
+	word ind = rmt ? sizeof(msgRpcAckType) +1: _OSS_FR_LEN +1;
+
 	// calculate response buffer size
 	while (ptr < bend) {
 		if (*ptr >= PAR_CODE_SIZE || par_len[*ptr] == 0) {
@@ -291,25 +304,29 @@ static void cmd_get (byte * buf, word len) {
 			ptr++;
 			continue;
 		}
-		
+
 		reslen += par_len[*ptr++];
+		
+		// limit rmt response
+		if (rmt && reslen + ind > MAX_PLEN) {
+			bend = ptr;
+			reslen -= par_len[*(ptr -1)];
+			oprc = RC_ELEN;
+		}
 	}
 	
-	if ((obu = (byte *)get_mem (reslen +1, NO)) == NULL) { // +1 is for the pkt length for oss_out
-		app_diag_S ("get no mem %u", reslen +1);
+	if ((obu = (byte *)get_mem (ind + reslen, NO)) == NULL) {
+		app_diag_S ("get no mem %u", ind + reslen);
 		return;
 	}
-	obu [0] = reslen;	// this is for _oss_out
-	obu [1] = 0;	// frame: seq will be set in perp_oss_out, we don'r want acks
-	((address)obu) [1] = local_host;
-	obu [4] = CMD_GET;
-	obu [5] = buf [4];	// op_ref
-	obu [6] = oprc;
-	obu [7] = obu [2];
-	obu [8] = obu [3];
+
+	obu [ind++] = CMD_GET;
+	obu [ind++] = buf [1];	// op_ref
+	obu [ind++] = oprc;
+	obu [ind++] = (word)local_host;
+	obu [ind++] = (word)(local_host >>8);
 	
-	otr = obu +9;
-	ptr = buf +3 +4;
+	ptr = buf +4;
 	
 	while (ptr < bend) {
 		if (*ptr >= PAR_CODE_SIZE || par_len[*ptr] == 0) {
@@ -318,21 +335,20 @@ static void cmd_get (byte * buf, word len) {
 		}
 		
 		// load a single param
-		*otr = *ptr;		 					// symbol
-		(void)get_param (otr +1, *ptr);	 		// value
-		otr += par_len [*ptr++];
+		obu[ind] = *ptr;		 				// symbol
+		(void)get_param (&obu[ind +1], *ptr);	 	// value
+		ind += par_len [*ptr++];
 		
 	}
-	
-	_oss_out ((char *)obu, NO);
-	
+	wrap_send (obu, reslen, rmt);
+
 }
 
 // Other options could be implemented, we've chosen this: we set params from the list, until the 1st failure.
 // Then, if op_rc has high bit set, we return with op_rc. We never return data (param values).
-static void cmd_set (byte * buf, word len) {
+static void cmd_set (byte * buf, word len, word rmt) {
 	byte * bend = buf + len; // 1st out the buf
-	byte * ptr = buf +3 +4;
+	byte * ptr = buf +4;
 	byte oprc = RC_OK;
 	
 	while (oprc == RC_OK && ptr < bend) {
@@ -344,140 +360,168 @@ static void cmd_set (byte * buf, word len) {
 		}
 	}
 
-	nop_resp (buf[3], buf[4], oprc);
+	nop_resp (buf[0], buf[1], oprc, rmt);
 }
 
 static byte check_ass (byte * buf, word len) {
 
-	if (len < 8 || ((len - 8) % 3))	// len-8 is the length of series of (id, butmap)
+	if (len < 5 || ((len - 5) % 3))	// len-5 is the length of series of (id, bitmap)
 		return RC_ELEN;
 
-	// no bcast on any(?) level
-	if (get_word (buf, 1) != local_host || get_word (buf, 5) != local_host)
+	// no bcast
+	if (get_word (buf, 2) != local_host)
 		return RC_EADDR;
 
 	return RC_OK;
 }
 
-static void cmd_set_ass (byte * buf, word len) {
+static void cmd_set_ass (byte * buf, word len, word rmt) {
 	byte rc = check_ass (buf, len);
 
 	if (rc == RC_OK)
-		b2treg ((len-8) /3, buf +7);
+		b2treg ((len-5) /3, buf +4);
 
-	nop_resp (buf [3], buf [4], rc);
+	nop_resp (buf [0], buf [1], rc, rmt);
 
 }
 
-static void cmd_get_ass (byte * buf, word len) {
+static void cmd_get_ass (byte * buf, word len, word rmt) {
 	word m;
 	byte * b;
-	byte rc;
+	byte rc, ind;
 
 	if ((rc = check_ass (buf, len)) != RC_OK) {
-		nop_resp (buf [3], buf [4], rc);
+		nop_resp (buf [0], buf [1], rc, rmt);
 		return;
 	}
 	
-	m = slice_treg ((word)buf[7]); // m: how many
-	if (m)
-		len = 1+3+5+1 +3* m; // how many to size
-	else
-		len = 1+3+5+1 +1; // special case for learning mode
-		
-	if ((b = (byte *)get_mem (len, NO)) == NULL) {
-		app_diag_S ("getass mem %u", len);
+	m = slice_treg ((word)buf[4]); // m: how many
+	if (rmt) {
+		if (m > (len = (MAX_PLEN - sizeof(msgRpcAckType) -1-5-1) /3)) { // now max is 12
+			app_diag_W ("getass short %u->%u", m, len);
+			m = len;
+			rc = RC_ELEN;
+		}
+	}
+	
+	len = 5+1 + (m ? 3*m : 1);
+	ind = 1+ (rmt ? sizeof(msgRpcAckType) : _OSS_FR_LEN);
+	if ((b = (byte *)get_mem (ind + len, NO)) == NULL) {
+		app_diag_S ("getass mem %u", ind + len);
 		return;
 	}
 
-	b [0] = len -1;
-	b [1] = 0;
-	((address)b) [1] = local_host;
-	b [4] = CMD_GET_ASSOC;
-	b [5] = buf [4];  // op_ref
-	b [6] = RC_OK;
-	b [7] = b [2];
-	b [8] = b [3];
-	b [9] = buf [7]; // index
+	b [ind++] = CMD_GET_ASSOC;
+	b [ind++] = buf [1];  // op_ref
+	b [ind++] = rc;
+	b [ind++] = (word)local_host;
+	b [ind++] = (word)(local_host >>8);
+	b [ind] = buf [4]; // index
 	if (m)
-		treg2b (b+9);
+		treg2b (&b[ind], m);
 	else
-		b[10] = learn_mod;
+		b[++ind] = pegfl.learn_mod;
 		
-	_oss_out ((char *)b, NO);
+	wrap_send (b, len, rmt);
 }
 	
-static void cmd_clr_ass (byte * buf, word len) {
+static void cmd_clr_ass (byte * buf, word len, word rmt) {
 	byte rc = check_ass (buf, len);
 
 	if (rc == RC_OK)
 		reset_treg();
 		
-	nop_resp (buf [3], buf [4], rc);
+	nop_resp (buf [0], buf [1], rc, rmt);
 }	
 
-static void cmd_relay (byte * buf, word len) {
+static void cmd_relay (byte * buf, word len, word rmt) {
 	byte * b;
 	word w;
 	
 	// at least 1 byte to send and no more than (arbitrary) 40
-	if (len < 3 +4 +2 +1 || len > 3+4 +2 +40) {
-		nop_resp (buf [3], buf [4], RC_ELEN);
+	if (len < 4 +2 +1 || len > 4 +2 +40) {
+		nop_resp (buf [0], buf [1], RC_ELEN, rmt);
 		return;
 	}
 	
-	// no bcast on any(?) level
-	if (get_word (buf, 1) != local_host || get_word (buf, 5) != local_host) {
-		nop_resp (buf [3], buf [4], RC_EADDR);
+	// no bcast
+	if (get_word (buf, 2) != local_host) {
+		nop_resp (buf [0], buf [1], RC_EADDR, rmt);
 		return;
 	}
 
-	w = len + sizeof(msgFwdType) - 9;
+	w = len + sizeof(msgFwdType) - 6;
 	if ((b = (byte *)get_mem (w, NO)) == NULL) {
-		nop_resp (buf [3], buf [4], RC_ERES);
+		nop_resp (buf [0], buf [1], RC_ERES, rmt);
 		return;
 	}
 	
 	memset (b, 0, w);
 	in_header(b, msg_type) = msg_fwd;
-	in_header(b, rcv) = get_word (buf, 7);
-	in_fwd(b, optyp) = buf[3];
-	in_fwd(b, opref) = buf[4];
+	in_header(b, rcv) = get_word (buf, 4);
+	in_fwd(b, optyp) = buf[0];
+	in_fwd(b, opref) = buf[1];
 	in_fwd(b, len) = w - sizeof(msgFwdType);
-	memcpy ((char *)(b+sizeof(msgFwdType)), (char *)buf +9, in_fwd(b, len));
+	memcpy ((char *)(b+sizeof(msgFwdType)), (char *)buf +6, in_fwd(b, len));
 	talk ((char *)b, w, TO_NET);
 	// show in emul for tests in vuee
 	app_diag_U ("fwd %x to %u #%u", in_fwd(b, optyp), in_header(b, rcv), in_fwd(b, opref));
 	ufree (b);
 	// note that likely we should NOT respond, fwdAck will if requested
-	// nop_resp (buf [3], buf [4], RC_OK);
+	// nop_resp (buf [0], buf [1], RC_OK, rmt);
 }
 
-static void process_cmd_in ( byte * buf, word len) {
+static void send_rpc (byte * buf, word len, word rmt) {
+	byte * b;
 
-	switch (buf[3]) { // op_code
+	if (pegfl.peg_mod != PMOD_CUST) {
+		nop_resp (buf [0], buf [1], RC_ERES, 0);
+		return;
+	}
+	if (len > MAX_PLEN - sizeof(msgRpcType) -1) { // packet: msgRpcType (now just the header)+1B_with_len+len
+		nop_resp (buf [0], buf [1], RC_ELEN, 0);
+		return;
+	}
+	if ((b = (byte *)get_mem (len +sizeof(msgRpcType) +1, NO)) == NULL) {
+		nop_resp (buf [0], buf [1], RC_ERES, 0);
+		return;
+	}
+	memset (b, 0, sizeof(msgRpcType));
+	in_header(b, msg_type)	= msg_rpc;
+	in_header(b, rcv) 		= rmt;
+	in_header(b, hco)		= 1;
+	in_header(b, prox)		= 1;
+	b[sizeof(msgRpcType)] = len;
+	memcpy (b +sizeof(msgRpcType) +1, buf, len);
+	talk ((char *)b, len +sizeof(msgRpcType) +1, TO_NET);
+	ufree (b);
+}
+
+static void process_cmd_in (byte * buf, word len, word rmt) {
+
+	switch (buf[0]) { // op_code
 		case CMD_GET:
-			cmd_get (buf, len);
+			cmd_get (buf, len, rmt);
 			break;
 		case CMD_SET:
-			cmd_set (buf, len);
+			cmd_set (buf, len, rmt);
 			break;
 		case CMD_SET_ASSOC:
-			cmd_set_ass (buf, len);
+			cmd_set_ass (buf, len, rmt);
 			break;			
 		case CMD_GET_ASSOC:
-			cmd_get_ass (buf, len);
+			cmd_get_ass (buf, len, rmt);
 			break;
 		case CMD_CLR_ASSOC:
-			cmd_clr_ass (buf, len);
+			cmd_clr_ass (buf, len, rmt);
 			break;
 		case CMD_RELAY_41:
 		case CMD_RELAY_42:
 		case CMD_RELAY_43:
-			cmd_relay (buf, len);
+			cmd_relay (buf, len, rmt);
 			break;
 		default:
-			nop_resp (buf [3], buf [4], RC_ENIMP);
+			nop_resp (buf [0], buf [1], RC_ENIMP, rmt);
 			app_diag_W ("process_cmd_in not yet");
 	}
 }
@@ -487,7 +531,7 @@ fsm looper;
 fsm cmd_in {
 
 	state START:
-		stats ();
+		stats (0);
 
 	state LISN: // LISTEN keyword??
 		word plen, w;
@@ -540,11 +584,6 @@ fsm cmd_in {
 		if (w != 0 && w != local_host)
 			ossi.lin_stat = RC_EADDR;
 
-		// disallow remote cmd (for now)
-		w = get_word ((byte *)ib, 5);
-		if (w != 0 && w != local_host)
-			ossi.lin_stat = RC_EADDR;
-
 		// ack the frame (perhaps it is premature but for now it'll do)
 		if (ib[0] & 0x80)
 			sack (ib[0], ossi.lin_stat);
@@ -554,8 +593,16 @@ fsm cmd_in {
 
 		// we're done with the frame, entering cmd processing
 		// we assume FG_ACKR was served (may be a bad assumption, we'll see)
-		// tempting, but whole frame is needed(?): process_cmd_in ((byte *)(ib +3), plen -3);
-		process_cmd_in ((byte *)ib, plen);
+		
+		// bcast could be both local and remote, but it causes double responses, annoying
+		// and bound to confuse Renesas et al. So, no bcast. remote = 0 goes locally, as before.
+		w = get_word ((byte *)ib, 5);
+		if (w != 0 && w != local_host)
+			send_rpc ((byte *)(ib +3), plen -3, w);
+		else
+		// if (w == 0 || w == local_host)
+			// in Feb 2015 the frame passed to processing was stripped of the 3 head bytes, watch out for moronic mistakes
+			process_cmd_in ((byte *)(ib +3), plen -3, 0);
 
 goLisn:	tcv_endp ((address)ib);
 		proceed LISN;
@@ -603,6 +650,29 @@ static void board_out (char * p, char * b) {
 	}
 }
 #undef _ppp
+
+// RPC basically kills the notion of non-uniform OSSIs unless we're prepared to translate their structs or have a yet another common abstraction, which
+// seems ridiculous. So, we do RPC here, in TCVE only. If msg_rpc, msg_rpcAck are needed in other OSSIs, it may be implemented there, but with this
+// approach, the commands can NOT be sent from OSSI(a) to a node with OSSI(b). Well, soon we'll get rid of multiple OSSIs (and half of the code here).
+static Boolean valid_rpc (byte * b, word len, word rmt) {
+	// I don't know how to do it with less additional crap. Crap:
+	if (pegfl.peg_mod == PMOD_REG && b[0] == CMD_SET && len >= 6 && b[4] == PAR_PMOD && b[5] == PMOD_CONF) {
+		pegfl.peg_mod = PMOD_CONF;
+		pegfl.conf_id = rmt & PMOD_MASK;
+	}
+	
+	if (pegfl.peg_mod != PMOD_CONF)
+		return NO;
+		
+	// let's make ALL attempts suspicious
+	if ((rmt & PMOD_MASK) != pegfl.conf_id) {
+		app_diag_S ("rpc conf_id %u", rmt);
+		pegfl.conf_id = 0;
+		pegfl.peg_mod = PMOD_REG;
+		return NO;
+	}
+	return YES;
+}
 
 // this is the main out on the oss i/f, I don't know at all if this makes
 // more sense than no generic i/f at all
@@ -743,7 +813,7 @@ void oss_tx (char * b, word siz) {
 			break;
 
 	    case msg_fwdAck:
-			nop_resp (in_fwdAck(b, optyp), in_fwdAck(b, opref), RC_OK);
+			nop_resp (in_fwdAck(b, optyp), in_fwdAck(b, opref), RC_OK, 0);
 			app_diag_U ("fwdAck #%u fr%u", in_fwdAck(b, opref), in_header(b, snd));
 			break;
 
@@ -784,8 +854,36 @@ void oss_tx (char * b, word siz) {
 			_oss_out (bu, NO);
 			break;
 			
+		case msg_rpc:
+
+			if (valid_rpc ((byte *)(b +sizeof(msgRpcType) +1), (word)b[sizeof(msgRpcType)] /*siz - sizeof(msgRpcType)*/, in_header(b, snd)))
+				process_cmd_in ((byte *)(b +sizeof(msgRpcType) +1), (word)b[sizeof(msgRpcType)] /*siz - sizeof(msgRpcType)*/, in_header(b, snd));
+			else
+				// should we stay silent, if the node is not in CONF state? (I think so)
+				app_diag_S ("rpc? %u", in_header(b, snd));
+			break;
+			
+		case msg_rpcAck:
+			if (pegfl.peg_mod != PMOD_CUST)
+				app_diag_S ("rpcAck? %u", in_header(b, snd));
+				
+			else { // put in frame and pass to OSS
+
+				if ((bu = get_mem (1+3+ b[sizeof(msgRpcAckType)], NO)) == NULL)
+					return;
+					
+				bu[0] = 3 + b[sizeof(msgRpcAckType)] /*siz +3-sizeof(msgRpcAckType)]*/;
+				bu[1] = 0;
+				bu[2] = (byte)local_host;
+				bu[3] = (byte)(local_host >> 8);
+				memcpy (&bu[4], b+sizeof(msgRpcAckType) +1, b[sizeof(msgRpcAckType)]);
+				_oss_out (bu, NO);
+			}
+			break;
+			
 		default:
 			app_diag_S ("unfinished? %x %u", *(address)b, siz);
 	}
 }
 
+#undef _OSS_FR_LEN

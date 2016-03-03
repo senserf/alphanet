@@ -525,6 +525,8 @@ set CODES(RC_EPAR)  			2
 set CODES(RC_EADDR) 			3
 set CODES(RC_ENIMP)			4
 set CODES(RC_DUPOK)			5
+set CODES(RC_ELEN)                      6
+set CODES(RC_ERES)                      7
 
 set CODES(CMD_GET)			1
 set CODES(CMD_SET)			2
@@ -1296,13 +1298,14 @@ variable PARLIST {
 		  { "tarpslack"   6	s	b	0	3	}
 		  { "tarprrec"	  7	s	b	0	3	}
 		  { "tarpfwd"	  8	s	b	0	1	}
-		  { "tarp"    	  9 	sg	bx	0	255	}
+		  { "tarpall"  	  9 	sg	bx	0	255	}
 		  { "tarpcnt" 	 10 	g	www			}
 		  { "tagmgr"  	 11 	sg	by	0	1	}
 		  { "audit"   	 12 	sg	w	0	0xffff 	}
 		  { "autoack"  	 13 	sg	by	0	1	}
 		  { "beacon"  	 14 	sg	w	0	0xffff	}
 		  { "version" 	 15 	g	wx			}
+		  { "pegmode"	 16	sg	b	0	2	}
 		  { "uptime"  	 26 	g	l			}
 		  { "memstat" 	 27 	g	ww			}
 		  { "meminfo" 	 28 	g	ww			}
@@ -2368,7 +2371,7 @@ proc response_getparams { nid pay t sta } {
 
 		append res " $ta="
 
-		if { $ta == "tarp" } {
+		if { $ta == "tarpall" } {
 			# a special case 
 			if [catch { get_b pay } val] {
 				append res "!trunc"

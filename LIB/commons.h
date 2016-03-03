@@ -18,7 +18,7 @@
 #endif
 
 #define SYSVER_MAJ 1
-#define SYSVER_min 5
+#define SYSVER_min 51
 
 #define DEF_NID 78
 #define	DEF_CHAN 128
@@ -87,6 +87,7 @@
 #define PAR_AUTOACK		0x0D
 #define PAR_BEAC		0x0E
 #define ATTR_VER		0x0F
+#define PAR_PMOD		0x10
 #define ATTR_UPTIME		0x1A
 #define ATTR_MEM1		0x1B
 #define ATTR_MEM2		0x1C
@@ -163,7 +164,8 @@ typedef struct tagListStruct {
 
 typedef enum {
         msg_null, msg_pong, msg_pongAck,
-        msg_master, msg_report, msg_reportAck, msg_fwd, msg_fwdAck, msg_ping, msg_loca
+        msg_master, msg_report, msg_reportAck, msg_fwd, msg_fwdAck, msg_ping, msg_loca,
+		msg_rpc, msg_rpcAck
 } msgType;
 
 typedef struct msgLocaStruct {
@@ -197,10 +199,22 @@ typedef struct msgPongAckStruct {
 } msgPongAckType;
 #define in_pongAck(buf, field)     (((msgPongAckType *)(buf))->field)
 
+/////// keep them structs consistent, fields can be added...
 typedef struct msgMasterStruct {
     headerType      header;
 } msgMasterType;
-#define in_master(buf, field)     (((msgPongType *)(buf))->field)
+#define in_master(buf, field)     (((msgMasterType *)(buf))->field)
+
+typedef struct msgRpcStruct {
+    headerType      header;
+} msgRpcType;
+#define in_rpc(buf, field)     (((msgRpcType *)(buf))->field)
+
+typedef struct msgRpcAckStruct {
+    headerType      header;
+} msgRpcAckType;
+#define in_rpcAck(buf, field)     (((msgRpcAckType *)(buf))->field)
+////////
 
 typedef struct msgReportStruct {
     headerType  header;

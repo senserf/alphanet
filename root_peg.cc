@@ -99,6 +99,8 @@ void process_incoming (char * buf, word size, word rssi) {
 		return;
 
 	case msg_fwdAck:
+	case msg_rpc:
+	case msg_rpcAck:
 		talk (buf, size, TO_OSS);
 		return;
 

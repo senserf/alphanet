@@ -2,7 +2,6 @@
 #define __tag_mgr_h
 
 extern tagListType	tagList;
-extern Boolean		learn_mod;
 
 void reset_tags ();
 word del_tag (word id, word ref, word dupeq, Boolean force);
@@ -15,7 +14,7 @@ Boolean needs_ack ( word id, char * b, word rss);
 void reset_treg ();
 word upd_treg (word id, byte mask);
 void b2treg (word l, byte * b);
-void treg2b (byte *);
+void treg2b (byte *, word num);
 Boolean in_treg (word id, byte but);
 word slice_treg (word ind);
 
