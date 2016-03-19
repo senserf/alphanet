@@ -2836,11 +2836,11 @@ proc report_sniff { pay t sta } {
 ##
 	set length [llength $pay]
 
-	set res "sniff:"
+	set res "sniff: "
 
 	if { $length < 12 } {
 		# too short
-		append res " <[toh $pay]>"
+		append res "<[toh $pay]>"
 		return $res
 	}
 
@@ -2876,6 +2876,7 @@ proc report_sniff { pay t sta } {
 	set lqi [get_b tai]
 	set rss [get_b tai]
 
+	append res $typ
 	append res " SEQ=[format %03d $seq]"
 	append res " SND=[format %05d $snd]"
 	append res " RCV=[format %05d $rcv]"
