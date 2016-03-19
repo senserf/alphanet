@@ -569,6 +569,7 @@ set REPO(0)		"report_event"
 set REPO(1)		"report_relay"
 set REPO(209)		"report_log"
 set REPO(177)		"report_location"
+set REPO(225)		"report_sniff"
 
 ###############################################################################
 
@@ -2812,6 +2813,78 @@ proc report_log { pay t sta } {
 		}
 	}
 
+	return $res
+}
+
+proc report_sniff { pay t sta } {
+
+	variable CODES
+	upvar $sta status
+
+	set status $CODES(RC_OK)
+##
+## Tarp header:
+##
+##	msg_type	1 byte
+##	seq_no		1 byte
+##	snd		1 word
+##	rcv		1 word
+##	hoc		7 bits
+##	prox		1 bit
+##	hco		7 bits
+##	weak		1 bit
+##
+	set length [llength $pay]
+
+	set res "sniff:"
+
+	if { $length < 12 } {
+		# too short
+		append res " <[toh $pay]>"
+		return $res
+	}
+
+	set nid [get_w pay]
+	set v [get_b pay]
+	set typ [lindex { "NULL" "PONG" "PACK" "MAST"
+			  "REPO" "RACK" "FRWD" "FACK" } $v]
+	if { $typ == "" } {
+		set typ [format "T=%02x" $v]
+	}
+
+	set seq [get_b pay]
+	set snd [get_w pay]
+	set rcv [get_w pay]
+	set v [get_b pay]
+	set hoc [expr { $v & 0x7f }]
+	if [expr { $v & 0x80 }] {
+		set pro "P"
+	} else {
+		set pro "-"
+	}
+	set v [get_b pay]
+	set hco [expr { $v & 0x7f }]
+	if [expr { $v & 0x80 }] {
+		set wea "W"
+	} else {
+		set wea "-"
+	}
+
+	set tai [lrange $pay end-1 end]
+	set pay [lrange $pay 0 end-2]
+
+	set lqi [get_b tai]
+	set rss [get_b tai]
+
+	append res " SEQ=[format %03d $seq]"
+	append res " SND=[format %05d $snd]"
+	append res " RCV=[format %05d $rcv]"
+	append res " HOC=[format %03d $hoc]"
+	append res " HCO=[format %03d $hco]"
+	append res " $pro$wea"
+	append res " RSS=[format %03d $rss]"
+	append res " LQI=[format %03d $lqi]"
+	append res " <[toh $pay]>"
 	return $res
 }
 

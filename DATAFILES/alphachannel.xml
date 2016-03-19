@@ -49,19 +49,19 @@
 			deemed non-receivable. The minimum value I spotted in
 			the sample file was 54.
 
-			The official formula to transform RSSI into dBM (from
+			The official formula to transform RSSI into dBm (from
 			the manual) is this:
 
 				dbm = (rss - 128) / 2 - 74
 
-			128 is our bias (our driver transforms the value into
+			128 is our bias (our driver converts the value into
 			a nonnegative (unsigned) 8-bit number. This basically
 			boils down to rss / 2 - 138.
 
 			The max RSS = 255 thus translates into -10.5 dBm.
 			The max value I see in the samples is 165 => -55.5 dBm,
 			which looks fair enough. This is the S/N ratio of
-			60.5 dBm (which we should look at as a maximum
+			60.5 dBm (which we should look at as a maximum power
 			[virtually perfect] reception).
 		-->
 
