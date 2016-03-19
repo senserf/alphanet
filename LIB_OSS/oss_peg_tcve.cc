@@ -12,6 +12,7 @@
 #include "phys_uart.h"
 #include "loca.h"
 #include "pegs.h"
+#include "sniffer.h"
 
 // only for heartbeat, we'll see
 #include "looper.h"
@@ -236,7 +237,7 @@ static byte get_param (byte * ptr, byte pcode) {
 			memcpy (ptr+2, &w1, 2);
 			break;
 		case PAR_SNIFF:
-			*ptr = 0; // later but still in 1.5... we'd like to have it there, perhaps without promiscuous mode
+			*ptr = ((byte)snifcio.nid_opt << 4) | snifcio.rep_opt;
 			break;
 		default:
 			return RC_EPAR;
@@ -269,8 +270,25 @@ static byte set_param (byte * ptr) {
 			pegfl.peg_mod = *(ptr+1);
 			break;
 
-		case PAR_MID:
+		case PAR_SNIFF:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			if (sniffer_ctrl (*(ptr +1) >>4, *(ptr+1) & 0x0f))
+				rc = RC_EVAL;
+			break;
+			
 		case PAR_NID:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			net_id = get_word (ptr, 1);
+			net_opt (PHYSOPT_SETSID, &net_id);
+			break;
+			
+		case PAR_MID:
 		case PAR_TARP_L:
 		case PAR_TARP_R:
 		case PAR_TARP_S:
@@ -278,9 +296,9 @@ static byte set_param (byte * ptr) {
 		case PAR_TAG_MGR:
 		case PAR_AUDIT:
 		case PAR_BEAC:
-		case PAR_SNIFF:
 			rc = RC_ENIMP;
 			break;
+
 		default:
 			rc = RC_EPAR;
 	}
@@ -879,6 +897,25 @@ void oss_tx (char * b, word siz) {
 				memcpy (&bu[4], b+sizeof(msgRpcAckType) +1, b[sizeof(msgRpcAckType)]);
 				_oss_out (bu, NO);
 			}
+			break;
+			
+		case msg_sniff:
+			/* take over from sniffer.cc; note that this is the only instance (so far) that we get
+			   the b(uffer) already allocated, ready for fifek
+			b[0] msg_sniff 		-> to become len
+			b[1] len			-> seq (0)
+			b[2], b[3] 			-> local_host
+			b[4] 				-> efef
+			b[5] 				-> reptype
+			b[6] complete packet starts - it includes sid at head and entropy, rssi at tail
+			*/
+			b[0] = b[1];
+			b[1] = 0;
+			b[2] = (byte)local_host;
+			b[3] = (byte)(local_host >> 8);
+			b[4] = 0xff;
+			b[5] = REP_SNIFF;
+			_oss_out (b, NO);
 			break;
 			
 		default:

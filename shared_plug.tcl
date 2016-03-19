@@ -1309,7 +1309,7 @@ variable PARLIST {
 		  { "uptime"  	 26 	g	l			}
 		  { "memstat" 	 27 	g	ww			}
 		  { "meminfo" 	 28 	g	ww			}
-		  { "sniff"   	 29 	sg	by	0	1	}
+		  { "sniff"   	 29 	sg	bx	0	0xff	}
 	}
 
 variable STDOPTS { "ack" "response" "sequence" "opref" "repeat" "remote"
