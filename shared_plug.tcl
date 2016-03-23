@@ -1296,8 +1296,8 @@ variable PARLIST {
 		  { "master"  	  3 	sg	w	1	0xfffe	}
 		  { "netid"   	  4 	sg	w	1	0xfffe	}
 		  { "tarplevel"	  5	s	b	0	2	}
-		  { "tarpslack"   6	s	b	0	3	}
-		  { "tarprrec"	  7	s	b	0	3	}
+		  { "tarprrec"    6	s	b	0	3	}
+		  { "tarpslack"	  7	s	b	0	3	}
 		  { "tarpfwd"	  8	s	b	0	1	}
 		  { "tarpall"  	  9 	sg	bx	0	255	}
 		  { "tarpcnt" 	 10 	g	www			}
@@ -1307,6 +1307,7 @@ variable PARLIST {
 		  { "beacon"  	 14 	sg	w	0	0xffff	}
 		  { "version" 	 15 	g	wx			}
 		  { "pegmode"	 16	sg	b	0	2	}
+		  { "tarprss"	 17	sg	b	0	255	}
 		  { "uptime"  	 26 	g	l			}
 		  { "memstat" 	 27 	g	ww			}
 		  { "meminfo" 	 28 	g	ww			}

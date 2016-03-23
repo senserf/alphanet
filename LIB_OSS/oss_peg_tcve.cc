@@ -161,7 +161,8 @@ static const byte par_len[PAR_CODE_SIZE] = { 0,
 										3, // PAR_BEAC
 										3, // ATTR_VER 0x0F
 										2, // PAR_PMOD 0x10
-										0, 0, 0, 0, 0, 0, 0, 0, 0,
+										2, // PAR_TARP_RSS
+										0, 0, 0, 0, 0, 0, 0, 0,
 										5, // ATTR_UPTIME 0x1A
 										5, // ATTR_MEM1
 										5, // ATTR_MEM2
@@ -219,6 +220,9 @@ static byte get_param (byte * ptr, byte pcode) {
 		case PAR_PMOD:
 			*ptr = pegfl.peg_mod;
 			break;
+		case PAR_TARP_RSS:
+			*ptr = tarp_ctrl.rssi_th;
+			break;
 		case ATTR_UPTIME:
 			*ptr = (byte)seconds();
 			*(ptr +1) = (byte)(seconds() >> 8);
@@ -260,10 +264,48 @@ static byte set_param (byte * ptr) {
 			break;
 
 		case PAR_TARP_F:
-			if (*(ptr+1))
-				tarp_ctrl.param |= 1;
-			else
-				tarp_ctrl.param &= 0xFE;
+			set_tarp_fwd(*(ptr+1));
+			break;
+
+		case PAR_TARP_S:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			set_tarp_slack(*(ptr+1));
+			break;
+
+		case PAR_TARP_R:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			set_tarp_rte_rec(*(ptr+1));
+			break;
+
+		case PAR_TARP_L:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			set_tarp_level(*(ptr+1));
+			break;
+
+		// 'drop weak' is rather exotic; if really in need, use PAR_TARP
+		case PAR_TARP:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			tarp_ctrl.param = *(ptr+1);
+			break;
+
+		case PAR_TARP_RSS:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			tarp_ctrl.rssi_th = *(ptr+1);
 			break;
 
 		case PAR_PMOD:
@@ -289,10 +331,6 @@ static byte set_param (byte * ptr) {
 			break;
 			
 		case PAR_MID:
-		case PAR_TARP_L:
-		case PAR_TARP_R:
-		case PAR_TARP_S:
-		case PAR_TARP:
 		case PAR_TAG_MGR:
 		case PAR_AUDIT:
 		case PAR_BEAC:

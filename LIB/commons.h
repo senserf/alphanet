@@ -88,6 +88,7 @@
 #define PAR_BEAC		0x0E
 #define ATTR_VER		0x0F
 #define PAR_PMOD		0x10
+#define PAR_TARP_RSS	0x11
 #define ATTR_UPTIME		0x1A
 #define ATTR_MEM1		0x1B
 #define ATTR_MEM2		0x1C
