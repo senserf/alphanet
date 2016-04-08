@@ -2847,8 +2847,9 @@ proc report_sniff { pay t sta } {
 
 	set nid [get_w pay]
 	set v [get_b pay]
-	set typ [lindex { "NULL" "PONG" "PACK" "MAST"
-			  "REPO" "RACK" "FRWD" "FACK" } $v]
+	set typ [lindex { "NULL" "PONG" "PONA" "MAST"
+			  "REPO" "REPA" "FRWD" "FRWA"
+			  "BRST" "LOCA" "RPC " "RPCA" } $v]
 	if { $typ == "" } {
 		set typ [format "T=%02x" $v]
 	}
