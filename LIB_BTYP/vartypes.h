@@ -46,7 +46,9 @@ typedef struct pongPloadStruct5 {
 
 #define BTYPE_SPARE0				0
 #define BTYPE_CHRONOS				3
+#define BTYPE_AT_BUT6_1_0			3
 #define BTYPE_CHRONOS_WHITE			4
+#define BTYPE_AT_BUT1_1_0			4
 #define BTYPE_AT_BASE				2
 #define BTYPE_AT_BUT6				6
 #define BTYPE_AT_BUT1				1

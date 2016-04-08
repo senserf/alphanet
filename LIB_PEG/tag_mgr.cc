@@ -95,7 +95,8 @@ word del_tag (word id, word ref, word dupeq, Boolean force) {
 
 Boolean is_global ( char * b) { // b point at pdt (and optional board-specific ppt)
 
-	if (((pongDataType *)b)->btyp != BTYPE_AT_BUT6)
+	if (((pongDataType *)b)->btyp != BTYPE_AT_BUT6 &&
+			((pongDataType *)b)->btyp != BTYPE_AT_BUT6_1_0)
 		return YES;
 		
 	return ((pongPloadType3 *)(b+sizeof(pongDataType)))->glob;

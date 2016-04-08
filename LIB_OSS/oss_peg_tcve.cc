@@ -670,13 +670,15 @@ static void board_out (char * p, char * b) {
 
 	// for boards other tham ap319, 320: just for fun
 	switch (((pongDataType *)p)->btyp) {
+#if 0
+trying to accommodate migration from 1.0 to 1.5
 		case BTYPE_CHRONOS:
 		case BTYPE_CHRONOS_WHITE:
 			b[11] = (byte)((((pongPloadType0 *)_ppp)->volt - 1000) >> 3);
 			b[16] = (byte)((pongPloadType0 *)_ppp)->move_ago; // vy not
 			b[17] = (byte)((pongPloadType0 *)_ppp)->move_nr;
 			break;
-
+#endif
 		case BTYPE_AT_BASE:
 			b[11] = (byte)((((pongPloadType2 *)_ppp)->volt - 1000) >> 3);
 			b[16] = 9;
@@ -684,12 +686,14 @@ static void board_out (char * p, char * b) {
 			break;
 			
 		case BTYPE_AT_BUT6:
+		case BTYPE_AT_BUT6_1_0:
 			b[16] |= ((pongPloadType3 *)_ppp)->glob;
 			b[11] = (byte)((((pongPloadType3 *)_ppp)->volt - 1000) >> 3);
 			b[17] = ((pongPloadType3 *)_ppp)->dial;
 			break;
 
 		case BTYPE_AT_BUT1:
+		case BTYPE_AT_BUT1_1_0:
 			b[16] |= 1;
 			b[11] = (byte)((((pongPloadType4 *)_ppp)->volt - 1000) >> 3);
 			b[17] = 0;
