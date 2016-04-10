@@ -919,8 +919,10 @@ void oss_tx (char * b, word siz) {
 			if (valid_rpc ((byte *)(b +sizeof(msgRpcType) +1), (word)b[sizeof(msgRpcType)] /*siz - sizeof(msgRpcType)*/, in_header(b, snd)))
 				process_cmd_in ((byte *)(b +sizeof(msgRpcType) +1), (word)b[sizeof(msgRpcType)] /*siz - sizeof(msgRpcType)*/, in_header(b, snd));
 			else
-				// should we stay silent, if the node is not in CONF state? (I think so)
-				app_diag_S ("rpc? %u", in_header(b, snd));
+				// respond with ERES, if the node is not in CONF state
+				nop_resp (b[sizeof(msgRpcType) +1], b[sizeof(msgRpcType) +2], RC_ERES, in_header(b, snd));
+				// should we stay silent, if the node is not in CONF state?
+				// app_diag_S ("rpc? %u", in_header(b, snd));
 			break;
 			
 		case msg_rpcAck:
