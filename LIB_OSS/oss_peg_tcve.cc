@@ -162,7 +162,8 @@ static const byte par_len[PAR_CODE_SIZE] = { 0,
 										3, // ATTR_VER 0x0F
 										2, // PAR_PMOD 0x10
 										2, // PAR_TARP_RSS
-										0, 0, 0, 0, 0, 0, 0, 0,
+										2, // PAR_RFCHAN
+										0, 0, 0, 0, 0, 0, 0,
 										5, // ATTR_UPTIME 0x1A
 										5, // ATTR_MEM1
 										5, // ATTR_MEM2
@@ -222,6 +223,9 @@ static byte get_param (byte * ptr, byte pcode) {
 			break;
 		case PAR_TARP_RSS:
 			*ptr = tarp_ctrl.rssi_th;
+			break;
+		case PAR_RFCHAN:
+			*ptr = net_opt (PHYSOPT_GETCHANNEL, NULL);
 			break;
 		case ATTR_UPTIME:
 			*ptr = (byte)seconds();
@@ -306,6 +310,15 @@ static byte set_param (byte * ptr) {
 				break;
 			}
 			tarp_ctrl.rssi_th = *(ptr+1);
+			break;
+
+		case PAR_RFCHAN:
+			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+				rc = RC_ERES;
+				break;
+			}
+			w = *(ptr+1);
+			net_opt (PHYSOPT_SETCHANNEL, &w);
 			break;
 
 		case PAR_PMOD:

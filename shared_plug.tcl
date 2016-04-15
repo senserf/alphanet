@@ -1308,6 +1308,7 @@ variable PARLIST {
 		  { "version" 	 15 	g	wx			}
 		  { "pegmode"	 16	sg	b	0	2	}
 		  { "tarprss"	 17	sg	b	0	255	}
+		  { "rfchan"     18     sg      b       0       255     }
 		  { "uptime"  	 26 	g	l			}
 		  { "memstat" 	 27 	g	ww			}
 		  { "meminfo" 	 28 	g	ww			}

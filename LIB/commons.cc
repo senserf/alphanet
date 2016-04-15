@@ -166,10 +166,9 @@ void set_pxopts (word n, word xp, word cav) {
 	if (n)
 		net_pxopts |= 0x8000;
 #else
-	word pl = xp;
-	net_opt (PHYSOPT_SETPOWER, &pl);
+	net_opt (PHYSOPT_SETPOWER, &xp);
 #endif
-	
+
 }
 
 word get_pxopts () {

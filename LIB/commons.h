@@ -18,9 +18,9 @@
 #endif
 
 #define SYSVER_MAJ 1
-#define SYSVER_min 51
+#define SYSVER_min 53
 
-#define DEF_NID 77
+#define DEF_NID 88
 #define	DEF_CHAN 0
 #define DEF_MHOST 1
 
@@ -89,6 +89,7 @@
 #define ATTR_VER		0x0F
 #define PAR_PMOD		0x10
 #define PAR_TARP_RSS	0x11
+#define PAR_RFCHAN  	0x12
 #define ATTR_UPTIME		0x1A
 #define ATTR_MEM1		0x1B
 #define ATTR_MEM2		0x1C
