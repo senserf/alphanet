@@ -1306,7 +1306,7 @@ variable PARLIST {
 		  { "autoack"  	 13 	sg	by	0	1	}
 		  { "beacon"  	 14 	sg	w	0	0xffff	}
 		  { "version" 	 15 	g	wx			}
-		  { "pegmode"	 16	sg	b	0	2	}
+		  { "pegmode"	 16	sg	b	0	3	}
 		  { "tarprss"	 17	sg	b	0	255	}
 		  { "rfchan"     18     sg      b       0       255     }
 		  { "uptime"  	 26 	g	l			}

@@ -253,8 +253,12 @@ static byte get_param (byte * ptr, byte pcode) {
 	return RC_OK;
 }
 
+fsm mbeacon;
+fsm looper;
+fsm locaudit;
+
 // *ptr (pcode) assumed reasonably checked (nonzero length, within pcode space)
-static byte set_param (byte * ptr) {
+static byte set_param (byte * ptr, word rmt) {
 	word w;
 	byte rc = RC_OK;
 	
@@ -322,11 +326,32 @@ static byte set_param (byte * ptr) {
 			break;
 
 		case PAR_PMOD:
+			if (rmt && *(ptr+1) > PMOD_CONF) {
+				rc = RC_ERES;
+				break;
+			}
+			if (pegfl.peg_mod == *(ptr+1))
+				break;
+			if (pegfl.peg_mod == PMOD_EXCC)
+				reset();
 			pegfl.peg_mod = *(ptr+1);
+			if (pegfl.peg_mod == PMOD_EXCC) {
+				if (running (mbeacon)) {
+					killall (mbeacon);
+					leds (MASTER_STATUS_LED, 0);
+				}
+				if (running (looper))
+					killall (looper);
+				if (running (locaudit))
+					killall (locaudit);
+				reset_tags();
+				tagList.block = YES;
+				set_tarp_fwd(0);
+			}
 			break;
 
 		case PAR_SNIFF:
-			if (pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
+			if (rmt || pegfl.peg_mod == PMOD_REG) { // must be in a special mode (conf, cust)
 				rc = RC_ERES;
 				break;
 			}
@@ -424,7 +449,7 @@ static void cmd_set (byte * buf, word len, word rmt) {
 		if (*ptr >= PAR_CODE_SIZE || par_len[*ptr] == 0) {
 			oprc = RC_EPAR;
 		} else {
-			oprc = set_param (ptr);
+			oprc = set_param (ptr, rmt);
 			ptr += par_len [*ptr];
 		}
 	}
@@ -543,7 +568,7 @@ static void cmd_relay (byte * buf, word len, word rmt) {
 static void send_rpc (byte * buf, word len, word rmt) {
 	byte * b;
 
-	if (pegfl.peg_mod != PMOD_CUST) {
+	if (pegfl.peg_mod < PMOD_CUST) {
 		nop_resp (buf [0], buf [1], RC_ERES, 0);
 		return;
 	}
@@ -595,8 +620,6 @@ static void process_cmd_in (byte * buf, word len, word rmt) {
 	}
 }
 
-fsm mbeacon;
-fsm looper;
 fsm cmd_in {
 
 	state START:
@@ -939,7 +962,7 @@ void oss_tx (char * b, word siz) {
 			break;
 			
 		case msg_rpcAck:
-			if (pegfl.peg_mod != PMOD_CUST)
+			if (pegfl.peg_mod < PMOD_CUST)
 				app_diag_S ("rpcAck? %u", in_header(b, snd));
 				
 			else { // put in frame and pass to OSS

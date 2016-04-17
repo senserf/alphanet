@@ -52,7 +52,6 @@ void msg_pong_in (char * buf, word rssi) {
 
 	// 1s for hco and prox
 	msgPongAckType  pong_ack = {{msg_pongAck,0,0,0,0,1,1,0}};
-
 	// we've made ANY pong_in a loca watchdog
 	// nonzero LOCA_TOUT_PONG will send out older bursts in separate loca reports
 	(void)loca_find (in_header(buf, snd), LOCA_TOUT_PONG);

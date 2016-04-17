@@ -11,6 +11,7 @@
 #define PMOD_REG	0
 #define	PMOD_CONF	1
 #define PMOD_CUST	2
+#define PMOD_EXCC	3
 
 // this is for conf_id below, the length may change
 #define PMOD_MASK	0x1FFF

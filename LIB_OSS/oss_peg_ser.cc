@@ -79,8 +79,8 @@ fsm cmd_in {
 				} else {
 					master_host = local_host;
 					tarp_ctrl.param = 0xB0;
-					tagList.block = YES;
 					reset_tags();
+					tagList.block = YES;
 					killall (looper);
 					runfsm mbeacon;
 					obuf = (char *)"I am M\r\n";
