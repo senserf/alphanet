@@ -565,6 +565,43 @@ static void cmd_relay (byte * buf, word len, word rmt) {
 	// nop_resp (buf [0], buf [1], RC_OK, rmt);
 }
 
+static void cmd_nhood (byte * buf, word len, word rmt) {
+	byte *b;
+	
+	if (len != 4+4) {
+		nop_resp (buf [0], buf [1], RC_ELEN, rmt);
+		return;
+	}
+	
+	// no bcast
+	if (get_word (buf, 2) != local_host) {
+		nop_resp (buf [0], buf [1], RC_EADDR, rmt);
+		return;
+	}
+	
+	if ((b = (byte *)get_mem (sizeof(msgNhType), NO)) == NULL) {
+		nop_resp (buf [0], buf [1], RC_ERES, rmt);
+		return;
+	}
+
+	memset (b, 0, sizeof(msgNhType));
+	in_header(b, msg_type) = msg_nh;
+	in_header(b, rcv) = get_word (buf, 4);
+	
+	if ((*buf +7)) // nonzero means # of hops
+		in_header(b, hco) = (*buf +7);
+	else
+		in_header(b, prox) = 1;
+	
+	in_nh(b, rsvp) = rmt ? rmt : local_host;
+	in_nh(b, ref) = (*buf +6);
+
+	talk ((char *)b, sizeof(msgNhType), TO_NET);
+	// show in emul for tests in vuee
+	app_diag_U ("nh to %u(%u) rsvp %u #u", in_header(b, rcv), in_header(b, hco), in_nh(b, rsvp), in_nh(b, ref));
+	ufree (b);
+}
+
 static void send_rpc (byte * buf, word len, word rmt) {
 	byte * b;
 
@@ -614,6 +651,11 @@ static void process_cmd_in (byte * buf, word len, word rmt) {
 		case CMD_RELAY_43:
 			cmd_relay (buf, len, rmt);
 			break;
+		case CMD_NHOOD:
+			cmd_nhood (buf, len, rmt);
+			break;
+		case CMD_RESET:
+			reset();
 		default:
 			nop_resp (buf [0], buf [1], RC_ENIMP, rmt);
 			app_diag_W ("process_cmd_in not yet");
@@ -979,6 +1021,39 @@ void oss_tx (char * b, word siz) {
 			}
 			break;
 			
+		case msg_nhAck:
+			/*
+				byte len = 11 (malloc 11 +1)
+				// out:
+				byte	seq;
+				word	local_host;
+				byte	efef;
+				byte	reptype;
+				word	nodeid;
+				byte	ref;
+				byte	hoc;
+				byte	rssf;
+				byte	rssb;
+
+			*/			
+
+			if ((bu = get_mem (12, NO)) == NULL)
+				return;
+			bu[0] = 11;
+			bu[1] = 0;
+			bu[2] = (byte)local_host;
+			bu[3] = (byte)(local_host >> 8);
+			bu[4] = 0xFF;
+			bu[5] = REP_NHOOD;
+			bu[6] = (byte)(in_header(b, snd));
+			bu[7] = (byte)(in_header(b, snd) >> 8);
+			bu[8] = in_nhAck(b, ref);
+			bu[9] = in_header(b, hoc);
+			bu[10] = in_nhAck(b, rss);
+			bu[11] = in_header(b, seq_no); // cheated rssi on the rcv
+			_oss_out (b, NO);
+			break;
+			
 		case msg_sniff:
 			/* take over from sniffer.cc; note that this is the only instance (so far) that we get
 			   the b(uffer) already allocated, ready for fifek
@@ -997,7 +1072,7 @@ void oss_tx (char * b, word siz) {
 			b[5] = REP_SNIFF;
 			_oss_out (b, NO);
 			break;
-			
+
 		default:
 			app_diag_S ("unfinished? %x %u", *(address)b, siz);
 	}

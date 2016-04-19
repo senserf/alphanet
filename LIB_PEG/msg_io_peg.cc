@@ -80,6 +80,18 @@ void msg_fwd_in (char * buf, word siz) {
     talk (buf, siz, TO_OSS);
 }
 
+void msg_nh_in (char * buf, word rss) {
+	msgNhAckType ack;
+	memset (&ack, 0, sizeof(msgNhAckType));
+	ack.header.msg_type = msg_nhAck;
+	if (in_header(buf, prox))
+		ack.header.prox = 1;
+	// note that we leave hco to TARP
+	ack.rss = rss;
+	ack.ref = in_nh(buf, ref);
+	talk ((char *)&ack, sizeof(msgNhAckType), TO_NET);
+}
+
 void msg_report_in (char * buf, word siz) {
 	msgReportAckType ack = {{msg_reportAck,0,0,0,0,0,0,0}};
 

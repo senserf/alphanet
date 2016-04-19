@@ -71,6 +71,8 @@
 
 #define CMD_TRACE		0x51
 #define CMD_ODR			0x52
+#define CMD_NHOOD		0x53
+#define CMD_RESET		0x54
 
 #define CMD_FWD			0xA1
 #define CMD_INJECT		0xA2
@@ -107,6 +109,7 @@
 #define REP_LOCA		0xB1
 #define REP_LOG			0xD1
 #define REP_SNIFF		0xE1
+#define REP_NHOOD		0xE2
 
 /////////// tag-related structs ////////////////
 
@@ -167,7 +170,7 @@ typedef struct tagListStruct {
 typedef enum {
         msg_null, msg_pong, msg_pongAck,
         msg_master, msg_report, msg_reportAck, msg_fwd, msg_fwdAck, msg_ping, msg_loca,
-		msg_rpc, msg_rpcAck, msg_sniff /* not really a msg */
+		msg_rpc, msg_rpcAck, msg_sniff /* not really a msg */, msg_nh, msg_nhAck
 } msgType;
 
 typedef struct msgLocaStruct {
@@ -249,6 +252,21 @@ typedef struct msgFwdAckStruct {
         word            opref :8;
 } msgFwdAckType;
 #define in_fwdAck(buf, field)   (((msgFwdAckType *)(buf))->field)
+
+typedef struct msgNhStruct {
+        headerType      header;
+		word			rsvp;
+		word			ref :8;
+        word            spare :8;
+} msgNhType;
+#define in_nh(buf, field)   (((msgNhType *)(buf))->field)
+
+typedef struct msgNhAckStruct {
+        headerType      header;
+		word			ref :8;
+        word            rss :8;
+} msgNhAckType;
+#define in_nhAck(buf, field)   (((msgNhAckType *)(buf))->field)
 
 /////////////////// fifek ////////////////////
 // small (up to 15) circ buffer of (alloc'ed) buffers

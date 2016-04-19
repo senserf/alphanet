@@ -109,6 +109,12 @@ void process_incoming (char * buf, word size, word rssi) {
 		msg_master_in (buf);
 		return;
 
+	case msg_nhAck:
+		// harmless cheating:
+		in_header(buf, seq_no) = rssi;
+		talk (buf, size, TO_OSS);
+		return;
+
 	default:
 		app_diag_S ("Got ?(%u)", in_header(buf, msg_type));
 
