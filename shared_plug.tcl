@@ -535,6 +535,8 @@ set CODES(CMD_SET_ASSOC)		0x13
 set CODES(CMD_GET_ASSOC)		0x14
 set CODES(CMD_CLR_ASSOC)		0x15
 set CODES(CMD_RELAY)			0x41
+set CODES(CMD_NHOOD)			0x53
+set CODES(CMD_RESET)			0x54
 
 ###############################################################################
 
@@ -549,6 +551,8 @@ set CMDS(relay)		"command_relay"
 set CMDS(send)		"command_send"
 set CMDS(control)	"command_control"
 set CMDS(script)	"command_script"
+set CMDS(nhood)		"command_nhood"
+set CMDS(reset)		"command_reset"
 
 ###############################################################################
 
@@ -560,6 +564,7 @@ set RESP([expr $CODES(CMD_SET)])		"response_setparams"
 set RESP([expr $CODES(CMD_SET_ASSOC)])		"response_setassoc"
 set RESP([expr $CODES(CMD_CLR_ASSOC)])		"response_clrassoc"
 set RESP([expr $CODES(CMD_RELAY)])		"response_relay"
+set RESP([expr $CODES(CMD_NHOOD)])		"response_nhood"
 
 ###############################################################################
 
@@ -570,6 +575,7 @@ set REPO(1)		"report_relay"
 set REPO(209)		"report_log"
 set REPO(177)		"report_location"
 set REPO(225)		"report_sniff"
+set REPO(226)		"report_nhood"
 
 ###############################################################################
 
@@ -2337,6 +2343,134 @@ proc command_relay { t } {
 	iissue $opc [concat $par $payl] $t $sopts
 }
 
+proc command_reset { t } {
+
+	variable STDOPTS
+	variable CODES
+
+	set slist $STDOPTS
+	lappend slist "level"
+
+	set val 0
+	set sopts ""
+
+	while 1 {
+
+		set sel [cselector]
+		if { $sel == "" } {
+			break
+		}
+
+		set k [pl_keymatch $sel $slist]
+		if [info exists used($k)] {
+			error "duplicate parameter -$k"
+		}
+
+		set used($k) ""
+
+		if { $k == "level" } {
+			set val [pl_parse -skip -number -return 1]
+			if { $val == "" } {
+				error "a numerical value expected after -level"
+			}
+			if [catch { pl_valint $val 0 255 } val] {
+				error "the argument of -level must evaluate to\
+					a nonnegative byte value"
+			}
+			continue
+		}
+
+		stdopts sopts $k
+	}
+
+	checkempty
+
+	iissue $CODES(CMD_RESET) [list $val] $t $sopts
+}
+
+proc command_nhood { t } {
+
+	variable STDOPTS
+	variable CODES
+
+	set slist [concat { "host" "reference" "hoc" } $STDOPTS]
+
+	set hs -1
+	set re -1
+	set hc -1
+
+	set sopts ""
+
+	while 1 {
+
+		set sel [cselector]
+		if { $sel == "" } {
+			break
+		}
+
+		set k [pl_keymatch $sel $slist]
+		if [info exists used($k)] {
+			error "duplicate parameter -$k"
+		}
+
+		set used($k) ""
+
+		if { $k == "host" } {
+			set val [pl_parse -skip -number -return 1]
+			if { $val == "" } {
+				error "a numerical value expected after -host"
+			}
+			if [catch { pl_valint $val 0 65535 } val] {
+				error "the argument of -host must evaluate to\
+					a nonnegative word value"
+			}
+			set hs $val
+			continue
+		}
+
+		if { $k == "reference" } {
+			set val [pl_parse -skip -number -return 1]
+			if { $val == "" } {
+				error "a numerical value expected after -host"
+			}
+			if [catch { pl_valint $val 0 255 } val] {
+				error "the argument of -reference must\
+					evaluate to a nonnegative byte value"
+			}
+			set re $val
+			continue
+		}
+
+		if { $k == "hoc" } {
+			set val [pl_parse -skip -number -return 1]
+			if { $val == "" } {
+				error "a numerical value expected after -hoc"
+			}
+			if [catch { pl_valint $val 0 255 } val] {
+				error "the argument of -hoc must\
+					evaluate to a nonnegative byte value"
+			}
+			set hc $val
+			continue
+		}
+
+		stdopts sopts $k
+	}
+
+	checkempty
+
+	if { $hs < 0 || $re < 0 || $hc < 0 } {
+		error "three arguments required: -host -reference -hoc"
+	}
+
+	set vals ""
+	put_w vals $hs
+	put_b vals $re
+	put_b vals $hc
+
+	iissue $CODES(CMD_NHOOD) $vals $t $sopts
+}
+
 ###############################################################################
 # RESPONSES ###################################################################
 ###############################################################################
@@ -2536,6 +2670,15 @@ proc response_relay { nid pay t sta } {
 
 	set status $CODES(RC_OK)
 	return "relay"
+}
+
+proc response_nhood { nid pay t sta } {
+
+	variable CODES
+	upvar $sta status
+
+	set status $CODES(RC_OK)
+	return "nhood"
 }
 
 ###############################################################################
@@ -2850,7 +2993,8 @@ proc report_sniff { pay t sta } {
 	set v [get_b pay]
 	set typ [lindex { "NULL" "PONG" "PONA" "MAST"
 			  "REPO" "REPA" "FRWD" "FRWA"
-			  "BRST" "LOCA" "RPC " "RPCA" } $v]
+			  "BRST" "LOCA" "RPC " "RPCA"
+			  "SNIF" "NHOO" "NHOA" } $v]
 	if { $typ == "" } {
 		set typ [format "T=%02x" $v]
 	}
@@ -2889,6 +3033,34 @@ proc report_sniff { pay t sta } {
 	append res " RSS=[format %03d $rss]"
 	append res " LQI=[format %03d $lqi]"
 	append res " <[toh $pay]>"
+	return $res
+}
+
+proc report_nhood { pay t sta } {
+
+	variable CODES
+	upvar $sta status
+
+	set status $CODES(RC_OK)
+
+	set length [llength $pay]
+
+	set res "nhood: "
+
+	if { $length < 6 } {
+		# too short
+		append res "<[toh $pay]>"
+		return $res
+	}
+
+	set snd [get_w pay]
+	set ref [get_b pay]
+	set hoc [get_b pay]
+	set rsf [get_b pay]
+	set rsb [get_b pay]
+
+	append res "SND=$snd REF=$ref HOC=$hoc RSF=$rsf RSB=$rsb"
+
 	return $res
 }
 
