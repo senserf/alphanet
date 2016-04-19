@@ -73,47 +73,51 @@ void process_incoming (char * buf, word size, word rssi) {
 	case msg_pong:
 		if (tagList.block == NO)
 			msg_pong_in (buf, rssi);
-		return;
+		break;
 
 	case msg_ping:
 		if (tagList.block == NO) // let's keep ping / pong off the master
 			msg_ping_in (buf, rssi);
-		return;
+		break;
 		
 	case msg_loca:
 		talk (buf, size, TO_OSS);
 		// app_diag_S ("loca %u", size);
-		return;
+		break;
 
 	case msg_report:
 		msg_report_in (buf, size);
 		// app_diag_S ("rep %u", size);
-		return;
+		break;
 
 	case msg_reportAck:
 		msg_reportAck_in (buf);
-		return;
+		break;
 
 	case msg_fwd:
 		msg_fwd_in (buf, size);
-		return;
+		break;
 
 	case msg_fwdAck:
 	case msg_rpc:
 	case msg_rpcAck:
 		talk (buf, size, TO_OSS);
-		return;
+		break;
 
 	case msg_master:
 		// handled in TARP, nothing more to do - not any more, a (temporary) kludge in msg_master_in
 		msg_master_in (buf);
-		return;
+		break;
+
+	case msg_nh:
+		msg_nh_in (buf, rssi);
+		break;
 
 	case msg_nhAck:
 		// harmless cheating:
 		in_header(buf, seq_no) = rssi;
 		talk (buf, size, TO_OSS);
-		return;
+		break;
 
 	default:
 		app_diag_S ("Got ?(%u)", in_header(buf, msg_type));

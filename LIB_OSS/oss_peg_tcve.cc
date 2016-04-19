@@ -567,39 +567,44 @@ static void cmd_relay (byte * buf, word len, word rmt) {
 
 static void cmd_nhood (byte * buf, word len, word rmt) {
 	byte *b;
+	byte rc = RC_OK;
 	
 	if (len != 4+4) {
-		nop_resp (buf [0], buf [1], RC_ELEN, rmt);
-		return;
+		rc = RC_ELEN;
+		goto Resp;
 	}
 	
 	// no bcast
 	if (get_word (buf, 2) != local_host) {
-		nop_resp (buf [0], buf [1], RC_EADDR, rmt);
-		return;
+		rc = RC_EADDR;
+		goto Resp;
 	}
 	
 	if ((b = (byte *)get_mem (sizeof(msgNhType), NO)) == NULL) {
-		nop_resp (buf [0], buf [1], RC_ERES, rmt);
-		return;
+		rc = RC_ERES;
+		goto Resp;
 	}
 
 	memset (b, 0, sizeof(msgNhType));
 	in_header(b, msg_type) = msg_nh;
 	in_header(b, rcv) = get_word (buf, 4);
 	
-	if ((*buf +7)) // nonzero means # of hops
-		in_header(b, hco) = (*buf +7);
+	if (buf[7]) // nonzero means # of hops
+		in_header(b, hco) = buf[7];
 	else
 		in_header(b, prox) = 1;
 	
 	in_nh(b, rsvp) = rmt ? rmt : local_host;
-	in_nh(b, ref) = (*buf +6);
+	in_nh(b, ref) = buf[6];
 
 	talk ((char *)b, sizeof(msgNhType), TO_NET);
 	// show in emul for tests in vuee
-	app_diag_U ("nh to %u(%u) rsvp %u #u", in_header(b, rcv), in_header(b, hco), in_nh(b, rsvp), in_nh(b, ref));
+	app_diag_U ("nh to %u(%u.%u) rsvp %u %u", in_header(b, rcv), in_header(b, hco), in_header(b, prox), in_nh(b, rsvp), in_nh(b, ref));
 	ufree (b);
+	
+Resp:
+	nop_resp (buf [0], buf [1], rc, rmt);
+
 }
 
 static void send_rpc (byte * buf, word len, word rmt) {
@@ -1051,7 +1056,7 @@ void oss_tx (char * b, word siz) {
 			bu[9] = in_header(b, hoc);
 			bu[10] = in_nhAck(b, rss);
 			bu[11] = in_header(b, seq_no); // cheated rssi on the rcv
-			_oss_out (b, NO);
+			_oss_out (bu, NO);
 			break;
 			
 		case msg_sniff:

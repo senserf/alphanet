@@ -18,7 +18,7 @@
 #endif
 
 #define SYSVER_MAJ 1
-#define SYSVER_min 53
+#define SYSVER_min 6
 
 #define DEF_NID 88
 #define	DEF_CHAN 0

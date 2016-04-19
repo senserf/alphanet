@@ -7,6 +7,7 @@ void msg_report_in (char * buf, word siz);
 void msg_reportAck_in (char * buf);
 void msg_fwd_in (char * buf, word siz);
 void msg_master_in (char * buf);
+void msg_nh_in (char * buf, word rssi);
 
 //+++ msg_io_peg.cc
 
