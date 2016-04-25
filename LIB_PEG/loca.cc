@@ -78,7 +78,7 @@ void loca_ld (word lsl, word id, word ref, word bsl, word rss) {
 
 fsm locaudit {
 	state INI:
-		delay (LOCA_TOUT_AUDIT >> 1, AUDI);
+		delay (LOCA_TOUT_AUDIT << 9, AUDI); // sec /2
 		release;
 	state AUDI:
 		(void)loca_find (MAX_WORD, LOCA_TOUT_AUDIT);

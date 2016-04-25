@@ -9,7 +9,9 @@
 
 // 1 means OFF, 0 means 0N
 #define	PING_LBT_SETTING	1
-#define	PING_SPACING		(5 + (rnd () & 7))
+
+// changed on 16/04/22 from 5 to 30, after experiments in the AT building
+#define	PING_SPACING		(30 + (rnd () & 7))
 
 extern pongParamsType  pong_params;
 

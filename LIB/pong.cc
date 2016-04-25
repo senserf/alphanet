@@ -54,7 +54,6 @@ fsm ping {
 			ufree (msg);
 			finish;
 		}
-		// delay (25 + rnd() % 10, ITER);
 		delay (PING_SPACING, ITER);
 		release;
 }
