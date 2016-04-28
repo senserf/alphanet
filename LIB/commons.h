@@ -18,9 +18,9 @@
 #endif
 
 #define SYSVER_MAJ 1
-#define SYSVER_min 6
+#define SYSVER_min 7
 
-#define DEF_NID 88
+#define DEF_NID 77
 #define	DEF_CHAN 0
 #define DEF_MHOST 1
 
