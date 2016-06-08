@@ -10,21 +10,21 @@
     <location node="8"> 14.100 37.600 1.000 </location>
     <location node="9"> 15.800 37.600 1.000 </location>
     <location node="10"> 17.600 37.600 1.000 </location>
-    <location node="11"> 22.200 34.400 5.000 </location>
-    <location node="12"> 20.800 20.500 5.000 </location>
-    <location node="13"> 16.900 13.700 5.000 </location>
-    <location node="14"> 7.100 19.500 1.000 </location>
-    <location node="15"> 25.400 36.400 1.000 </location>
-    <location node="16"> 25.700 16.600 1.000 </location>
-    <location node="17"> 25.400 6.300 1.000 </location>
-    <location node="18"> 9.300 6.400 1.000 </location>
-    <location node="19"> 6.000 18.700 1.000 </location>
-    <location node="20"> 8.700 30.700 1.000 </location>
-    <location node="21"> 21.800 19.600 5.000 </location>
-    <location node="22"> 21.500 3.900 5.000 </location>
-    <location node="23"> 16.200 12.500 5.000 </location>
-    <location node="24"> 3.400 10.100 5.000 </location>
-    <location node="25"> 5.700 23.600 5.000 </location>
-    <location node="26"> 7.100 34.000 5.000 </location>
-    <location node="27"> 15.200 26.300 5.000 </location>
+    <location node="11" movable="no"> 22.200 34.400 5.000 </location>
+    <location node="12" movable="no"> 20.800 20.500 5.000 </location>
+    <location node="13" movable="no"> 16.900 13.700 5.000 </location>
+    <location node="14" movable="no"> 7.100 19.500 1.000 </location>
+    <location node="15" movable="no"> 25.400 36.400 1.000 </location>
+    <location node="16" movable="no"> 25.700 16.600 1.000 </location>
+    <location node="17" movable="no"> 25.400 6.300 1.000 </location>
+    <location node="18" movable="no"> 9.300 6.400 1.000 </location>
+    <location node="19" movable="no"> 6.000 18.700 1.000 </location>
+    <location node="20" movable="no"> 8.700 30.700 1.000 </location>
+    <location node="21" movable="no"> 21.800 19.600 5.000 </location>
+    <location node="22" movable="no"> 21.500 3.900 5.000 </location>
+    <location node="23" movable="no"> 16.200 12.500 5.000 </location>
+    <location node="24" movable="no"> 3.400 10.100 5.000 </location>
+    <location node="25" movable="no"> 5.700 23.600 5.000 </location>
+    <location node="26" movable="no"> 7.100 34.000 5.000 </location>
+    <location node="27" movable="no"> 15.200 26.300 5.000 </location>
 </locations>

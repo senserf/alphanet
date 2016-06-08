@@ -760,7 +760,7 @@ proc idmp { lv th t } {
 	term_write "${th}: \[[toh $lv]\]" $t
 }
 
-proc iinit { ags t } {
+proc iinit { mod ags t } {
 #
 # Instance init
 #
@@ -775,20 +775,29 @@ proc iinit { ags t } {
 
 		array set plug {
 			dump 		3
-			confirm		3
 			echo		1
-			repeat		0
-			quiet		3
 			nodeid		""
-			osq		1
-			lastosq		"none"
 			ref		0
 			lastref		"none"
-			isq		0
 			laststat	0
 			callbacks	""
 			cbcount		0
+			confirm		3
+			repeat		0
+			quiet		3
+			osq		1
+			lastosq		"none"
+			isq		0
 		}
+	}
+
+	if { $mod == "D" } {
+		# direct mode means gateway (via piter)
+		namespace eval $ns { set plug(gateway) 1 }
+		set mt "gateway"
+	} else {
+		namespace eval $ns { set plug(gateway) 0 }
+		set mt "UART"
 	}
 
 	while { $ags != "" } {
@@ -798,7 +807,7 @@ proc iinit { ags t } {
 		set ags [string range $ags 1 end]
 	}
 
-	term_write "*plugin started*" $t
+	term_write "*plugin started* ($mt mode)" $t
 }
 
 proc iclose { t } {
@@ -3089,9 +3098,13 @@ if [info exists PM(DPF)] {
 # PITER #######################################################################
 ###############################################################################
 
-proc plug_init { ags } {
+proc plug_init { mod ags } {
 
-	::__plug__::iinit $ags 0
+	if { $mod != "F" && $mod != "D" } {
+		error "illegal UART mode, must be F or D"
+	}
+
+	::__plug__::iinit $mod $ags 0
 }
 
 proc plug_close { } {
@@ -3104,6 +3117,23 @@ proc plug_inppp_b { in } {
 	upvar $in inp
 
 	set inp [string trim $inp]
+
+	::__plug__::iinput $inp 0
+
+	return 0
+}
+
+proc plug_inppp_t { in } {
+
+	upvar $in inp
+
+	set inp [string trim $inp]
+
+	if [regexp {^[[:blank:]]*![[:blank:]]*(.*)} $inp mat inp] {
+		# gateway command
+		pt_outln $inp
+		return 0
+	}
 
 	::__plug__::iinput $inp 0
 
@@ -3126,9 +3156,58 @@ proc plug_outpp_b { in } {
 	return 0
 }
 
+proc plug_outpp_t { in } {
+
+	upvar $in inp
+
+	if ![regexp {^@@ (.*)} $inp mat inp] {
+		# this line should be shown as is
+		pt_tout $inp
+		return 0
+	}
+
+	set ns [::__plug__::cns 0]
+	set isq [::__plug__::varvar ${ns}::plug(isq)]
+	incr isq
+	# fake seq different from the last one
+	if { $isq >= 128 } {
+		set isq 2
+	}
+
+	set bts [list $isq]
+
+	while 1 {
+		set inp [string trimleft $inp]
+		if { $inp == "" } {
+			break
+		}
+		if ![regexp {^[a-zA-Z0-9][a-zA-Z0-9]} $inp v] {
+			error "illegal hex code"
+		}
+		lappend bts [expr { "0x$v" }]
+		set inp [string range $inp 2 end]
+	}
+
+	::__plug__::ioutput $bts 0
+
+	return 0
+}
+		
 proc node_write { line t } {
 
-	pt_outln $line
+	set ns [::__plug__::cns $t]
+
+	if [::__plug__::varvar ${ns}::plug(gateway)] {
+		# we have to convert the bytes to ASCII hex skipping the 
+		# sequence number
+		set res "os @@"
+		foreach v [lrange $line 1 end] {
+			append res " [format %02x $v]"
+		}
+		pt_outln $res
+	} else {
+		pt_outln $line
+	}
 }
 
 proc term_write { line t } {
@@ -3153,7 +3232,7 @@ proc vplug_init { nn hn tp t } {
 		return 0
 	}
 
-	::__plug__::iinit "" $t
+	::__plug__::iinit "" "" $t
 	# receiver state
 	set __ps($t,S) 0
 
