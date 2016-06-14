@@ -2779,8 +2779,12 @@ proc report_event { pay t sta } {
 	}
 
 	if { $pay != "" } {
-		set bb [get_b pay]
-		append res " dia=$bb"
+		# expect 4 dia bytes
+		if [catch { get_l pay } bb] {
+			set pay ""
+		} else {
+			append res " dia=$bb \[[format %04x $bb]\]"
+		}
 	}
 
 	if { [llength $pay] >= 5 && [get_b pay] } {
