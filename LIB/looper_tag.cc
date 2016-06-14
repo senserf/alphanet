@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2014                           */
+/* Copyright (C) Olsonet Communications, 2014 - 2016                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 
@@ -47,6 +47,11 @@ word	heartbeat = _HBEAT; // seconds
 #if BTYPE == BTYPE_AT_BUT1
 #include "ap320_tag.h"
 #define VOLTAGE &ap320.volt
+#endif
+
+#if BTYPE == BTYPE_AT_LOOP
+#include "ap331_tag.h"
+#define VOLTAGE &ap331.volt
 #endif
 
 #ifndef VOLTAGE

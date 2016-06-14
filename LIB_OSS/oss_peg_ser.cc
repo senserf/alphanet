@@ -151,6 +151,10 @@ static char * board_out (char * p) {
 				((pongPloadType5 *)_ppp)->random_shit,
 				((pongPloadType5 *)_ppp)->steady_shit);
 			break;
+		case BTYPE_AT_LOOP:
+			b = form (NULL, "V %u",
+				((pongPloadType6 *)_ppp)->volt);
+			break;
 		default:
 			app_diag_W ("btyp %u", ((pongDataType *)p)->btyp);
 			b = NULL;

@@ -18,7 +18,7 @@
 #endif
 
 #define SYSVER_MAJ 1
-#define SYSVER_min 7
+#define SYSVER_min 8
 
 #define DEF_NID 77
 #define	DEF_CHAN 0
@@ -111,6 +111,14 @@
 #define REP_SNIFF		0xE1
 #define REP_NHOOD		0xE2
 
+// loca bursts / reporting for pongDataType.locat
+#define LOCA_NONE		0
+#define LOCA_FULL		1
+#define LOCA_SHORT		2
+#define LOCA_SPARE		3
+// an attempt to scent shit with flowers
+#define LOOP_ALRM_ID	2
+
 /////////// tag-related structs ////////////////
 
 typedef struct pongParamsStruct {
@@ -133,8 +141,7 @@ typedef struct pongDataStruct {
 	word	dupeq	 :4;
 	word	noack	 :1;	// doesn't really belong here, but this place is handy
 	// note that loca field doesn't have to be filled on tags (in fact, it likely is better to have pegs decide)
-    word	locat    :1;	// a kludge to signal source of location data bursts
-    word	spare    :1;
+    word	locat    :2;	// LOCA_NONE(0) - no loca bursts; LOCA_FULL(1) - full reps; LOCA_SHORT(2)
 } pongDataType; // 4B (+len bytes of pload serialized after this)
 
 typedef struct tagDataStruct {

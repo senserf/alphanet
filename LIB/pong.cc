@@ -64,16 +64,16 @@ fsm pong {
 
 	word tr;  // = 0; many times forgot that tr is NOT on stack
 
-	state PING:
-		if (!running (ping)) {
+	state LOAD:
+	
+		if (load_pframe () && !running (ping)) {
 			runfsm ping;
-			joinall (ping, LOAD);
+			joinall (ping, LOADED);
 			release;
 		}
 			
-	state LOAD:
+	state LOADED:
 		tr = 0;
-		load_pframe ();
 		
 #if _PONG_DBG
 		app_diag_U ("PONG BEG (%u) retry %u.%u rx %u pl %x", (word)seconds(),
@@ -183,10 +183,11 @@ fifek_t pframe_stash;
 #if BTYPE == BTYPE_CHRONOS
 #include "chro_tag.h"
 
-void load_pframe () {
+Boolean load_pframe () {
 	char * pf;
 
     in_pong(pong_frame, pd.dupeq) += 1;
+	in_pong(pong_frame, pd.locat) = LOCA_SHORT;
 
     if (fifek_empty (&pframe_stash)) {
 		in_pong(pong_frame, pd.alrm_id) = chronos.alrm_id;
@@ -198,7 +199,7 @@ void load_pframe () {
 		in_pongPload(pong_frame, move_nr) = chronos.move_nr;
     } else {
         pf = fifek_pull (&pframe_stash);
-        in_pong(pong_frame, pd.alrm_id) = in_pong(pf, pd.alrm_id);
+		in_pong(pong_frame, pd.alrm_id) = in_pong(pf, pd.alrm_id);
         in_pong(pong_frame, pd.alrm_seq) = in_pong(pf, pd.alrm_seq);
         in_pong(pong_frame, pd.fl2) = in_pong(pf, pd.fl2);
         in_pongPload(pong_frame, volt) = in_pongPload(pf, volt);
@@ -207,6 +208,7 @@ void load_pframe () {
         in_pongPload(pong_frame, move_nr) = in_pongPload(pf, move_nr);
 		ufree (pf);
     }
+	return YES;
 }
 
 // we're overwriting alrms older than the last and this - it is trivial to
@@ -221,6 +223,7 @@ void stash_pframe () {
 			NO)) == NULL)
 		return;
 
+	in_pong(pf, pd.locat) = LOCA_SHORT;
 	in_pong(pf, pd.alrm_id) = chronos.alrm_id;
 	in_pong(pf, pd.alrm_seq) = chronos.alrm_seq;
 	in_pong(pf, pd.fl2) = chronos.acc_mode;
@@ -235,11 +238,12 @@ void stash_pframe () {
 #if BTYPE == BTYPE_WARSAW
 #include "war_tag.h"
 
-void load_pframe () {
+Boolean load_pframe () {
 	char * pf;
 
     in_pong(pong_frame, pd.dupeq) += 1;
     in_pong(pong_frame, pd.fl2)++; // vy not?
+	in_pong(pong_frame, pd.locat) = LOCA_SHORT;
     in_pongPload(pong_frame, steady_shit)++;
 
     if (fifek_empty (&pframe_stash)) {
@@ -255,6 +259,7 @@ void load_pframe () {
 		in_pongPload(pong_frame, random_shit) = in_pongPload(pf, random_shit);
 		ufree (pf);
     }
+	return YES;
 }
 
 // we're overwriting alrms older than the last and this - it is trivial to
@@ -269,6 +274,7 @@ void stash_pframe () {
 			NO)) == NULL)
 		return;
 
+	in_pong(pf, pd.locat) = LOCA_SHORT;
 	in_pong(pf, pd.alrm_id) = warsaw.alrm_id;
 	in_pong(pf, pd.alrm_seq) = warsaw.alrm_seq;
 	in_pongPload(pf, volt) = warsaw.volt;
@@ -281,7 +287,7 @@ void stash_pframe () {
 #if BTYPE == BTYPE_AT_BUT6
 #include "ap319_tag.h"
 
-void load_pframe () {
+Boolean load_pframe () {
 	char * pf;
 	
     in_pong(pong_frame, pd.dupeq) += 1;
@@ -304,6 +310,9 @@ void load_pframe () {
 		in_pongPload(pong_frame, glob) = in_pongPload(pf, glob);
 		ufree (pf);
     }
+	
+	in_pong(pong_frame, pd.locat) = in_pongPload(pong_frame, glob) ? LOCA_FULL : LOCA_NONE;
+	return in_pong(pong_frame, pd.locat) == LOCA_NONE ? NO : YES;
 }
 
 // we're overwriting alrms older than the last and this - it is trivial to
@@ -323,6 +332,7 @@ void stash_pframe () {
 	in_pongPload(pf, volt) = ap319.volt;
 	in_pongPload(pf, dial) = ap319.dial;
 	in_pongPload(pf, glob) = (ap319.gmap >> (ap319.alrm_id -1)) & 1;
+	// not necessary in_pong(pf, pd.locat) = in_pongPload(pf, glob) ? LOCA_FULL : LOCA_NONE;
 	fifek_push(&pframe_stash, pf);
 }
 
@@ -331,11 +341,12 @@ void stash_pframe () {
 #if BTYPE == BTYPE_AT_BUT1
 #include "ap320_tag.h"
 
-void load_pframe () {
+Boolean load_pframe () {
 	char * pf;
 	
     in_pong(pong_frame, pd.dupeq) += 1;
     in_pong(pong_frame, pd.fl2)++; // vy not?
+	in_pong(pong_frame, pd.locat) = LOCA_FULL;
 
     if (fifek_empty (&pframe_stash)) {
         in_pong(pong_frame, pd.alrm_id) = ap320.alrm_id;
@@ -348,6 +359,7 @@ void load_pframe () {
 		in_pongPload(pong_frame, volt) = in_pongPload(pf, volt);
 		ufree (pf);
     }
+	return YES;
 }
 
 // we're overwriting alrms older than the last and this - it is trivial to
@@ -362,9 +374,60 @@ void stash_pframe () {
 			NO)) == NULL)
 		return;
 
+	in_pong(pf, pd.locat) = LOCA_FULL;
 	in_pong(pf, pd.alrm_id) = ap320.alrm_id;
 	in_pong(pf, pd.alrm_seq) = ap320.alrm_seq;
 	in_pongPload(pf, volt) = ap320.volt;
+	fifek_push(&pframe_stash, pf);
+}
+
+#endif
+
+#if BTYPE == BTYPE_AT_LOOP
+#include "ap331_tag.h"
+
+Boolean load_pframe () {
+	char * pf;
+	
+    in_pong(pong_frame, pd.dupeq) += 1;
+    in_pong(pong_frame, pd.fl2)++; // vy not?
+
+    if (fifek_empty (&pframe_stash)) {
+        in_pong(pong_frame, pd.alrm_id) = ap331.alrm_id;
+        in_pong(pong_frame, pd.alrm_seq) = ap331.alrm_seq;
+        in_pongPload(pong_frame, volt) = ap331.volt;
+        memcpy (in_pongPload(pong_frame, loop), ap331.loop, AS3932_NBYTES);
+    } else {
+		pf = fifek_pull (&pframe_stash);
+		in_pong(pong_frame, pd.alrm_id) = in_pong(pf, pd.alrm_id);
+		in_pong(pong_frame, pd.alrm_seq) = in_pong(pf, pd.alrm_seq);
+		in_pongPload(pong_frame, volt) = in_pongPload(pf, volt);
+        memcpy (in_pongPload(pong_frame, loop), in_pongPload(pf, loop), AS3932_NBYTES);
+		ufree (pf);
+    }
+	// That below is doable if later on we twist things to shorten the ap331 'frame' for button alarms.
+	// Nobody cares, so let's make it easy: only short vectors for ap331
+	// in_pong(pong_frame, pd.locat) = (in_pong(pong_frame, pd.alrm_id) ==  LOOP_ALRM_ID ? LOCA_SHORT : LOCA_FULL);
+	in_pong(pong_frame, pd.locat) = LOCA_SHORT;
+	
+	return YES;
+}
+
+// we're overwriting alrms older than the last and this - it is trivial to
+// increase the stash - 2nd param in call to fifek_ini().
+void stash_pframe () {
+	char * pf;
+
+	if (ap331.alrm_id == 0)
+		return; // only alrms count
+
+	if ((pf = get_mem (sizeof(msgPongType) + sizeof(pongPloadType),
+			NO)) == NULL)
+		return;
+
+	in_pong(pf, pd.alrm_id) = ap331.alrm_id;
+	in_pong(pf, pd.alrm_seq) = ap331.alrm_seq;
+	in_pongPload(pf, volt) = ap331.volt;
 	fifek_push(&pframe_stash, pf);
 }
 

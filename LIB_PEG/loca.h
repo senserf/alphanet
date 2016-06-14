@@ -28,6 +28,7 @@
 // be careful with messages: 32 maxes out current report packets
 // also, this 32 is hardcoded in commons.h:msgLocaType
 #define LOCAVEC_SIZ	32
+#define LOCASHORT_SIZ	8
 typedef struct locaStruct {
 	lword 	ts;
 	word	id;

@@ -80,3 +80,20 @@ void clr_alrm () {
 	ap320.alrm_id = 0;
 }
 #endif
+
+#if BTYPE == BTYPE_AT_LOOP
+#include "ap331_tag.h"
+
+void set_alrm (word a) {
+	ap331.alrm_id = a;
+	ap331.alrm_seq++;
+	trigger (TRIG_ALRM);
+	clr_lit (YES);
+	set_lit (2, LED_ALRM, LED_ON, 0);
+}
+
+void clr_alrm () {
+	ap331.alrm_id = 0;
+}
+#endif
+

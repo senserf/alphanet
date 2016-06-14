@@ -1,4 +1,4 @@
-<network nodes="28">
+<network nodes="31">
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
@@ -29,6 +29,15 @@
 	</node>
 	<!-- 38134 -->
 	<node type="a320t" start="off" hid="0xBACA94F6" default="board">
+	</node>
+	<!-- 701 -->
+	<node type="a331t" start="off" hid="0xBACA02BD" default="board">
+	</node>
+	<!-- 702 -->
+	<node type="a331t" start="off" hid="0xBACA02BE" default="board">
+	</node>
+	<!-- 703 -->
+	<node type="a331t" start="off" hid="0xBACA02BF" default="board">
 	</node>
 	<!-- 121 -->
 	<node type="a319t" start="off" hid="0xBACA0079" default="board">

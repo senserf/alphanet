@@ -19,7 +19,7 @@ extern char pong_frame [sizeof(msgPongType) + sizeof(pongPloadType)];
 extern fifek_t pframe_stash;
 
 void init_pframe ();
-void load_pframe ();
+Boolean load_pframe (); // YES if ping should be run
 void stash_pframe ();
 void upd_pframe (word pl, word tnr); // signature may end up board-specific(?)
 

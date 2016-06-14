@@ -113,11 +113,33 @@ Boolean needs_ack ( word id, char * b, word rss) { // b point at pdt (and option
 }
 #undef LEARN_THOLD
 
+static void make_vec_short (byte * vec) { // vec must be 4x8 and is avereged into 1x8
+word i, ss, sn;
+byte *ps, *p = vec;
+
+	for (ps = vec; ps < vec +8; ps++) {
+
+		ss = sn = 0;
+		for (i = 0; i < 4; i++) {
+			if (*(p+i)) {
+				ss += *(p+i);
+				sn++;
+			}
+			if (sn)
+				*ps = (ss + (sn >> 1)) / sn;
+			else
+				*ps = 0;
+		}
+		p += 4;
+
+	}
+}
+
 /*************
 returns 1 if report goes global, 0 otherwise
 With location data (optionally) in, there is more:
 - refTime is updated on these that go to the master
-- locat flag is set to remove master's reportAcks
+- note that locat flag removes master's reportAcks
 All this should be reworked if we get back to report retries
 *************/
 Boolean report_tag (char * td) {
@@ -126,16 +148,20 @@ Boolean report_tag (char * td) {
 	word	siz = sizeof(msgReportType) + sizeof(pongDataType) + in_pdt(td, len);
 	word	lslot = loca_find (in_tdt(td, tagid), 0);
 	
-	in_pdt(td, locat) = NO;
-	if (lslot < LOCA_SNUM) {
+	if (lslot < LOCA_SNUM) { // there is loca data collected
 		if (globa) {
+			if (in_pdt(td, locat) == LOCA_FULL) {
 				siz += LOCAVEC_SIZ;
-				in_pdt(td, locat) = YES;
-			} else {
-				loca_out (lslot, YES);  // that is for local alrms (distinct loca msgs)
+			} else if (in_pdt(td, locat) == LOCA_SHORT) {
+				siz += LOCASHORT_SIZ;
 			}
+		} else {
+			loca_out (lslot, YES);  // that is for local alrms (distinct loca msgs)
+		}
+	} else { // clear what was set at tag, as there is no data
+		in_pdt(td, locat) = NO;
 	}
-
+	
 	mp = get_mem (siz, NO); // continue if no mem
 
 	if (mp == NULL) {
@@ -155,11 +181,15 @@ Boolean report_tag (char * td) {
 	memcpy (mp + sizeof(msgReportType), td + sizeof(tagDataType),
 		siz - sizeof(msgReportType));
 	
-	if (in_pdt(td, locat)) {
+	if (in_pdt(td, locat) == LOCA_FULL) {
 		memcpy (mp + siz -LOCAVEC_SIZ, locarr[lslot].vec, LOCAVEC_SIZ);
 		loca_out (lslot, NO);
+	} else if (in_pdt(td, locat) == LOCA_SHORT) {
+		make_vec_short (locarr[lslot].vec);
+		memcpy (mp + siz -LOCASHORT_SIZ, locarr[lslot].vec, LOCASHORT_SIZ);
+		loca_out (lslot, NO);
 	}
-	// globa = is_global (mp + sizeof(msgReportType));
+
 	talk (mp, siz, globa ? TO_ALL : TO_OSS); // will NOT go TO_NET on Master. see talk()
 
 #if _TMGR_DBG

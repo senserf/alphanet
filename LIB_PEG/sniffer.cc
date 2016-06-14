@@ -92,7 +92,7 @@ static int tcv_frm_sniff (address p, tcvadp_t *bounds) {
 	return bounds->head = bounds->tail = 0;
 }
 
-trueconst tcvplug_t plug_sniff =
+static trueconst tcvplug_t plug_sniff =
 		{ tcv_ope_sniff, tcv_clo_sniff, tcv_rcv_sniff, tcv_frm_sniff,
 			NULL, NULL, NULL, 0x1001 };
 

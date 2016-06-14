@@ -751,7 +751,7 @@ goLisn:	tcv_endp ((address)ib);
 #define _ppp	(p + sizeof(pongDataType))
 static void board_out (char * p, char * b) {
 
-	// for boards other tham ap319, 320: just for fun
+	// for boards other tham ap319, 320, 331: just for fun
 	switch (((pongDataType *)p)->btyp) {
 #if 0
 trying to accommodate migration from 1.0 to 1.5
@@ -760,12 +760,14 @@ trying to accommodate migration from 1.0 to 1.5
 			b[11] = (byte)((((pongPloadType0 *)_ppp)->volt - 1000) >> 3);
 			b[16] = (byte)((pongPloadType0 *)_ppp)->move_ago; // vy not
 			b[17] = (byte)((pongPloadType0 *)_ppp)->move_nr;
+			b[18] = b[19] = b[20] = 0;
 			break;
 #endif
 		case BTYPE_AT_BASE:
 			b[11] = (byte)((((pongPloadType2 *)_ppp)->volt - 1000) >> 3);
 			b[16] = 9;
 			b[17] = 14;
+			b[18] = b[19] = b[20] = 0;
 			break;
 			
 		case BTYPE_AT_BUT6:
@@ -773,19 +775,27 @@ trying to accommodate migration from 1.0 to 1.5
 			b[16] |= ((pongPloadType3 *)_ppp)->glob;
 			b[11] = (byte)((((pongPloadType3 *)_ppp)->volt - 1000) >> 3);
 			b[17] = ((pongPloadType3 *)_ppp)->dial;
+			b[18] = b[19] = b[20] = 0;
 			break;
 
 		case BTYPE_AT_BUT1:
 		case BTYPE_AT_BUT1_1_0:
 			b[16] |= 1;
 			b[11] = (byte)((((pongPloadType4 *)_ppp)->volt - 1000) >> 3);
-			b[17] = 0;
+			b[17] = b[18] = b[19] = b[20] = 0;
 			break;
 			
 		case BTYPE_WARSAW:
 			b[16] = (byte)((pongPloadType5 *)_ppp)->random_shit;
 			b[11] = (byte)((((pongPloadType5 *)_ppp)->volt - 1000) >> 3);
 			b[17] = (byte)((pongPloadType5 *)_ppp)->steady_shit;
+			b[18] = b[19] = b[20] = 0;
+			break;
+
+		case BTYPE_AT_LOOP:
+			b[16] |= 1;
+			b[11] = (byte)((((pongPloadType6 *)_ppp)->volt - 1000) >> 3);
+			memcpy (&b[17], (byte *)(((pongPloadType6 *)_ppp)->loop), 4);
 			break;
 
 		default:
@@ -822,6 +832,7 @@ static Boolean valid_rpc (byte * b, word len, word rmt) {
 // NO parameter sanitization
 void oss_tx (char * b, word siz) {
 	char *bu;
+	word varsiz;
 
 	// I'm not sure (now) what to do with these 2 spec. cases
 	// likely, we'll need a dbg i/f; for now dump to emul
@@ -843,7 +854,7 @@ void oss_tx (char * b, word siz) {
 		case msg_report:
 
 			/*
-				byte len = 18 (malloc 18 +1) or +2+LOCAVEC_SIZ with loca data
+				byte len = 21 (malloc 21 +1) or +2+LOCAVEC_SIZ with loca data, or +2+LOCASHORT_SIZ
 				// out:
 				byte	seq;
 				word	local_host;
@@ -859,17 +870,27 @@ void oss_tx (char * b, word siz) {
 				byte 	sn;
 				// Args
 				byte	fl;
-				byte	dial;
-				byte	locat; // 1 - with location data
-				// locat == 1 only
+				byte	board-spec[4]; e.g. dial, loop id
+				byte	locat; // 1 - full location data, 2 - short loca
+				// locat != LOCA_NONE only
+				// variant LOCA_FULL
 				word	ref;
 				byte	locavec[LOCAVEC_SIZ];
-			*/			
-			if ((bu = get_mem (((pongDataType *)(b + sizeof(msgReportType)))->locat ?
-					LOCAVEC_SIZ +21 : 19, NO)) == NULL)
+				// variant LOCA_SHORT
+				word	ref;
+				byte	locavec[LOCASHORT_SIZ];				
+			*/
+
+#define LOCALATA (((pongDataType *)(b + sizeof(msgReportType)))->locat)
+			varsiz = 21;
+			if (LOCALATA == LOCA_FULL)
+				varsiz += 2 + LOCAVEC_SIZ;
+			if (LOCALATA == LOCA_SHORT)
+				varsiz += 2 + LOCASHORT_SIZ;
+			if ((bu = get_mem (varsiz +1, NO)) == NULL)
 				return;
 			
-			bu[0] = ((pongDataType *)(b + sizeof(msgReportType)))->locat ? LOCAVEC_SIZ +20 : 18;
+			bu[0] = varsiz;
 			bu[1] = 0; // would be 0x80 if we wanted ack (say, alrms on the master could be 'more reliable')
 			bu[2] = (byte)local_host;
 			bu[3] = (byte)(local_host >> 8);
@@ -897,18 +918,22 @@ void oss_tx (char * b, word siz) {
 				bu[16] |= 0x80;
 			// board specific will bu[16] |= global flag
 			// board-specific bu[17] = dial
+			// with AP331, this board-specific insert is extended to 4 bytes b[17..20]
 			board_out (b + sizeof(msgReportType), bu);
-			bu[18] = ((pongDataType *)(b + sizeof(msgReportType)))->locat;
+			bu[21] = LOCALATA;
 
-			// loca ref & vector
-			if (((pongDataType *)(b + sizeof(msgReportType)))->locat) {
-				bu[19] = (byte)in_report(b, ref);
-				bu[20] = (byte)(in_report(b, ref) >> 8);
-				memcpy (&bu[21], b + siz - LOCAVEC_SIZ,
-					LOCAVEC_SIZ);
-			}	
+			if (LOCALATA == LOCA_FULL) {	// loca ref & full vector
+				bu[22] = (byte)in_report(b, ref);
+				bu[23] = (byte)(in_report(b, ref) >> 8);
+				memcpy (&bu[24], b + siz - LOCAVEC_SIZ, LOCAVEC_SIZ);
+			} else if (LOCALATA == LOCA_SHORT) {	// loca ref & short vector & loop[4]
+				bu[22] = (byte)in_report(b, ref);
+				bu[23] = (byte)(in_report(b, ref) >> 8);
+				memcpy (&bu[24], b + siz - LOCASHORT_SIZ, LOCASHORT_SIZ);
+			}
 			_oss_out (bu, NO);
 			break;
+#undef LOCALATA
 
 	    case msg_reportAck:
 		// renesas doesn't want to see it
