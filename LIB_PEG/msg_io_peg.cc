@@ -87,6 +87,7 @@ void msg_nh_in (char * buf, word rss) {
 	if (in_header(buf, prox))
 		ack.header.prox = 1;
 	// note that we leave hco to TARP
+	ack.header.rcv = in_nh(buf, rsvp);
 	ack.rss = rss;
 	ack.ref = in_nh(buf, ref);
 	talk ((char *)&ack, sizeof(msgNhAckType), TO_NET);
