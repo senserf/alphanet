@@ -1,1 +1,1 @@
-/dev/pty4 115200 F-scaped 1 82 /home/pawel/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/spot/shared_plug.tcl {}
+tcp:localhost:9022 115200 Direct 0 84 C:/cygwin64/home/nripg/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot/shared_plug.tcl {}

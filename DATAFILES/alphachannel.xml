@@ -6,9 +6,7 @@
 			50 / 2 - 138.0 - 3.0 = -116
 	-->
 
-	<propagation type="sampled"
-		samples="DATAFILES/alphasamples.txt"
-            	average="4,0.1">
+	<propagation type="sampled" samples="DATAFILES/alphasamples.txt">
 			<xi:include href="DATAFILES/alphaatt.xml"/>
 	</propagation>
 
