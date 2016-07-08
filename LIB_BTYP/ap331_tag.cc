@@ -11,11 +11,15 @@
 
 ap331_t	ap331;
 
-#define IN_LOOP_331 (curr[0] || curr[1] || curr[2] || curr[3])
-#define CHANGED_331	(memcmp ((const byte *)(&curr), (const byte *)(&(ap331.loop)), AS3932_NBYTES))
-#define COPY_331	memcpy ((byte *)(&(ap331.loop)), (const byte *)(&curr), AS3932_NBYTES)
+// #define IN_LOOP_331 (curr[0] || curr[1] || curr[2] || curr[3])
+#define IN_LOOP_331 (*((lword*)(&(ap331.loop))) != 0)
+// #define CHANGED_331	(memcmp ((const byte *)(&curr), (const byte *)(&(ap331.loop)), AS3932_NBYTES))
+#define CHANGED_331	(*((lword*)(&(ap331.loop))) != *((lword*)(&curr)))
+// #define COPY_331	memcpy ((byte *)(&(ap331.loop)), (const byte *)(&curr), AS3932_NBYTES)
+#define COPY_331	*((lword*)(&(ap331.loop))) = *((lword*)(&curr))
 #define FREQ_IN_LOOP_331	10
 #define FREQ_OFF_LOOP_331	2
+#define	ONTIME_331		2
 
 #ifndef SENSOR_AS3932
 // why is this needed for vuee? dupa
@@ -24,14 +28,19 @@ ap331_t	ap331;
 
 fsm monloop {
 	/* vuee doesn't compile with as3932_data_t curr */
-	byte curr[AS3932_NBYTES];
 	
 	state ML_LOOP:
-		as3932_on();
+
+		as3932_on ();
+		delay (ONTIME_331 << 10, ML_READ);
+		release;
 		
 	state ML_READ:
+
+		byte curr [AS3932_NBYTES];
+
 		read_sensor (ML_READ, SENSOR_AS3932, (address)(&curr));
-		as3932_off();
+		as3932_off ();
 		
 		if (CHANGED_331) {
 			COPY_331;
@@ -47,6 +56,7 @@ fsm monloop {
 #undef COPY_331
 #undef FREQ_IN_LOOP_331
 #undef FREQ_OFF_LOOP_331
+#undef ONTIME_331
 
 static void do_butt (word b) {
 	set_alrm (b +1); // buttons 0.., alrms 1..
