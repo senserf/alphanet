@@ -62,8 +62,8 @@
 	
 	<!-- regular Pegs -->
 
-	<!-- 00001 -->
-	<node type="a321p" start="on" hid="0xBACA0001" default="board">
+	<!-- BACA -->
+	<node type="a321p" start="on" hid="0xBACABACA" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 00007 -->

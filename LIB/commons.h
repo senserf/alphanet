@@ -18,11 +18,11 @@
 #endif
 
 #define SYSVER_MAJ 1
-#define SYSVER_min 8
+#define SYSVER_min 0x81
 
-#define DEF_NID 77
+#define DEF_NID ((word)(host_id >> 16))
 #define	DEF_CHAN 0
-#define DEF_MHOST 1
+#define DEF_MHOST DEF_NID
 
 #define LED_R   0
 #define LED_G   1
