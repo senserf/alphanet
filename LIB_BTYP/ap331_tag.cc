@@ -17,8 +17,8 @@ ap331_t	ap331;
 #define CHANGED_331	(*((lword*)(&(ap331.loop))) != *((lword*)(&curr)))
 // #define COPY_331	memcpy ((byte *)(&(ap331.loop)), (const byte *)(&curr), AS3932_NBYTES)
 #define COPY_331	*((lword*)(&(ap331.loop))) = *((lword*)(&curr))
-#define FREQ_IN_LOOP_331	10
-#define FREQ_OFF_LOOP_331	2
+#define FREQ_IN_LOOP_331	8
+#define FREQ_OFF_LOOP_331	0
 #define	ONTIME_331		2
 
 #ifndef SENSOR_AS3932
@@ -49,7 +49,6 @@ fsm monloop {
 		
 		// would wait_sensor () off loop be much more expensive (no as3932_off)? dupa
 		delay (IN_LOOP_331 ? FREQ_IN_LOOP_331 << 10 : FREQ_OFF_LOOP_331 << 10, ML_LOOP);
-		release;
 }
 #undef IN_LOOP_331
 #undef CHANGED_331
