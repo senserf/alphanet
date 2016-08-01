@@ -1,0 +1,21 @@
+<locations>
+    <location node="0"> 1.200 8.100 1.000 </location>
+    <location node="1"> 1.200 10.100 1.000 </location>
+    <location node="2"> 1.200 12.100 1.000 </location>
+    <location node="3"> 9.800 1.200 1.000 </location>
+    <location node="4"> 11.500 1.200 1.000 </location>
+    <location node="5"> 13.200 1.200 1.000 </location>
+    <location node="6" movable="no"> 11.100 10.300 1.000 </location>
+    <location node="7" movable="no"> 5.400 15.300 1.000 </location>
+    <location node="8" movable="no"> 12.800 15.000 1.000 </location>
+    <location node="9" movable="no"> 15.700 8.600 1.000 </location>
+    <location node="10" movable="no"> 17.400 13.700 1.000 </location>
+    <location node="11" movable="no"> 24.400 16.500 1.000 </location>
+    <location node="12" movable="no"> 25.600 9.100 1.000 </location>
+    <location node="13" movable="no"> 32.200 12.800 1.000 </location>
+    <location node="14" movable="no"> 30.900 6.500 1.000 </location>
+    <location node="15" movable="no"> 38.300 9.400 1.000 </location>
+    <location node="16" movable="no"> 42.900 17.000 1.000 </location>
+    <location node="17" movable="no"> 45.600 7.200 1.000 </location>
+    <location node="18" movable="no"> 50.000 12.500 1.000 </location>
+</locations>

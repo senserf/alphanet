@@ -1,0 +1,93 @@
+<channel bn="-116.0dBm">
+
+	<!--
+		Set BN 3dB below the power level corresponding to RSSI = 50
+		which we shall consider minimum receivable:
+			50 / 2 - 138.0 - 3.0 = -116
+	-->
+
+	<propagation type="sampled">
+		<xi:include href="DATAFILES/annoatt.xml"/>
+	</propagation>
+
+	<cutoff>
+		<!--
+			Set this to 6dB below BN
+		-->
+		-122.0dBm
+	</cutoff>
+
+	<ber>
+		  	SIR	   BER
+			61.0	0.5E-10
+			56.0	1.0E-10
+			23.0	1.0E-9
+			16.0	1.0E-8
+			 8.0	1.0E-6
+			 5.0    2.0E-4
+	 		 0.0    9.9E-1
+	</ber>
+
+	<frame>
+		min preamble (aka syncbits) = 8
+			<!-- for CC1100, x the bit rate refers to information
+			     bits, i.e., there are no symbols perceptible to
+			     the driver -->
+		physical bits per byte      = 8
+			<!-- we use double sync for rates < 200k , and single
+			     sync for 200k, so, if you are pedantic, change
+			     this to 16, if 200k is your favorite rate -->
+		extra framing bits          = 32
+	</frame>
+
+	<rssi>
+		<!--
+			RSS is supposed to be in dBm with 1/2 dBm resolution.
+			So the span is 128 dBm with some initial values of RSS
+			deemed non-receivable. The minimum value I spotted in
+			the sample file was 54.
+
+			The official formula to transform RSSI into dBm (from
+			the manual) is this:
+
+				dbm = (rss - 128) / 2 - 74
+
+			128 is our bias (our driver converts the value into
+			a nonnegative (unsigned) 8-bit number. This basically
+			boils down to rss / 2 - 138.
+
+			The max RSS = 255 thus translates into -10.5 dBm.
+			The max value I see in the samples is 165 => -55.5 dBm,
+			which looks fair enough. This is the S/N ratio of
+			60.5 dBm (which we should look at as a maximum power
+			[virtually perfect] reception).
+		-->
+
+		RSS =  0	==>		-138.0 dBm
+		RSS =  50	==>		-113.0 dBm
+		RSS = 255	==>		 -10.5 dBm
+
+	</rssi>
+
+	<power>
+		<xi:include href="DATAFILES/annopower.xml"/>
+	</power>
+
+	<rates boost="yes">
+		<!--
+			Assume that 38400 is our reference. This is the rate
+			we use in Alphanet.
+		-->
+
+		0	  4800		 2dB
+		1	 10000		 1dB
+		2	 38400		 0dB
+		3       200000		-11dB
+	</rates>
+
+	<channels number="255">
+		Cross channel separation
+		28dB 38dB 54dB 70dB 86dB 102dB
+	</channels>
+
+</channel>

@@ -1,0 +1,99 @@
+<network nodes="19">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+	<display>
+		<roamer image="DATAFILES/ann1.gif" nodesize="10"
+			name="LevelX"
+			box="0.0 0.0 0.0 53.52 22.2 4.0"
+			display="yes"/>
+	</display>
+
+    <xi:include href="DATAFILES/annochannel.xml"/>
+
+    <nodes>
+	<defaults>
+	<highlight fg="black" bg="white">magenta blue</highlight>
+	</defaults>
+
+	<!-- Tags, all off -->
+	<!-- 39939 -->
+	<node type="a320t" start="off" hid="0x00019C03" default="board">
+	</node>
+	<!-- 39902 -->
+	<node type="a320t" start="off" hid="0x00019BDE" default="board">
+	</node>
+	<!-- 38134 -->
+	<node type="a320t" start="off" hid="0x000194F6" default="board">
+	</node>
+
+	<!-- spare Pegs -->
+	<node type="a321p" start="off" hid="0x0001000E" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<node type="a321p" start="off" hid="0x0001000F" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<node type="a321p" start="off" hid="0x00010010" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	
+	<!-- regular Pegs -->
+
+	<!-- 0001 -->
+	<node type="a321p" start="on" hid="0x00010001" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0002 -->
+	<node type="a321p" start="on" hid="0x00010002" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0003 -->
+	<node type="a321p" start="on" hid="0x00010003" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0004 -->
+	<node type="a321p" start="on" hid="0x00010004" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0005 -->
+	<node type="a321p" start="on" hid="0x00010005" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0006 -->
+	<node type="a321p" start="on" hid="0x00010006" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0007 -->
+	<node type="a321p" start="on" hid="0x00010007" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0008 -->
+	<node type="a321p" start="on" hid="0x00010008" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0009 -->
+	<node type="a321p" start="on" hid="0x00010009" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0010 -->
+	<node type="a321p" start="on" hid="0x0001000A" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0011 -->
+	<node type="a321p" start="on" hid="0x0001000B" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0012 -->
+	<node type="a321p" start="on" hid="0x0001000C" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 0013 -->
+	<node type="a321p" start="on" hid="0x0001000D" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+
+	<xi:include href="DATAFILES/layanno.xml"/>
+
+    </nodes>
+
+</network>

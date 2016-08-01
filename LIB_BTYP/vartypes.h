@@ -78,7 +78,8 @@ typedef pongPloadType0 pongPloadType;
 typedef pongPloadType1 pongPloadType;
 #endif
 
-#if defined(BOARD_ALPHANET_AP321_BASE) || defined(BOARD_ALPHANET_BASE_XCC430) || defined(BOARD_ALPHANET_BASE_WARSAW)
+#if defined(BOARD_ALPHANET_AP321_BASE) || defined(BOARD_ALPHANET_BASE_XCC430) || defined(BOARD_ALPHANET_BASE_WARSAW) || defined(BOARD_ALPHANET_AP441_BASE)
+
 #define BTYPE   BTYPE_AT_BASE
 typedef pongPloadType2 pongPloadType;
 #endif
