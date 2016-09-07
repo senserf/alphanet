@@ -1,1 +1,1 @@
-tcp:localhost:9022 115200 Direct 0 84 C:/cygwin64/home/nripg/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot/shared_plug.tcl {}
+COM3: 115200 F-scaped 1 84 C:/cygwin64/home/nripg/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot/shared_plug.tcl {}
