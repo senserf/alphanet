@@ -39,7 +39,7 @@
 	    <preinit tag="switches" type="word">0x0783</preinit>
 	</node>
 	<!-- 123 -->
-	<node type="a319t" start="off" hid="0xBACA007B" default="board">
+	<node type="a331t" start="off" hid="0xBACA007B" default="board">
 	    <preinit tag="switches" type="word">0x0784</preinit>
 	</node>
 
