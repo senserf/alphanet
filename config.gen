@@ -1,1 +1,1 @@
-{MOD IHEX} {TFN Image_a331t_nnnn.a43} {CNT 1} {FRM 201} {IFN Image_a331t.a43} {SRD C:/cygwin64/home/nripg/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {PFX 0002} {IDA BACADEAF} {TRD C:/cygwin64/home/nripg/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {APV {}} {IDN BACADEAD}
+{MOD IHEX} {TFN Image_a321t_nnnn.a43} {CNT 1} {FRM 2} {IFN Image_a321p.a43} {SRD C:/cygwin64/home/nripg/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {PFX 0002} {IDA BACADEAF} {TRD C:/cygwin64/home/nripg/SOFTWARE/PICOS/Apps/PROPRIETARY/inProgress/locaspot} {APV {}} {IDN BACADEAD}
