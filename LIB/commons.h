@@ -18,7 +18,7 @@
 #endif
 
 #define SYSVER_MAJ 1
-#define SYSVER_min 0x81
+#define SYSVER_min 0x82
 
 #define DEF_NID ((word)(host_id >> 16))
 #define	DEF_CHAN 0
@@ -47,6 +47,7 @@
 #define TRIG_OSSO	5
 #define TRIG_MBEAC	6
 #define TRIG_OSSIN	7
+#define TRIG_RFID	8
 
 #define RC_OK		0
 #define RC_EVAL		1	// 0xFF // -1
@@ -107,6 +108,7 @@
 #define REP_RELAY		1
 #define REP_FORWARD		0xA1
 #define REP_LOCA		0xB1
+#define REP_RFID		0xB2
 #define REP_LOG			0xD1
 #define REP_SNIFF		0xE1
 #define REP_NHOOD		0xE2
@@ -177,7 +179,7 @@ typedef struct tagListStruct {
 typedef enum {
         msg_null, msg_pong, msg_pongAck,
         msg_master, msg_report, msg_reportAck, msg_fwd, msg_fwdAck, msg_ping, msg_loca,
-		msg_rpc, msg_rpcAck, msg_sniff /* not really a msg */, msg_nh, msg_nhAck
+		msg_rpc, msg_rpcAck, msg_sniff /* not really a msg */, msg_nh, msg_nhAck, msg_rfid
 } msgType;
 
 typedef struct msgLocaStruct {
@@ -274,6 +276,16 @@ typedef struct msgNhAckStruct {
         word            rss :8;
 } msgNhAckType;
 #define in_nhAck(buf, field)   (((msgNhAckType *)(buf))->field)
+
+typedef struct msgRfidStruct {
+        headerType      header;
+		word			btyp :4;
+		word			ttyp :4;
+		word			next :8;
+        word            cnt  :8;
+		word			len  :8;
+} msgRfidType;
+#define in_rfid(buf, field)   (((msgRfidType *)(buf))->field)
 
 /////////////////// fifek ////////////////////
 // small (up to 15) circ buffer of (alloc'ed) buffers

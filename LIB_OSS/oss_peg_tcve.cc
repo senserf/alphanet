@@ -1083,6 +1083,44 @@ void oss_tx (char * b, word siz) {
 			bu[11] = in_header(b, seq_no); // cheated rssi on the rcv
 			_oss_out (bu, NO);
 			break;
+
+		case msg_rfid:
+			/*
+				byte len = 13+in_rfid(b,len) (malloc this +1)
+				// out:
+				byte	seq;
+				word	local_host;
+				byte	efef;
+				byte	reptype;
+				word	nodeid;
+				byte	rssi;
+				byte	btyp;
+				byte	ttyp;
+				byte	next;
+				byte	cnt;
+				byte	len;
+				len bytes follow
+			*/			
+
+			if ((bu = get_mem (14 + in_rfid(b, len), NO)) == NULL)
+				return;
+			bu[0] = 13 + in_rfid(b, len);
+			bu[1] = 0;
+			bu[2] = (byte)local_host;
+			bu[3] = (byte)(local_host >> 8);
+			bu[4] = 0xFF;
+			bu[5] = REP_RFID;
+			bu[6] = (byte)(in_header(b, snd));
+			bu[7] = (byte)(in_header(b, snd) >> 8);
+			bu[8] = in_header(b, seq_no); // cheated rssi on the rcv
+			bu[9] = in_rfid(b, btyp);
+			bu[10] = in_rfid(b, ttyp);
+			bu[11] = in_rfid(b, next);
+			bu[12] = in_rfid(b, cnt);
+			bu[13] = in_rfid(b, len);
+			memcpy (&bu[14], b + sizeof(msgRfidType), in_rfid(b, len));
+			_oss_out (bu, NO);
+			break;
 			
 		case msg_sniff:
 			/* take over from sniffer.cc; note that this is the only instance (so far) that we get
