@@ -574,6 +574,7 @@ set REPO(0)		"report_event"
 set REPO(1)		"report_relay"
 set REPO(209)		"report_log"
 set REPO(177)		"report_location"
+set REPO(178)		"report_rfid"
 set REPO(225)		"report_sniff"
 set REPO(226)		"report_nhood"
 
@@ -2690,6 +2691,19 @@ proc response_nhood { nid pay t sta } {
 	return "nhood"
 }
 
+proc btype { bt } {
+
+	variable BTYPES
+
+	if [info exists BTYPES($bt)] {
+		set bt $BTYPES($bt)
+	} else {
+		set bt "?"
+	}
+
+	return $bt
+}
+
 ###############################################################################
 # REPORTS #####################################################################
 ###############################################################################
@@ -2729,7 +2743,6 @@ proc report_relay { pay t sta } {
 proc report_event { pay t sta } {
 
 	variable CODES
-	variable BTYPES
 	upvar $sta status
 
 	set res "event:"
@@ -2754,14 +2767,9 @@ proc report_event { pay t sta } {
 
 	set bt [expr { $etp >> 4 }]
 
-	if [info exists BTYPES($bt)] {
-		set bt $BTYPES($bt)
-	} else {
-		set bt "?"
-	}
+	set bt [btype $bt]
 
 	set as [expr { $etp & 0xf }]	
-
 
 	append res " peg=$peg tag=$tag del=$del vlt=$vol rss=$rss"
 	append res " xat=[format %02x $xat] dev=$bt but=$as seq=$seq"
@@ -3073,6 +3081,49 @@ proc report_nhood { pay t sta } {
 	set rsb [get_b pay]
 
 	append res "SND=$snd REF=$ref HOC=$hoc RSF=$rsf RSB=$rsb"
+
+	return $res
+}
+
+proc report_rfid { pay t sta } {
+
+	variable CODES
+	upvar $sta status
+
+	set status $CODES(RC_OK)
+
+	set length [llength $pay]
+
+	set res "loop: "
+
+	if { $length < 8 } {
+		append res "<[toh $pay]>"
+		return $res
+	}
+
+	set snd [get_w pay]
+	set rss [get_b pay]
+	set btp [get_b pay]
+	set typ [get_b pay]
+	set nex [get_b pay]
+	set cnt [get_b pay]
+	set len [get_b pay]
+
+	set length [llength $pay]
+	if { $length < $len } {
+		set len $length
+	}
+
+	set val ""
+
+	while { $len } {
+		set b [get_b pay]
+		set val "[format %02X $b]$val"
+		incr len -1
+	}
+
+	append res "TAG=$snd VAL=\[$val\] RSS=$rss "
+	append res "DEV=[btype $btp] TYP=$typ NEX=$nex CNT=$cnt"
 
 	return $res
 }
