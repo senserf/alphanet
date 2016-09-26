@@ -120,6 +120,13 @@ void process_incoming (char * buf, word size, word rssi) {
 		talk (buf, size, TO_OSS);
 		break;
 
+	case msg_rfid:
+		if (tagList.block == NO) { // let's keep them off the master
+			in_header(buf, seq_no) = rssi;
+			talk (buf, size, TO_OSS);
+		}
+		break;
+
 	default:
 		app_diag_S ("Got ?(%u)", in_header(buf, msg_type));
 
