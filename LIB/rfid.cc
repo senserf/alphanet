@@ -59,6 +59,12 @@ fsm rfid {
 		release;
 		
 	state ITER:
+		if (memcmp (msg + sizeof(msgRfidType), ap331.loop, rfid_ctrl.plen)) {
+#if _RFID_DBG
+			app_diag_U ("rfid kicked");
+#endif
+			sameas TRIG;
+		}
 		++in_rfid(msg, cnt);
 		if (in_rfid(msg, next) < rfid_ctrl.max)
 			in_rfid(msg, next) += rfid_ctrl.inc;
