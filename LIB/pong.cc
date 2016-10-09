@@ -396,7 +396,7 @@ Boolean load_pframe () {
         in_pong(pong_frame, pd.alrm_id) = ap331.alrm_id;
         in_pong(pong_frame, pd.alrm_seq) = ap331.alrm_seq;
         in_pongPload(pong_frame, volt) = ap331.volt;
-        memcpy (in_pongPload(pong_frame, loop), ap331.loop, AS3932_NBYTES);
+        memcpy (in_pongPload(pong_frame, loop), &(ap331.loop), AS3932_NBYTES);
     } else {
 		pf = fifek_pull (&pframe_stash);
 		in_pong(pong_frame, pd.alrm_id) = in_pong(pf, pd.alrm_id);

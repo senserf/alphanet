@@ -12,54 +12,80 @@
 
 ap331_t	ap331;
 
-// without it AP331 is deaf loop-wise (monloop is not run and as3932 is never on).
-// when we (ever) know how to tackle tag provisioning, this should be a configurable parameter.
-#define SENSE_LOOP_331 1
-
-// #define IN_LOOP_331 (curr[0] || curr[1] || curr[2] || curr[3])
-#define IN_LOOP_331 (*((lword*)(&(ap331.loop))) != 0)
-// #define CHANGED_331	(memcmp ((const byte *)(&curr), (const byte *)(&(ap331.loop)), AS3932_NBYTES))
-#define CHANGED_331	(*((lword*)(&(ap331.loop))) != *((lword*)(&curr)))
-// #define COPY_331	memcpy ((byte *)(&(ap331.loop)), (const byte *)(&curr), AS3932_NBYTES)
-#define COPY_331	*((lword*)(&(ap331.loop))) = *((lword*)(&curr))
+#define SENSE_LOOP_331 		1
 #define	HALFTIME_331		1024
-
+#define	MINCOUNT_331		3
 #ifndef SENSOR_AS3932
-// why is this needed for vuee? dupa
-#define SENSOR_AS3932	1
+#define SENSOR_AS3932		1
 #endif
 
+fsm debouncer {
+
+	state LD_WAIT:
+
+		wait_sensor (SENSOR_AS3932, LD_EVENT);
+
+	state LD_EVENT:
+
+		lword tmp;
+
+		read_sensor (WNONE, SENSOR_AS3932, (address)&tmp);
+		// tmp is guaranteed to be nonzero
+		if (tmp == ap331.tentative) {
+			// A repeat value
+			if (ap331.debcnt >= MINCOUNT_331-1) {
+				// Debounced and valid
+				if (ap331.loop != ap331.tentative) {
+					ap331.changed = YES;
+					ap331.loop = ap331.tentative;
+				}
+				ap331.set = YES;
+			} else
+				ap331.debcnt++;
+		} else {
+			// A new value to debounce
+			ap331.tentative = tmp;
+			ap331.debcnt = 0;
+		}
+
+		sameas LD_WAIT;
+}
+
 fsm monloop {
-	/* vuee doesn't compile with as3932_data_t curr */
 	
 	state ML_LOOP:
 
+		ap331.tentative = 0;
+		ap331.set = ap331.changed = NO;
 		as3932_on ();
+		runfsm debouncer;
 		delay (HALFTIME_331, ML_READ);
 		release;
 		
 	state ML_READ:
 
-		byte curr [AS3932_NBYTES];
-
-		read_sensor (ML_READ, SENSOR_AS3932, (address)(&curr));
 		as3932_off ();
-		
-		if (CHANGED_331) {
-			COPY_331;
+		killall (debouncer);
+
+		if (!ap331.set && ap331.loop) {
+			// Moving out of loop; this is the only way for loop
+			// to become zero
+			ap331.loop = 0;
 			set_alrm (LOOP_ALRM_ID);
-			if (IN_LOOP_331) {
-				rfid_ctrl.act = RFID_READY; // I'm not sure if a race is even possible, but
-				if (running (rfid)) {
-					trigger (TRIG_RFID);
-				} else {
-					runfsm rfid;
-				}
-			} else { // just out of loops
-				rfid_ctrl.act = RFID_STOP;
+		} else if (ap331.changed) {
+			// From zero or from one loop to another (loop is
+			// nonzero at this point)
+			set_alrm (LOOP_ALRM_ID);
+			if (!running (rfid)) {
+				runfsm rfid;
+			} else {
+				rfid_ctrl.next = rfid_ctrl.ini;
+				rfid_ctrl.cnt = 0;
 				trigger (TRIG_RFID);
 			}
-		}	
+
+		}
+
 		delay (HALFTIME_331, ML_LOOP);
 }
 
@@ -74,7 +100,6 @@ void ap331_init () {
 #endif
 }
 #undef IN_LOOP_331
-#undef CHANGED_331
-#undef COPY_331
 #undef HALFTIME_331
 #undef SENSE_LOOP_331
+#undef MINCOUNT_331

@@ -16,15 +16,14 @@
 #define RFID_TYPE_LOOP 1
 
 // likely, another function of btyp / ttyp
-#define RFID_INIT	{0, 4, 1, 1, 5, 0, 0}
+#define RFID_INIT	{4, 1, 1, 5, 0, 0}
 typedef struct {
-	word act 	:3;
-	word plen	:5;
+	word plen	:8;
 	word ini	:8;
 	word inc	:8;
 	word max	:8;
+	word next	:8;
 	word cnt	:8;
-	word spare	:8;
 } rfid_t;
 extern rfid_t rfid_ctrl;
 
