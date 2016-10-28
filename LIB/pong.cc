@@ -428,6 +428,7 @@ void stash_pframe () {
 	in_pong(pf, pd.alrm_id) = ap331.alrm_id;
 	in_pong(pf, pd.alrm_seq) = ap331.alrm_seq;
 	in_pongPload(pf, volt) = ap331.volt;
+	memcpy (in_pongPload(pf, loop), &(ap331.loop), AS3932_NBYTES);
 	fifek_push(&pframe_stash, pf);
 }
 
