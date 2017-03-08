@@ -7,7 +7,7 @@
 
     <nodes>
 	
-	<node number="0" type="a321p" start="on" hid="0xBACABACA" default="board">
+	<node number="0" type="a321p" start="on" hid="0xBACA0001" default="board">
 	    <xi:include href="DATAFILES/uart.xml"/>
 	    <location>5.0 5.0</location>
 	</node>

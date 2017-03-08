@@ -60,7 +60,7 @@
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
-	<node type="a321p" start="on" hid="0xBACABACA" default="board">
+	<node type="a321p" start="on" hid="0xBACA0001" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
