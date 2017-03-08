@@ -77,10 +77,13 @@ fsm monloop {
 			// nonzero at this point)
 			set_alrm (LOOP_ALRM_ID);
 			if (!running (rfid)) {
+				// reset or not to reset?
+				// rfid_ctrl.cnt = 0;
 				runfsm rfid;
 			} else {
 				rfid_ctrl.next = rfid_ctrl.ini;
-				rfid_ctrl.cnt = 0;
+				// reset or not to reset?
+				// rfid_ctrl.cnt = 0;
 				trigger (TRIG_RFID);
 			}
 

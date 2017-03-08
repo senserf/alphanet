@@ -1,0 +1,191 @@
+<network nodes="39">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+	<display>
+		<roamer image="DATAFILES/bezannes_level0.gif" nodesize="10"
+			name="Level0"
+			box="0.0 0.0 0.0 40.0 38.54 4.0"
+			display="yes"/>
+		<roamer image="DATAFILES/bezannes_level1.gif" nodesize="10"
+			name="Level1"
+			box="0.0 0.0 4.0 40.0 38.54 8.0"
+			display="yes"/>
+		<roamer image="DATAFILES/bezannes_level2.gif" nodesize="10"
+			name="Level1"
+			box="0.0 0.0 8.0 40.0 38.54 12.0"
+			display="yes"/>
+		<roamer name="raw"/>
+	</display>
+
+    <xi:include href="DATAFILES/alphachannel.xml"/>
+
+    <nodes>
+	<defaults>
+	<highlight fg="black" bg="white">magenta blue</highlight>
+	</defaults>
+
+	<!-- Tags, off -->
+	<!-- 39809 -->
+	<node type="a320t" start="off" hid="0xBACA9B81" default="board">
+	</node>
+	<!-- 49589 -->
+	<node type="a320t" start="off" hid="0xBACAC1B5" default="board">
+	</node>
+
+	<!-- Pegs -->
+
+	<!-- 47351 --> 0xBACAB8F7 -->
+	<node type="a321p" hid="0xBACAB8F7" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47352 --> 0xBACAB8F8 -->
+	<node type="a321p" hid="0xBACAB8F8" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47360 --> 0xBACAB900 -->
+	<node type="a321p" hid="0xBACAB900" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47368 --> 0xBACAB908 -->
+	<node type="a321p" hid="0xBACAB908" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47372 --> 0xBACAB90C -->
+	<node type="a321p" hid="0xBACAB90C" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47375 --> 0xBACAB90F -->
+	<node type="a321p" hid="0xBACAB90F" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47377 --> 0xBACAB911 -->
+	<node type="a321p" hid="0xBACAB911" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47380 --> 0xBACAB914 -->
+	<node type="a321p" hid="0xBACAB914" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47386 --> 0xBACAB91A -->
+	<node type="a321p" hid="0xBACAB91A" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47390 --> 0xBACAB91E -->
+	<node type="a321p" hid="0xBACAB91E" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47391 --> 0xBACAB91F -->
+	<node type="a321p" hid="0xBACAB91F" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47395 --> 0xBACAB923 -->
+	<node type="a321p" hid="0xBACAB923" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47397 --> 0xBACAB925 -->
+	<node type="a321p" hid="0xBACAB925" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47400 --> 0xBACAB928 -->
+	<node type="a321p" hid="0xBACAB928" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47407 --> 0xBACAB92F -->
+	<node type="a321p" hid="0xBACAB92F" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47408 --> 0xBACAB930 -->
+	<node type="a321p" hid="0xBACAB930" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47409 --> 0xBACAB931 -->
+	<node type="a321p" hid="0xBACAB931" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47412 --> 0xBACAB934 -->
+	<node type="a321p" hid="0xBACAB934" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47414 --> 0xBACAB936 -->
+	<node type="a321p" hid="0xBACAB936" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47415 --> 0xBACAB937 -->
+	<node type="a321p" hid="0xBACAB937" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47417 --> 0xBACAB939 -->
+	<node type="a321p" hid="0xBACAB939" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47420 --> 0xBACAB93C -->
+	<node type="a321p" hid="0xBACAB93C" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47424 --> 0xBACAB940 -->
+	<node type="a321p" hid="0xBACAB940" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47427 --> 0xBACAB943 -->
+	<node type="a321p" hid="0xBACAB943" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47429 --> 0xBACAB945 -->
+	<node type="a321p" hid="0xBACAB945" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47431 --> 0xBACAB947 -->
+	<node type="a321p" hid="0xBACAB947" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47432 --> 0xBACAB948 -->
+	<node type="a321p" hid="0xBACAB948" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47433 --> 0xBACAB949 -->
+	<node type="a321p" hid="0xBACAB949" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47434 --> 0xBACAB94A -->
+	<node type="a321p" hid="0xBACAB94A" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47435 --> 0xBACAB94B -->
+	<node type="a321p" hid="0xBACAB94B" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47437 --> 0xBACAB94D -->
+	<node type="a321p" hid="0xBACAB94D" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47439 --> 0xBACAB94F -->
+	<node type="a321p" hid="0xBACAB94F" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47441 --> 0xBACAB951 -->
+	<node type="a321p" hid="0xBACAB951" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47443 --> 0xBACAB953 -->
+	<node type="a321p" hid="0xBACAB953" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47444 --> 0xBACAB954 -->
+	<node type="a321p" hid="0xBACAB954" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<!-- 47449 --> 0xBACAB959 -->
+	<node type="a321p" hid="0xBACAB959" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+
+	<!-- The master -->
+	<node type="a321p" hid="0xBACABACA" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+
+	<xi:include href="DATAFILES/layout_bezannes.xml"/>
+
+    </nodes>
+
+</network>
