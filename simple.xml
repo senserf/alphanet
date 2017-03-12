@@ -8,7 +8,7 @@
     <nodes>
 	<xi:include href="DATAFILES/nodefs.xml"/>
 	
-	<node number="0" type="warp" start="on" hid="0xBACABACA">
+	<node number="0" type="warp" start="on" hid="0xBACA0001">
 	    <location>5.0 5.0</location>
 	</node>
 	
