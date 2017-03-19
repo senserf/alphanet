@@ -667,6 +667,15 @@ static void process_cmd_in (byte * buf, word len, word rmt) {
 	}
 }
 
+static byte volt_to_byte (word sen) {
+//
+// Convert voltage reading into an 8-bit value
+//
+	if ((sen = (sen - 1000) >> 3) > 255)
+		return 255;
+	return (byte) sen;
+}
+
 fsm cmd_in {
 
 	state START:
@@ -757,14 +766,14 @@ static void board_out (char * p, char * b) {
 trying to accommodate migration from 1.0 to 1.5
 		case BTYPE_CHRONOS:
 		case BTYPE_CHRONOS_WHITE:
-			b[11] = (byte)((((pongPloadType0 *)_ppp)->volt - 1000) >> 3);
+			b[11] = volt_to_byte (((pongPloadType0 *)_ppp)->volt);
 			b[16] = (byte)((pongPloadType0 *)_ppp)->move_ago; // vy not
 			b[17] = (byte)((pongPloadType0 *)_ppp)->move_nr;
 			b[18] = b[19] = b[20] = 0;
 			break;
 #endif
 		case BTYPE_AT_BASE:
-			b[11] = (byte)((((pongPloadType2 *)_ppp)->volt - 1000) >> 3);
+			b[11] = volt_to_byte (((pongPloadType2 *)_ppp)->volt);
 			b[16] = 9;
 			b[17] = 14;
 			b[18] = b[19] = b[20] = 0;
@@ -773,7 +782,7 @@ trying to accommodate migration from 1.0 to 1.5
 		case BTYPE_AT_BUT6:
 		case BTYPE_AT_BUT6_1_0:
 			b[16] |= ((pongPloadType3 *)_ppp)->glob;
-			b[11] = (byte)((((pongPloadType3 *)_ppp)->volt - 1000) >> 3);
+			b[11] = volt_to_byte (((pongPloadType3 *)_ppp)->volt);
 			b[17] = ((pongPloadType3 *)_ppp)->dial;
 			b[18] = b[19] = b[20] = 0;
 			break;
@@ -781,20 +790,20 @@ trying to accommodate migration from 1.0 to 1.5
 		case BTYPE_AT_BUT1:
 		case BTYPE_AT_BUT1_1_0:
 			b[16] |= 1;
-			b[11] = (byte)((((pongPloadType4 *)_ppp)->volt - 1000) >> 3);
+			b[11] = volt_to_byte (((pongPloadType4 *)_ppp)->volt);
 			b[17] = b[18] = b[19] = b[20] = 0;
 			break;
 			
 		case BTYPE_WARSAW:
 			b[16] = (byte)((pongPloadType5 *)_ppp)->random_shit;
-			b[11] = (byte)((((pongPloadType5 *)_ppp)->volt - 1000) >> 3);
+			b[11] = volt_to_byte (((pongPloadType5 *)_ppp)->volt);
 			b[17] = (byte)((pongPloadType5 *)_ppp)->steady_shit;
 			b[18] = b[19] = b[20] = 0;
 			break;
 
 		case BTYPE_AT_LOOP:
 			b[16] |= 1;
-			b[11] = (byte)((((pongPloadType6 *)_ppp)->volt - 1000) >> 3);
+			b[11] = volt_to_byte (((pongPloadType6 *)_ppp)->volt);
 			memcpy (&b[17], (byte *)(((pongPloadType6 *)_ppp)->loop), 4);
 			break;
 

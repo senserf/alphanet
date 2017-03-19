@@ -99,7 +99,7 @@ typedef pongPloadType4 pongPloadType;
 typedef pongPloadType5 pongPloadType;
 #endif
 
-#ifdef BOARD_ALPHANET_AP331_PANIC
+#if defined(BOARD_ALPHANET_AP331_PANIC) || defined(BOARD_ALPHANET_AP331_PANIC_A)
 #define BTYPE   BTYPE_AT_LOOP
 typedef pongPloadType6 pongPloadType;
 #endif
