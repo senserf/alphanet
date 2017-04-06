@@ -12,6 +12,11 @@
 #include "net.h"
 #include "loca.h"
 
+#ifndef	TAGLIST_BLOCK
+// Set to NO to make the master receive Tag alarms
+#define	TAGLIST_BLOCK	YES
+#endif
+
 fsm mbeacon;
 static void init () {
 	// word pl = 7;
@@ -30,8 +35,7 @@ static void init () {
         tarp_ctrl.param = 0xB2; // level 2, rec 3, slack 1, fwd off
 	// tarp_ctrl.param = 0xB0; // trying slack 0
 		runfsm mbeacon;
-		// Set to NO to make the master receive Tag alarms
-		tagList.block = YES;
+		tagList.block = TAGLIST_BLOCK;
 	} else {
 #ifdef MASTER_STATUS_LED
 		leds (MASTER_STATUS_LED, 0);
