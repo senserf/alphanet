@@ -22,118 +22,118 @@
 
 	<!-- Tags, all off -->
 	<!-- 39939 -->
-	<node type="a320t" start="off" hid="0xBACA9C03" default="board">
+	<node type="a320t" start="off" hid="0x00029C03" default="board">
 	</node>
 	<!-- 39902 -->
-	<node type="a320t" start="off" hid="0xBACA9BDE" default="board">
+	<node type="a320t" start="off" hid="0x00029BDE" default="board">
 	</node>
 	<!-- 38134 -->
-	<node type="a320t" start="off" hid="0xBACA94F6" default="board">
+	<node type="a320t" start="off" hid="0x000294F6" default="board">
 	</node>
 	<!-- 701 -->
-	<node type="a331t" start="off" hid="0xBACA02BD" default="board">
+	<node type="a331t" start="off" hid="0x000202BD" default="board">
 	</node>
 	<!-- 702 -->
-	<node type="a331t" start="off" hid="0xBACA02BE" default="board">
+	<node type="a331t" start="off" hid="0x000202BE" default="board">
 	</node>
 	<!-- 703 -->
-	<node type="a331t" start="off" hid="0xBACA02BF" default="board">
+	<node type="a331t" start="off" hid="0x000202BF" default="board">
 	</node>
 	<!-- 121 -->
-	<node type="a319t" start="off" hid="0xBACA0079" default="board">
+	<node type="a319t" start="off" hid="0x00020079" default="board">
 	    <preinit tag="switches" type="word">0x0782</preinit>
 	</node>
 	<!-- 122 -->
-	<node type="a319t" start="off" hid="0xBACA007A" default="board">
+	<node type="a319t" start="off" hid="0x0002007A" default="board">
 	    <preinit tag="switches" type="word">0x0783</preinit>
 	</node>
 	<!-- 123 -->
-	<node type="a319t" start="off" hid="0xBACA007B" default="board">
+	<node type="a319t" start="off" hid="0x0002007B" default="board">
 	    <preinit tag="switches" type="word">0x0784</preinit>
 	</node>
 
 	<!-- spare Pegs -->
-	<node type="a321p" start="off" hid="0xBACA0005" default="board">
+	<node type="a321p" start="off" hid="0x00020005" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
-	<node type="a321p" start="off" hid="0xBACA0006" default="board">
+	<node type="a321p" start="off" hid="0x00020006" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
-	<node type="a321p" start="off" hid="0xBACA0007" default="board">
+	<node type="a321p" start="off" hid="0x00020007" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
-	<node type="a321p" start="off" hid="0xBACA0008" default="board">
+	<node type="a321p" start="off" hid="0x00020008" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
-	<node type="a321p" start="off" hid="0xBACA0009" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
-	</node>
-
-	<node type="a321p" start="on" hid="0xBACA0001" default="board">
+	<node type="a321p" start="off" hid="0x00020009" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
-	<node type="a321p" start="on" hid="0xBACA0002" default="board">
+	<node type="a321p" start="on" hid="0x00020002" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
-	<node type="a321p" start="on" hid="0xBACA0003" default="board">
+
+	<node type="a321p" start="on" hid="0x00020001" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
-	<node type="a321p" start="on" hid="0xBACA0004" default="board">
+	<node type="a321p" start="on" hid="0x00020003" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+	<node type="a321p" start="on" hid="0x00020004" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
 	<!-- original Pegs -->
 	<!-- 39369 -->
-	<node type="a321p" start="on" hid="0xBACA99C9" default="board">
+	<node type="a321p" start="on" hid="0x000299C9" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39601 -->
-	<node type="a321p" start="on" hid="0xBACA9AB1" default="board">
+	<node type="a321p" start="on" hid="0x00029AB1" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39486 -->
-	<node type="a321p" start="on" hid="0xBACA9A3E" default="board">
+	<node type="a321p" start="on" hid="0x00029A3E" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39525 -->
-	<node type="a321p" start="on" hid="0xBACA9A65" default="board">
+	<node type="a321p" start="on" hid="0x00029A65" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39571 -->
-	<node type="a321p" start="on" hid="0xBACA9A93" default="board">
+	<node type="a321p" start="on" hid="0x00029A93" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39484 -->
-	<node type="a321p" start="on" hid="0xBACA9A3C" default="board">
+	<node type="a321p" start="on" hid="0x00029A3C" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39624 -->
-	<node type="a321p" start="on" hid="0xBACA9AC8" default="board">
+	<node type="a321p" start="on" hid="0x00029AC8" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39493 -->
-	<node type="a321p" start="on" hid="0xBACA9A45" default="board">
+	<node type="a321p" start="on" hid="0x00029A45" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39495 -->
-	<node type="a321p" start="on" hid="0xBACA9A47" default="board">
+	<node type="a321p" start="on" hid="0x00029A47" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39370 -->
-	<node type="a321p" start="on" hid="0xBACA99CA" default="board">
+	<node type="a321p" start="on" hid="0x000299CA" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39476 -->
-	<node type="a321p" start="on" hid="0xBACA9A34" default="board">
+	<node type="a321p" start="on" hid="0x00029A34" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39351 -->
-	<node type="a321p" start="on" hid="0xBACA99B7" default="board">
+	<node type="a321p" start="on" hid="0x000299B7" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 	<!-- 39584 -->
-	<node type="a321p" start="on" hid="0xBACA9AA0" default="board">
+	<node type="a321p" start="on" hid="0x00029AA0" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
