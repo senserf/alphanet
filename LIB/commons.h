@@ -20,10 +20,19 @@
 #define SYSVER_MAJ 1
 #define SYSVER_min 0x83
 
+#ifndef	DEF_NID
 #define DEF_NID ((word)(host_id >> 16))
+#endif
+
+#ifndef	DEF_CHAN
 #define	DEF_CHAN 0
+#endif
+
 // #define DEF_MHOST DEF_NID either this or 1 below (March 2017, 1.83)
+#ifndef DEF_MHOST
 #define DEF_MHOST 1
+// #define DEF_MHOST DEF_NID
+#endif
 
 #define LED_R   0
 #define LED_G   1
