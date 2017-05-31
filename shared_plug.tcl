@@ -2740,6 +2740,20 @@ proc report_relay { pay t sta } {
 	return $res
 }
 
+proc convert_voltage { bt vol } {
+#
+# Applies the proper voltage conversion formula depending on node type
+#
+	# unconvert from the single-byte representation and normalize
+	if { $bt == "ap331" } {
+		set vol [expr { $vol * 0.012221 + 1.538616 }]
+	} else {
+		set vol [expr { $vol * 0.009768 + 1.221 }]
+	}
+
+	return [format %1.2f $vol]
+}
+
 proc report_event { pay t sta } {
 
 	variable CODES
@@ -2762,12 +2776,11 @@ proc report_event { pay t sta } {
 		return $res
 	}
 
-	set vol [format %1.2f \
-		[expr { ((($vol << 3) + 1000.0) / 4095.0) * 5.0 }]]
-
 	set bt [expr { $etp >> 4 }]
 
 	set bt [btype $bt]
+
+	set vol [convert_voltage $bt $vol]
 
 	set as [expr { $etp & 0xf }]	
 
