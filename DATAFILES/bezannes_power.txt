@@ -1,0 +1,9 @@
+# Power per level:
+  0  -20.5dBm
+  1  -17.4dBm
+  2  -13.2dBm
+  3   -9.4dBm
+  4   -5.2dBm
+  5    0.7dBm
+  6    6.3dBm
+  7   10.0dBm

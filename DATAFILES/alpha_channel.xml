@@ -1,7 +1,13 @@
 <channel bn="-116.0dBm">
 
-	<propagation type="sampled">
-		<xi:include href="DATAFILES/annoatt.xml"/>
+	<!--
+		Set BN 3dB below the power level corresponding to RSSI = 50
+		which we shall consider minimum receivable:
+			50 / 2 - 138.0 - 3.0 = -116
+	-->
+
+	<propagation type="sampled" samples="DATAFILES/alpha_cases.txt">
+			<xi:include href="DATAFILES/alpha_attenuation.txt"/>
 	</propagation>
 
 	<cutoff>
@@ -64,7 +70,7 @@
 	</rssi>
 
 	<power>
-		<xi:include href="DATAFILES/annopower.xml"/>
+		<xi:include href="DATAFILES/alpha_power.txt"/>
 	</power>
 
 	<rates boost="yes">

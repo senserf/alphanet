@@ -7,7 +7,7 @@
 	-->
 
 	<propagation type="sampled">
-		<xi:include href="DATAFILES/annoatt.xml"/>
+		<xi:include href="DATAFILES/annonciaden_attenuation.txt"/>
 	</propagation>
 
 	<cutoff>
@@ -70,7 +70,7 @@
 	</rssi>
 
 	<power>
-		<xi:include href="DATAFILES/annopower.xml"/>
+		<xi:include href="DATAFILES/annonciaden_power.txt"/>
 	</power>
 
 	<rates boost="yes">

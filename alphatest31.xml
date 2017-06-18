@@ -2,18 +2,18 @@
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="DATAFILES/alpha_level0.gif" nodesize="10"
+		<roamer image="DATAFILES/alpha_f0.gif" nodesize="10"
 			name="Level0"
 			box="0.0 0.0 0.0 29.2 41.5 4.0"
 			display="yes"/>
-		<roamer image="DATAFILES/alpha_level1.gif" nodesize="10"
+		<roamer image="DATAFILES/alpha_f1.gif" nodesize="10"
 			name="Level1"
 			box="0.0 0.0 4.0 29.2 41.5 8.0"
 			display="yes"/>
 		<roamer name="raw"/>
 	</display>
 
-    <xi:include href="DATAFILES/alphachannel.xml"/>
+    <xi:include href="DATAFILES/alpha_channel.xml"/>
 
     <nodes>
 	<defaults>
@@ -137,7 +137,7 @@
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
-	<xi:include href="DATAFILES/layout.xml"/>
+	<xi:include href="DATAFILES/alpha_locations.xml"/>
 
     </nodes>
 

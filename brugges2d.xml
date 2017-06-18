@@ -1,9 +1,8 @@
-
 <network nodes="97">
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="DATAFILES/bruges_plus2.gif" width="76.92" nodesize="10"
+		<roamer image="DATAFILES/brugges_f1.gif" width="76.92" nodesize="10"
 			display="yes"/>
 	</display>
 
@@ -14,7 +13,7 @@
 	<highlight fg="black" bg="white">magenta blue</highlight>
 	</defaults>
 	
-	<xi:include href="DATAFILES/locations.xml"/>
+	<xi:include href="DATAFILES/brugges_locations.xml"/>
 
 	<node type="a321p" start="on" hid="0xBACA0001" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>

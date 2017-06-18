@@ -2,22 +2,22 @@
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="DATAFILES/bezannes_level0.gif" nodesize="10"
+		<roamer image="DATAFILES/bezannes_f0.gif" nodesize="10"
 			name="Level0"
-			box="0.0 0.0 0.0 40.0 38.54 4.0"
+			box="0.0 0.0 0.0 88.0 77.12 3.5"
 			display="yes"/>
-		<roamer image="DATAFILES/bezannes_level1.gif" nodesize="10"
+		<roamer image="DATAFILES/bezannes_f1.gif" nodesize="10"
 			name="Level1"
-			box="0.0 0.0 4.0 40.0 38.54 8.0"
+			box="0.0 0.0 3.5 88.0 77.12 7.0"
 			display="yes"/>
-		<roamer image="DATAFILES/bezannes_level2.gif" nodesize="10"
-			name="Level1"
-			box="0.0 0.0 8.0 40.0 38.54 12.0"
+		<roamer image="DATAFILES/bezannes_f2.gif" nodesize="10"
+			name="Level2"
+			box="0.0 0.0 7.0 88.0 77.12 10.5"
 			display="yes"/>
 		<roamer name="raw"/>
 	</display>
 
-    <xi:include href="DATAFILES/alphachannel.xml"/>
+    <xi:include href="DATAFILES/bezannes_channel.xml"/>
 
     <nodes>
 	<defaults>
@@ -180,11 +180,11 @@
 	</node>
 
 	<!-- The master -->
-	<node type="a321p" hid="0xBACABACA" default="board">
+	<node type="a321p" hid="0xBACA0001" default="board">
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
-	<xi:include href="DATAFILES/layout_bezannes.xml"/>
+	<xi:include href="DATAFILES/bezannes_locations.xml"/>
 
     </nodes>
 

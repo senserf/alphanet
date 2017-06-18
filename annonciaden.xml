@@ -2,13 +2,13 @@
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="DATAFILES/ann1.gif" nodesize="10"
+		<roamer image="DATAFILES/annonciaden_f1.gif" nodesize="10"
 			name="LevelX"
 			box="0.0 0.0 0.0 53.52 22.2 4.0"
 			display="yes"/>
 	</display>
 
-    <xi:include href="DATAFILES/annochannel.xml"/>
+    <xi:include href="DATAFILES/annonciaden_channel.xml"/>
 
     <nodes>
 	<defaults>
@@ -92,7 +92,7 @@
 		<xi:include href="DATAFILES/uart.xml"/>
 	</node>
 
-	<xi:include href="DATAFILES/layanno.xml"/>
+	<xi:include href="DATAFILES/annonciaden_locations.xml"/>
 
     </nodes>
 

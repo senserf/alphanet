@@ -1,4 +1,4 @@
-<channel bn="-116.0dBm">
+<channel bn="-110.0dBm">
 
 	<!--
 		Set BN 3dB below the power level corresponding to RSSI = 50
@@ -6,8 +6,9 @@
 			50 / 2 - 138.0 - 3.0 = -116
 	-->
 
-	<propagation type="sampled" samples="DATAFILES/alphasamples.txt">
-			<xi:include href="DATAFILES/alphaatt.xml"/>
+	<propagation type="sampled" samples="DATAFILES/bezannes_cases.txt"
+		sigma="0.5dB">
+			<xi:include href="DATAFILES/bezannes_attenuation.txt"/>
 	</propagation>
 
 	<cutoff>
@@ -70,7 +71,7 @@
 	</rssi>
 
 	<power>
-		<xi:include href="DATAFILES/alphapower.xml"/>
+		<xi:include href="DATAFILES/bezannes_power.txt"/>
 	</power>
 
 	<rates boost="yes">
