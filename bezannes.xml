@@ -9,11 +9,11 @@
 		<roamer image="DATAFILES/bezannes_f1.gif" nodesize="10"
 			name="Level1"
 			box="0.0 0.0 3.5 88.0 77.12 7.0"
-			display="yes"/>
+			display="no"/>
 		<roamer image="DATAFILES/bezannes_f2.gif" nodesize="10"
 			name="Level2"
 			box="0.0 0.0 7.0 88.0 77.12 10.5"
-			display="yes"/>
+			display="no"/>
 		<roamer name="raw"/>
 	</display>
 
