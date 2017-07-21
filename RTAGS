@@ -1,0 +1,40 @@
+NOTE:
+
+I have removed all formal git tags. This is OK. I am going to do the same in
+the PICOS repo (and all other repos as the occasion arises). I suggest that
+we stop formal tagging (tags are a bit troublesome, because they have to be
+pushed separately and get in the way of something every once in a while).
+
+This doesn't mean that we don't want to use our "internal" tags, like
+PG170720A. We can use them and put them into RTAGS and commit messages. They
+are fine, except that they won't identify commits directly.
+
+To see the commits corresponding to our internal tags execute:
+
+	git log > rtags.txt
+
+You will see there a list of commit messages looking (for example) like this:
+
+commit e56633882a23978ea8c5c52445c1138ab0130e77
+Author: Pawel Gburzynski <pawel@olsonet.com>
+Date:   Sun Jun 18 20:05:34 2017 +0200
+
+    PG170618A:
+    
+    I have cleaned up the VUEE data sets in locaspot. Also, I have improved
+    (and brought up to date) the Bezannes model (bezannes.xml). The channel
+    model is much better (closer to the real thing) than the previous
+    version. I am going to try to bring it even closer, so I have something
+    to test (with a reasonable reliability) future modifications to the
+    location server.
+
+The SHA1 sum in the "commit" line identifies the commit. An initial unique
+sequence will do, e.g., here is the command to look at the version of some
+file as per PG170618A:
+
+	git show e56633882:DATAFILES/bezannes_cases.txt > old_content.txt
+
+Note that git log basically replicates RTAGS this way. While we may want to
+keep RTAGS around (in PICOS they are needed for other things, we may keep more
+information there, and so on), as long as we put the internal tag id into a
+commit message, we are safe without using formal (git) tags.
