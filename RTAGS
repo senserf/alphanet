@@ -34,7 +34,6 @@ file as per PG170618A:
 
 	git show e56633882:DATAFILES/bezannes_cases.txt > old_content.txt
 
-Note that git log basically replicates RTAGS this way. While we may want to
-keep RTAGS around (in PICOS they are needed for other things, we may keep more
-information there, and so on), as long as we put the internal tag id into a
-commit message, we are safe without using formal (git) tags.
+Note that git log basically replicates RTAGS this way. As long as we put the
+internal tag id into a commit message, we are safe without using formal (git)
+tags.
