@@ -15,6 +15,7 @@
 #include "hold.h"
 #include "sensors.h"
 #include "pong.h"
+#include "tarp.h"
 
 #define _LOO_DBG	0
 #define _HBEAT		3600

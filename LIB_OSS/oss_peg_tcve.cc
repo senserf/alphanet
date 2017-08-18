@@ -7,6 +7,7 @@
 #include "diag.h"
 #include "tag_mgr.h"
 #include "tarp.h"
+#include "net.h"
 #include "inout.h"
 #include "tcvphys.h"
 #include "phys_uart.h"

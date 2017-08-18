@@ -1,6 +1,7 @@
 #include "sysio.h"
 #include "tcvphys.h"
 #include "tcvplug.h"
+#include "net.h"
 #include "sniffer.h"
 #include "inout.h"
 #include "commons.h"

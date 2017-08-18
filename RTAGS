@@ -37,3 +37,9 @@ file as per PG170618A:
 Note that git log basically replicates RTAGS this way. As long as we put the
 internal tag id into a commit message, we are safe without using formal (git)
 tags.
+
+PG170818A:
+
+Read PG170818A in PICOS. Fixed a few minor problems that surfaced after some
+PICOS system files became picomp-compliant.
+

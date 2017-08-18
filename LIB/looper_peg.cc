@@ -12,6 +12,7 @@
 #include "diag.h"
 #include "tag_mgr.h"
 #include "hold.h"
+#include "tarp.h"
 
 word	heartbeat = 15; // seconds
 
