@@ -15,7 +15,7 @@
 #define DIAG_MESSAGES	2
 #endif
 
-#define	TAGLIST_BLOCK	NO
+// #define	TAGLIST_BLOCK	NO
 // #define	DEF_MHOST	DEF_NID
 
 #include "options_pxopts_.sys"

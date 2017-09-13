@@ -43,3 +43,9 @@ PG170818A:
 Read PG170818A in PICOS. Fixed a few minor problems that surfaced after some
 PICOS system files became picomp-compliant.
 
+
+PG170913A:
+
+Added (to VUEE data) an "automatic" model of the Bezannes network where 3
+Tags move around and generate alarms every now and then, so I have something
+to test the ATOLS server with (maybe not for accuracy, but at least for load).
