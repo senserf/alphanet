@@ -49,3 +49,11 @@ PG170913A:
 Added (to VUEE data) an "automatic" model of the Bezannes network where 3
 Tags move around and generate alarms every now and then, so I have something
 to test the ATOLS server with (maybe not for accuracy, but at least for load).
+
+PG190203A:
+
+The first step in "porting" this to CC1350. I have a tag (posing for an AP320)
+based on the CC1350 SENSORTAG talking to a Peg based on the CC1350 LAUNCHPAD.
+Things to do:
+-- try a larger network
+-- come up with a good PATABLE equivalent for CC1350 for location tracking

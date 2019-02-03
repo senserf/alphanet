@@ -1,7 +1,7 @@
 #ifndef __vartypes_h__
 #define __vartypes_h__
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2014 - 2016                    */
+/* Copyright (C) Olsonet Communications, 2014 - 2019                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 #include "sysio.h"
@@ -60,7 +60,7 @@ typedef struct pongPloadStruct6 {
 #define BTYPE_WARSAW				5
 #define BTYPE_AT_LOOP				7
 
-#if defined PGMLABEL_warp || defined PGMLABEL_a321p
+#if defined PGMLABEL_warp || defined PGMLABEL_a321p || defined PGMLABEL_launchxlp
 #define PTYPE	PTYPE_PEG
 #elif defined PGMLABEL_chrt || defined PGMLABEL_wart || defined PGMLABEL_a320t || defined PGMLABEL_a319t || defined PGMLABEL_a331t
 #define PTYPE	PTYPE_TAG
@@ -78,7 +78,7 @@ typedef pongPloadType0 pongPloadType;
 typedef pongPloadType1 pongPloadType;
 #endif
 
-#if defined(BOARD_ALPHANET_AP321_BASE) || defined(BOARD_ALPHANET_BASE_XCC430) || defined(BOARD_ALPHANET_BASE_WARSAW) || defined(BOARD_ALPHANET_AP441_BASE) || defined(BOARD_ALPHANET_AP336_BASE)
+#if defined(BOARD_ALPHANET_AP321_BASE) || defined(BOARD_ALPHANET_BASE_XCC430) || defined(BOARD_ALPHANET_BASE_WARSAW) || defined(BOARD_ALPHANET_AP441_BASE) || defined(BOARD_ALPHANET_AP336_BASE) || defined(BOARD_ALPHANET_BASE_LAUNCHXL)
 
 #define BTYPE   BTYPE_AT_BASE
 typedef pongPloadType2 pongPloadType;
@@ -89,7 +89,7 @@ typedef pongPloadType2 pongPloadType;
 typedef pongPloadType3 pongPloadType;
 #endif
 
-#if defined(BOARD_ALPHANET_AP320_PANIC) || defined(BOARD_ALPHANET_PANIC_OLIMEX) || defined(BOARD_ALPHANET_TAG_WARSAW)
+#if defined(BOARD_ALPHANET_AP320_PANIC) || defined(BOARD_ALPHANET_PANIC_OLIMEX) || defined(BOARD_ALPHANET_TAG_WARSAW) || defined(BOARD_ALPHANET_SENSORTAG)
 #define BTYPE   BTYPE_AT_BUT1
 typedef pongPloadType4 pongPloadType;
 #endif

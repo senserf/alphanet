@@ -29,10 +29,24 @@
 // limit LEDs to tags (for modularity illustration?)
 #if PTYPE == PTYPE_TAG
 
+// These issues are board-specific, so perhaps LEDs should be defined in
+// vartypes.h where we try to account for the different "hardware" board types
+// before we consider their "soft" types, like BTYPE.
+// Oh, well, we cannot really do that, we have already run out of the 3-bit
+// BTYPES.
 #if BTYPE == BTYPE_AT_BUT6 || BTYPE == BTYPE_AT_BUT1 || BTYPE_AT_LOOP
-#define LED_ALRM LED_4
+// This hack will have to go
+
+#if defined(BOARD_ALPHANET_SENSORTAG)
+#define	LED_ALRM LED_R
 #else
+#define LED_ALRM LED_4
+#endif
+
+#else
+
 #define LED_ALRM LED_R
+
 #endif
 
 #else

@@ -11,6 +11,22 @@
 #include "sysio.h"
 #include "msg_tarp.h"
 
+#ifdef	CC1100
+#if 	CC1100
+#define	INFO_PHYS	INFO_PHYS_CC1100
+#endif
+#endif
+
+#ifdef	CC1350_RF
+#if 	CC1350_RF
+#define	INFO_PHYS	INFO_PHYS_CC1350
+#endif
+#endif
+
+#ifndef	INFO_PHYS
+#error "S: no RF module defined"
+#endif
+
 // make it illegal to the compiler
 #if RADIO_OPTIONS & RADIO_OPTION_PXOPTIONS
 #undef PHYSOPT_SETPOWER

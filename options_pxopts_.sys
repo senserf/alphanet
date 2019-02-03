@@ -1,4 +1,11 @@
 #define RADIO_OPTIONS RADIO_OPTION_PXOPTIONS
+
+#ifndef __SMURPH__
+
+#ifdef	__MSP430__
+
+// Assuming CC1100, which, strictly speaking, need not always be true
+
 // so we can change it unison... I'm not sure but it may be a good idea
 // not just for VUEE
 
@@ -9,3 +16,16 @@
 #define	CC1100_PATABLE { 0x01, 0x12, 0x09, 0x19, 0x33, 0x64, 0xB6, 0xE0 }
 // The idea is to have approximately 10-point (dB) increments, except for
 // the last two entries (it almost works, at least in my experiments)
+
+#endif
+
+#ifdef	__CC1350__
+
+// Put here any PATABLE (or other) modifications for CC1350. Default PATABLE
+// (see cc1350.h in CC1350) is:
+// #define CC1350_PATABLE { 0x04C0, 0x12C3, 0x18C5, 0x1844, 0x24C9, 0x32CE, 0x58D8, 0xBC2B, }
+//
+
+#endif
+
+#endif

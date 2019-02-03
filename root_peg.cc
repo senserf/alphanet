@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2002 - 2016                    */
+/* Copyright (C) Olsonet Communications, 2002 - 2019                    */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 
@@ -151,4 +151,3 @@ fsm root {
 		init ();
 		finish;
 }
-

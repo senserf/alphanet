@@ -1,3 +1,4 @@
+#define	UART_TCV_MODE	UART_TCV_MODE_F
 #undef UART_RATE
 #define UART_RATE 115200
 #undef RADIO_USE_LEDS

@@ -1,5 +1,5 @@
 /* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2014                           */
+/* Copyright (C) Olsonet Communications, 2014-2019                      */
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 
@@ -37,7 +37,7 @@ void oss_ini ();
 
 void init_inout () {
 	net_id = DEF_NID;
-	if (net_init (INFO_PHYS_CC1100, INFO_PLUG_TARP) < 0) {
+	if (net_init (INFO_PHYS, INFO_PLUG_TARP) < 0) {
                 app_diag_F ("net_init failed");
                 reset();
         }
