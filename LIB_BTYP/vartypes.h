@@ -105,7 +105,7 @@ typedef pongPloadType6 pongPloadType;
 #endif
 
 #ifndef BTYPE
-#error unsupported board
+#error unsupported or undefined board
 #endif
 
 // likely not needed... free, anyway

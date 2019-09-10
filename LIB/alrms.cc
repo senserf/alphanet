@@ -11,7 +11,7 @@
 error nur fur tags
 #endif
 
-#if BTYPE == BTYPE_CHRONOS
+#if BTYPE == BTYPE_CHRONOS || BTYPE == BTYPE_CHRONOS_WHITE
 #include "chro_tag.h"
 
 void set_alrm (word a) {

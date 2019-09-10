@@ -30,7 +30,7 @@ word	heartbeat = _HBEAT; // seconds
    sensor-related blocks.
 */
 
-#if BTYPE == BTYPE_CHRONOS
+#if BTYPE == BTYPE_CHRONOS || BTYPE == BTYPE_CHRONOS_WHITE
 #include "chro_tag.h"
 #define VOLTAGE &chronos.volt
 #endif

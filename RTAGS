@@ -57,3 +57,8 @@ based on the CC1350 SENSORTAG talking to a Peg based on the CC1350 LAUNCHPAD.
 Things to do:
 -- try a larger network
 -- come up with a good PATABLE equivalent for CC1350 for location tracking
+
+PG190910A:
+
+Added CHRONOS_WHITE as a legit tag; the board type for it was reserved already,
+but the accel sensor wasn't properly configured in.

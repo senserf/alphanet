@@ -10,26 +10,9 @@
 #include "inout.h"
 #include "net.h"
 #include "alrms.h"
-#ifndef  __SMURPH__
-#include "buttons.h"
-#endif
 
 fsm acc;
 fsm lcd_mon;
-
-#ifdef __SMURPH__
-void ezlcd_init ();
-void ezlcd_on ();
-void ezlcd_off ();
-void cma3000_on (byte, byte, byte);
-void cma3000_off ();
-void buzzer_init ();
-void buzzer_on ();
-void buzzer_off ();
-#else
-#include "ez430_lcd.h"
-#include "pins.h"
-#endif
 
 /////////////////  chro.h?? ///////////////////////////////////////////
 
@@ -94,6 +77,16 @@ void chro_xx (word hi, word a) {
                 chro_lo (erm);
         }
 }
+
+#ifdef BOARD_CHRONOS_WHITE
+#define	accel_sensor_on()	bma250_on (BMA250_RANGE_2G, 0, BMA250_STAT_MOVE)
+#define	accel_sensor_off()	bma250_off (0)
+#else
+#define	accel_sensor_on()	cma3000_on (0, 1, 3)
+#define	accel_sensor_off()	cma3000_off ()
+#endif
+
+
 #else
 void ezlcd_init () { emul (0, "(%lu) Init", seconds()); }
 void ezlcd_on () { emul (0, "(%lu) ON", seconds()); }
@@ -113,11 +106,11 @@ void chro_nn (word hi, word a) {
 void chro_hi (const char *txt) { emul (0, "(%lu) hi: %s", seconds(), txt); }
 void chro_lo (const char *txt) { emul (0, "(%lu) lo: %s", seconds(), txt); }
 
-void cma3000_on (byte m, byte n, byte o) { 
-	emul (0, "(%lu) cma %d, %d, %d", seconds(), m, n, o);
+void accel_sensor_on () { 
+	emul (0, "(%lu) accel on", seconds());
 }
 
-void cma3000_off () { emul (0, "(%lu) cma off", seconds()); }
+void accel_sensor_off () { emul (0, "(%lu) accel off", seconds()); }
 
 void buzzer_init () { emul (0, "(%lu) buzzer_init", seconds()); }
 void buzzer_on () { emul (0, "(%lu) buzzer_on", seconds()); }
@@ -162,14 +155,14 @@ fsm acc {
 
         state INI:
                 if (chronos.acc_mode == 0) {
-                        cma3000_off ();
+                        accel_sensor_off ();
                         finish;
                 }
-                cma3000_on (0, 1, 3);
+                accel_sensor_on ();
                 wait_sensor (0, MOTION); // embedded release
 
         state MOTION:
-                cma3000_off ();
+                accel_sensor_off ();
                 chronos.move_ts = (word)seconds();
                 chronos.move_nr++;
 
@@ -246,7 +239,7 @@ static void do_butt (word b) {
         if (b == 4) {
                 chro_hi ("SOON");
                 chro_lo ("SLEEP");
-                cma3000_off ();
+                accel_sensor_off ();
                 net_opt (PHYSOPT_RXOFF, NULL);
 
                 killall (pong);
@@ -322,7 +315,7 @@ static void do_butt (word b) {
 
                 if (chronos.acc_mode == 0 && running (acc)) {
                         killall (acc);
-                        cma3000_off ();
+                        accel_sensor_off ();
                 }
 	    } else
 		chronos.last_but = 1;
@@ -337,7 +330,7 @@ static void do_butt (word b) {
 }
 
 void chro_init () {
-        cma3000_on (0, 1, 3);
+        accel_sensor_on ();
         ezlcd_init ();
         ezlcd_on ();
         //buzzer_init ();
@@ -346,5 +339,8 @@ void chro_init () {
         memset (&chronos, 0, sizeof (chro_t));
         runfsm lcd_monit;
         buttons_action (do_butt);
+	// Run the accel thread to cycle the sensor on and off, just in case,
+	// to make sure all pins are set up as needed for low power operation
+	runfsm acc;
 }
 

@@ -3295,7 +3295,7 @@ proc vplug_init { nn hn tp t } {
 
 	variable __ps
 
-	if { $tp != "a321p" } {
+	if { $tp != "a321p" && $tp != "warp" } {
 		# this only works for Pegs
 		return 0
 	}

@@ -3,7 +3,7 @@
 /* All rights reserved.                                                 */
 /* ==================================================================== */
 #include "vartypes.h"
-#if BTYPE != BTYPE_CHRONOS
+#if BTYPE != BTYPE_CHRONOS && BTYPE != BTYPE_CHRONOS_WHITE
 #error CHRONOS only
 #endif
 
