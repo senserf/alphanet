@@ -1,0 +1,38 @@
+<network nodes="3">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+    <xi:include href="DATAFILES/bezannes_channel.xml"/>
+
+    <nodes>
+	<defaults>
+	<highlight fg="black" bg="white">magenta blue</highlight>
+	</defaults>
+
+	<node type="warp" hid="0xBACA0001" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+
+	<node type="warp" hid="0xBACA0002" default="board">
+		<xi:include href="DATAFILES/uart.xml"/>
+	</node>
+
+	<node type="chrt" start="on" hid="0xBACA0100" default="board">
+    		<pins number="5">
+			<input source="socket">
+				DATAFILES/button_presses_01.txt
+			</input>
+			<buttons>0 1 2 3 4</buttons>
+    		</pins>
+	</node>
+
+	<locations>
+
+		<location movable="no"> 49.01 42.59 0.0 </location>
+		<location movable="no"> 50.22 27.82 0.0 </location>
+		<location movable="no"> 45.65 12.91 0.0 </location>
+
+	</locations>
+
+    </nodes>
+
+</network>

@@ -62,3 +62,10 @@ PG190910A:
 
 Added CHRONOS_WHITE as a legit tag; the board type for it was reserved already,
 but the accel sensor wasn't properly configured in.
+
+PG190917A:
+
+Fixed a problem with CHRONOS. The conditional code provided for 1.0
+compatibility interfered with CHRONOS (black). Reformated the event info in
+shared_plug to account for the different contents of "dial" info in different
+board types.

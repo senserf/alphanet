@@ -1,1 +1,1 @@
-{MOD IHEX} {TFN Image_warp_nnnn.a43} {CNT 8} {FRM 1} {IFN Image_warp.a43} {SRD C:/cygwin64/home/nripg/SOFTWARE/ALPHANET} {PFX 0002} {IDA BACADEAF} {TRD C:/cygwin64/home/nripg/SOFTWARE/ALPHANET} {APV {}} {IDN BACADEAD}
+{MOD IHEX} {TFN Image_warp_nnnn.a43} {CNT 6} {FRM 2} {IFN Image_warp.a43} {SRD C:/cygwin64/home/nripg/SOFTWARE/ALPHANET} {PFX 0002} {IDA BACADEAF} {TRD C:/cygwin64/home/nripg/SOFTWARE/ALPHANET} {APV {}} {IDN BACADEAD}

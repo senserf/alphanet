@@ -596,21 +596,6 @@ array set LOGTYPES {
 
 ###############################################################################
 
-variable BTYPES
-
-array set BTYPES {
-			0	"spar0"
-			1	"ap320"
-			2	"ap321"
-			3	"chrob"
-			4	"chrow"
-			5	"war"
-			6	"ap319"
-			7	"ap331"
-}
-			
-###############################################################################
-
 proc cns { t } {
 #
 # Convert the context to the namespace for the plugin instance
@@ -2691,17 +2676,85 @@ proc response_nhood { nid pay t sta } {
 	return "nhood"
 }
 
-proc btype { bt } {
+proc bname { bx } {
+#
+# Retrun board name
+#
+	switch $bx {
+	  1 { return "ap320" }
+	  3 { return "chrob" }
+	  4 { return "chrow" }
+	  5 { return "warsw" }
+	  6 { return "ap319" }
+	  7 { return "ap331" }
+	  default { return "" }
+	}
+}
 
-	variable BTYPES
-
-	if [info exists BTYPES($bt)] {
-		set bt $BTYPES($bt)
-	} else {
-		set bt "?"
+proc btype { bt vol pkt } {
+#
+# Type-specific formatting; should be compatible with board_out in
+# oss_peg_tcve.cc; the same code should be put into the ATOLS logger
+#
+	set ak [bname $bt]
+	if { $ak == "" } {
+		return ""
 	}
 
-	return $bt
+	set res " dev=$ak"
+
+	# convert voltage
+	if { $bt == 7 } {
+		# ap331
+		set vol [expr { $vol * 0.012221 + 1.538616 }]
+	} else {
+		set vol [expr { $vol * 0.009768 + 1.221 }]
+		append res " vol=[format %1.2f $vol]"
+	}
+
+	if { $bt == 1 || $bt >= 6 } {
+		# glo, try, ack
+		if [catch { get_b pkt } bb] {
+			return ""
+		}
+		if [expr { $bb & 0x80 }] {
+			set ak "no"
+		} else {
+			set ak "yes"
+		}
+		set tr [expr { ($bb >> 4) & 0x7 }]
+		set gl [expr { $bb & 0xf }]
+		append res " glo=$gl try=$tr ack=$ak"
+		if { $bt == 6 } {
+			# 6 buttons + dial
+			if [catch { get_b pkt } bb] {
+				return ""
+			}
+			append res " dia=$bb \[[format %02x $bb]\]"
+		} elseif { $bt == 7 } {
+			# ap331 loop
+			if [catch { get_l pkt } bb] {
+				return ""
+			}
+			append res " lid=$bb \[[format %08x $bb]\]"
+		}
+	} else {
+		# warsaw or chronos
+		if [catch {
+			set mva [get_b pkt]
+			set mvc [get_b pkt]
+		}] {
+			return ""
+		}
+		if { $bt == 5 } {
+			# warsaw
+			append res " rnd=$mva fix=$mvc"
+		} else {
+			append res " mvd=$mva mvc=$mvc"
+		}
+	}
+		
+	return $res
 }
 
 ###############################################################################
@@ -2740,20 +2793,6 @@ proc report_relay { pay t sta } {
 	return $res
 }
 
-proc convert_voltage { bt vol } {
-#
-# Applies the proper voltage conversion formula depending on node type
-#
-	# unconvert from the single-byte representation and normalize
-	if { $bt == "ap331" } {
-		set vol [expr { $vol * 0.012221 + 1.538616 }]
-	} else {
-		set vol [expr { $vol * 0.009768 + 1.221 }]
-	}
-
-	return [format %1.2f $vol]
-}
-
 proc report_event { pay t sta } {
 
 	variable CODES
@@ -2776,37 +2815,20 @@ proc report_event { pay t sta } {
 		return $res
 	}
 
-	set bt [expr { $etp >> 4 }]
+	set bt [btype [expr { $etp >> 4 }] $vol $pay]
+	set as [expr { $etp & 0xf }]
 
-	set bt [btype $bt]
+	append res " peg=$peg tag=$tag del=$del rss=$rss"
+	append res " xat=[format %02x $xat] evt=$as seq=$seq"
 
-	set vol [convert_voltage $bt $vol]
-
-	set as [expr { $etp & 0xf }]	
-
-	append res " peg=$peg tag=$tag del=$del vlt=$vol rss=$rss"
-	append res " xat=[format %02x $xat] dev=$bt but=$as seq=$seq"
-
-	if { $pay != "" } {
-		set bb [get_b pay]
-		if [expr { $bb & 0x80 }] {
-			set ak "no"
-		} else {
-			set ak "yes"
-		}
-		set tr [expr { ($bb >> 4) & 0x7 }]
-		set gl [expr { $bb & 0xf }]
-		append res " glo=$gl try=$tr ack=$ak"
+	if { $bt == "" } {
+		append res " \[unknown device\]"
+	} else {
+		append res $bt
 	}
 
-	if { $pay != "" } {
-		# expect 4 dia bytes
-		if [catch { get_l pay } bb] {
-			set pay ""
-		} else {
-			append res " dia=$bb \[[format %04x $bb]\]"
-		}
-	}
+	# remove 5 bytes (16-20)
+	set pay [lrange $pay 5 end]
 
 	if { [llength $pay] >= 5 && [get_b pay] } {
 		# location report
@@ -3136,7 +3158,7 @@ proc report_rfid { pay t sta } {
 	}
 
 	append res "TAG=$snd VAL=\[$val\] RSS=$rss "
-	append res "DEV=[btype $btp] TYP=$typ NEX=$nex CNT=$cnt"
+	append res "DEV=[bname $btp] TYP=$typ NEX=$nex CNT=$cnt"
 
 	return $res
 }

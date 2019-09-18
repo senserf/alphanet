@@ -55,8 +55,14 @@
 #define LED_B   2
 #define LED_4	3
 
+//
+// Note: this kind of defines is now best handled from PIP's "Extra defines"
+// config (PG)
+//
 // Need to remove the third led from RADIO_USE_LEDS
-#define	MASTER_STATUS_LED LED_B
+// #define	MASTER_STATUS_LED LED_B
+// Define for 1.0 compatibility (incompatible with CHRONOS) (PG)
+// #define	COMPAT_1_0
 
 #define LED_OFF 0
 #define LED_ON  1

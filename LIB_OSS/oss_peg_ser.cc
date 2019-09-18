@@ -127,6 +127,9 @@ static char * board_out (char * p) {
 		case BTYPE_CHRONOS:
 		case BTYPE_CHRONOS_WHITE:
 			b = form (NULL, "V %u move %u.%u",
+				// This is a bit inconsistent (PG), because
+				// the types are formally different (albeit
+				// the same ;-) for the two CHRONOS versions
 				((pongPloadType0 *)_ppp)->volt,
 				((pongPloadType0 *)_ppp)->move_ago,
 				((pongPloadType0 *)_ppp)->move_nr);
