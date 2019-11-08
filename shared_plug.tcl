@@ -611,6 +611,10 @@ proc varvar { v } {
 	return $vv
 }
 
+###############################################################################
+# Begin share with the atols server ###########################################
+###############################################################################
+
 proc get_b { vl } {
 
 	upvar $vl vv
@@ -740,6 +744,91 @@ proc toh { lv } {
 
 	return [join $res]
 }
+
+proc bname { bx } {
+#
+# Return board name
+#
+	switch $bx {
+	  1 { return "ap320" }
+	  3 { return "chrob" }
+	  4 { return "chrow" }
+	  5 { return "warsw" }
+	  6 { return "ap319" }
+	  7 { return "ap331" }
+	  default { return "" }
+	}
+}
+
+proc btype { bt vol pkt } {
+#
+# Type-specific formatting; should be compatible with board_out in
+# oss_peg_tcve.cc; the same code should be put into the ATOLS logger
+#
+	set ak [bname $bt]
+	if { $ak == "" } {
+		return ""
+	}
+
+	set res " dev=$ak"
+
+	# convert voltage
+	if { $bt == 7 } {
+		# ap331
+		set vol [expr { $vol * 0.012221 + 1.538616 }]
+	} else {
+		set vol [expr { $vol * 0.009768 + 1.221 }]
+	}
+	append res " vol=[format %1.2f $vol]"
+
+	if { $bt == 1 || $bt >= 6 } {
+		# glo, try, ack
+		if [catch { get_b pkt } bb] {
+			return ""
+		}
+		if [expr { $bb & 0x80 }] {
+			set ak "no"
+		} else {
+			set ak "yes"
+		}
+		set tr [expr { ($bb >> 4) & 0x7 }]
+		set gl [expr { $bb & 0xf }]
+		append res " glo=$gl try=$tr ack=$ak"
+		if { $bt == 6 } {
+			# 6 buttons + dial
+			if [catch { get_b pkt } bb] {
+				return ""
+			}
+			append res " dia=$bb \[[format %02x $bb]\]"
+		} elseif { $bt == 7 } {
+			# ap331 loop
+			if [catch { get_l pkt } bb] {
+				return ""
+			}
+			append res " lid=$bb \[[format %08x $bb]\]"
+		}
+	} else {
+		# warsaw or chronos
+		if [catch {
+			set mva [get_b pkt]
+			set mvc [get_b pkt]
+		}] {
+			return ""
+		}
+		if { $bt == 5 } {
+			# warsaw
+			append res " rnd=$mva fix=$mvc"
+		} else {
+			append res " mvd=$mva mvc=$mvc"
+		}
+	}
+		
+	return $res
+}
+
+###############################################################################
+# End share with the atols server #############################################
+###############################################################################
 
 proc idmp { lv th t } {
 
@@ -2674,87 +2763,6 @@ proc response_nhood { nid pay t sta } {
 
 	set status $CODES(RC_OK)
 	return "nhood"
-}
-
-proc bname { bx } {
-#
-# Retrun board name
-#
-	switch $bx {
-	  1 { return "ap320" }
-	  3 { return "chrob" }
-	  4 { return "chrow" }
-	  5 { return "warsw" }
-	  6 { return "ap319" }
-	  7 { return "ap331" }
-	  default { return "" }
-	}
-}
-
-proc btype { bt vol pkt } {
-#
-# Type-specific formatting; should be compatible with board_out in
-# oss_peg_tcve.cc; the same code should be put into the ATOLS logger
-#
-	set ak [bname $bt]
-	if { $ak == "" } {
-		return ""
-	}
-
-	set res " dev=$ak"
-
-	# convert voltage
-	if { $bt == 7 } {
-		# ap331
-		set vol [expr { $vol * 0.012221 + 1.538616 }]
-	} else {
-		set vol [expr { $vol * 0.009768 + 1.221 }]
-		append res " vol=[format %1.2f $vol]"
-	}
-
-	if { $bt == 1 || $bt >= 6 } {
-		# glo, try, ack
-		if [catch { get_b pkt } bb] {
-			return ""
-		}
-		if [expr { $bb & 0x80 }] {
-			set ak "no"
-		} else {
-			set ak "yes"
-		}
-		set tr [expr { ($bb >> 4) & 0x7 }]
-		set gl [expr { $bb & 0xf }]
-		append res " glo=$gl try=$tr ack=$ak"
-		if { $bt == 6 } {
-			# 6 buttons + dial
-			if [catch { get_b pkt } bb] {
-				return ""
-			}
-			append res " dia=$bb \[[format %02x $bb]\]"
-		} elseif { $bt == 7 } {
-			# ap331 loop
-			if [catch { get_l pkt } bb] {
-				return ""
-			}
-			append res " lid=$bb \[[format %08x $bb]\]"
-		}
-	} else {
-		# warsaw or chronos
-		if [catch {
-			set mva [get_b pkt]
-			set mvc [get_b pkt]
-		}] {
-			return ""
-		}
-		if { $bt == 5 } {
-			# warsaw
-			append res " rnd=$mva fix=$mvc"
-		} else {
-			append res " mvd=$mva mvc=$mvc"
-		}
-	}
-		
-	return $res
 }
 
 ###############################################################################

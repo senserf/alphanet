@@ -1,7 +1,7 @@
 <network nodes="3">
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
-    <xi:include href="DATAFILES/bezannes_channel.xml"/>
+    <xi:include href="DATAFILES/BEZANNES/MAP/channel.xml"/>
 
     <nodes>
 	<defaults>
@@ -9,17 +9,17 @@
 	</defaults>
 
 	<node type="warp" hid="0xBACA0001" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 
 	<node type="warp" hid="0xBACA0002" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 
 	<node type="chrt" start="on" hid="0xBACA0100" default="board">
     		<pins number="5">
 			<input source="socket">
-				DATAFILES/button_presses_01.txt
+				DATAFILES/SHARED/button_presses_01.txt
 			</input>
 			<buttons>0 1 2 3 4</buttons>
     		</pins>

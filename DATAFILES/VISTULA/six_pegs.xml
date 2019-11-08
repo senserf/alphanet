@@ -1,0 +1,67 @@
+<network nodes="10">
+    <grid>0.1m</grid>
+    <tolerance quality="2">1E-4</tolerance>
+    <!-- For now, use the Alphatronics channel model -->
+    <xi:include href="DATAFILES/ALPHA/MAP/channel.xml"/>
+
+    <nodes>
+	<defaults>
+	<highlight fg="black" bg="white">magenta blue</highlight>
+	</defaults>
+
+	<node type="warp" hid="0xBACA0001" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
+	</node>
+
+	<node type="warp" hid="0xBACA0002" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
+	</node>
+
+	<node type="warp" hid="0xBACA0003" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
+	</node>
+
+	<node type="warp" hid="0xBACA0004" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
+	</node>
+
+	<node type="warp" hid="0xBACA0005" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
+	</node>
+
+	<node type="warp" hid="0xBACA0006" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
+	</node>
+
+	<node type="warp" hid="0xBACA0007" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
+	</node>
+
+	<node type="chrt" start="off" hid="0xBACA0065" default="board">
+	</node>
+
+	<node type="chrt" start="off" hid="0xBACA006f" default="board">
+	</node>
+
+	<node type="a320t" start="off" hid="0xBACA0079" default="board">
+	</node>
+
+	<locations>
+
+		<location movable="no"> 1.0 30.00 1.0 </location>
+		<location movable="no"> 3.0 23.00 1.0 </location>
+		<location movable="no"> 3.0 28.00 1.0 </location>
+		<location movable="no"> 3.0 33.00 1.0 </location>
+		<location movable="no"> 8.0 23.00 1.0 </location>
+		<location movable="no"> 8.0 28.00 1.0 </location>
+		<location movable="no"> 8.0 33.00 1.0 </location>
+
+		<location movable="yes"> 1.0 15.00 1.0 </location>
+		<location movable="yes"> 1.0 18.00 1.0 </location>
+		<location movable="yes"> 1.0 21.00 1.0 </location>
+
+	</locations>
+
+    </nodes>
+
+</network>

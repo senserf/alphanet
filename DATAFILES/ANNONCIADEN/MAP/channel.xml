@@ -6,8 +6,8 @@
 			50 / 2 - 138.0 - 3.0 = -116
 	-->
 
-	<propagation type="sampled" samples="DATAFILES/alpha_cases.txt">
-			<xi:include href="DATAFILES/alpha_attenuation.txt"/>
+	<propagation type="sampled">
+		<xi:include href="DATAFILES/ANNONCIADEN/MAP/attenuation.txt"/>
 	</propagation>
 
 	<cutoff>
@@ -70,7 +70,7 @@
 	</rssi>
 
 	<power>
-		<xi:include href="DATAFILES/alpha_power.txt"/>
+		<xi:include href="DATAFILES/ANNONCIADEN/MAP/power.txt"/>
 	</power>
 
 	<rates boost="yes">

@@ -1,8 +1,11 @@
 #define	UART_TCV_MODE	UART_TCV_MODE_F
 #undef UART_RATE
 #define UART_RATE 115200
-#undef RADIO_USE_LEDS
-#define RADIO_USE_LEDS 0
+
+// Best handled from PIP config
+// #undef RADIO_USE_LEDS
+// #define RADIO_USE_LEDS 0
+
 #undef UART_RATE_SETTABLE
 #define UART_RATE_SETTABLE 0
 #undef UART_INPUT_BUFFER_LENGTH

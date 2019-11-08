@@ -2,18 +2,18 @@
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="DATAFILES/alpha_s_f0.gif" nodesize="10"
+		<roamer image="DATAFILES/ALPHA/MAP/s_f0.gif" nodesize="10"
 			name="Level0"
 			box="0.0 0.0 0.0 27.2 38.1 4.0"
 			display="yes"/>
-		<roamer image="DATAFILES/alpha_s_f1.gif" nodesize="10"
+		<roamer image="DATAFILES/ALPHA/MAP/s_f1.gif" nodesize="10"
 			name="Level1"
 			box="0.0 0.0 4.0 27.2 38.1 8.0"
 			display="yes"/>
 		<roamer name="raw"/>
 	</display>
 
-    <xi:include href="DATAFILES/alpha_channel.xml"/>
+    <xi:include href="DATAFILES/ALPHA/MAP/channel.xml"/>
 
     <nodes>
 	<defaults>
@@ -45,89 +45,89 @@
 
 	<!-- spare Pegs -->
 	<node type="a321p" start="off" hid="0xBACA0005" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<node type="a321p" start="off" hid="0xBACA0006" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<node type="a321p" start="off" hid="0xBACA0007" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<node type="a321p" start="off" hid="0xBACA0008" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<node type="a321p" start="off" hid="0xBACA0009" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	
 	<!-- regular Pegs -->
 
 	<!-- BACA -->
 	<node type="a321p" start="on" hid="0xBACA0001" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 00007 -->
 	<node type="a321p" start="on" hid="0xBACA0007" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 00008 -->
 	<node type="a321p" start="on" hid="0xBACA0008" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39351 -->
 	<node type="a321p" start="on" hid="0xBACA99B7" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39369 -->
 	<node type="a321p" start="on" hid="0xBACA99C9" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39370 -->
 	<node type="a321p" start="on" hid="0xBACA99CA" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39476 -->
 	<node type="a321p" start="on" hid="0xBACA9A34" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39484 -->
 	<node type="a321p" start="on" hid="0xBACA9A3C" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39486 -->
 	<node type="a321p" start="on" hid="0xBACA9A3E" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39493 -->
 	<node type="a321p" start="on" hid="0xBACA9A45" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39495 -->
 	<node type="a321p" start="on" hid="0xBACA9A47" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39525 -->
 	<node type="a321p" start="on" hid="0xBACA9A65" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39571 -->
 	<node type="a321p" start="on" hid="0xBACA9A93" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39584 -->
 	<node type="a321p" start="on" hid="0xBACA9AA0" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39601 -->
 	<node type="a321p" start="on" hid="0xBACA9AB1" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 39624 -->
 	<node type="a321p" start="on" hid="0xBACA9AC8" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 
-	<xi:include href="DATAFILES/alpha_s_locations.xml"/>
+	<xi:include href="DATAFILES/ALPHA/MAP/s_locations.xml"/>
 
     </nodes>
 

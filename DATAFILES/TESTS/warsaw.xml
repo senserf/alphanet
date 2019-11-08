@@ -2,22 +2,22 @@
     <grid>0.1m</grid>
     <tolerance quality="2">1E-4</tolerance>
 	<display>
-		<roamer image="DATAFILES/bezannes_f0.gif" nodesize="10"
+		<roamer image="DATAFILES/BEZANNES/MAP/f0.gif" nodesize="10"
 			name="Level0"
 			box="0.0 0.0 0.0 88.0 77.12 3.5"
 			display="yes"/>
-		<roamer image="DATAFILES/bezannes_f1.gif" nodesize="10"
+		<roamer image="DATAFILES/BEZANNES/MAP/f1.gif" nodesize="10"
 			name="Level1"
 			box="0.0 0.0 3.5 88.0 77.12 7.0"
 			display="yes"/>
-		<roamer image="DATAFILES/bezannes_f2.gif" nodesize="10"
+		<roamer image="DATAFILES/BEZANNES/MAP/f2.gif" nodesize="10"
 			name="Level2"
 			box="0.0 0.0 7.0 88.0 77.12 10.5"
 			display="yes"/>
 		<roamer name="raw"/>
 	</display>
 
-    <xi:include href="DATAFILES/bezannes_channel.xml"/>
+    <xi:include href="DATAFILES/BEZANNES/MAP/channel.xml"/>
 
     <nodes>
 	<defaults>
@@ -27,153 +27,153 @@
 	<!-- Pegs -->
 
 	<!-- 47351 --> 0xBACAB8F7 -->
-	<node type="a321p" hid="0xBACAB8F7" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB8F7" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47352 --> 0xBACAB8F8 -->
-	<node type="a321p" hid="0xBACAB8F8" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB8F8" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47360 --> 0xBACAB900 -->
-	<node type="a321p" hid="0xBACAB900" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB900" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47368 --> 0xBACAB908 -->
-	<node type="a321p" hid="0xBACAB908" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB908" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47372 --> 0xBACAB90C -->
-	<node type="a321p" hid="0xBACAB90C" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB90C" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47375 --> 0xBACAB90F -->
-	<node type="a321p" hid="0xBACAB90F" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB90F" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47377 --> 0xBACAB911 -->
-	<node type="a321p" hid="0xBACAB911" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB911" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47380 --> 0xBACAB914 -->
-	<node type="a321p" hid="0xBACAB914" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB914" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47386 --> 0xBACAB91A -->
-	<node type="a321p" hid="0xBACAB91A" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB91A" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47390 --> 0xBACAB91E -->
-	<node type="a321p" hid="0xBACAB91E" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB91E" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47391 --> 0xBACAB91F -->
-	<node type="a321p" hid="0xBACAB91F" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB91F" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47395 --> 0xBACAB923 -->
-	<node type="a321p" hid="0xBACAB923" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB923" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47397 --> 0xBACAB925 -->
-	<node type="a321p" hid="0xBACAB925" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB925" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47400 --> 0xBACAB928 -->
-	<node type="a321p" hid="0xBACAB928" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB928" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47407 --> 0xBACAB92F -->
-	<node type="a321p" hid="0xBACAB92F" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB92F" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47408 --> 0xBACAB930 -->
-	<node type="a321p" hid="0xBACAB930" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB930" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47409 --> 0xBACAB931 -->
-	<node type="a321p" hid="0xBACAB931" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB931" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47412 --> 0xBACAB934 -->
-	<node type="a321p" hid="0xBACAB934" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB934" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47414 --> 0xBACAB936 -->
-	<node type="a321p" hid="0xBACAB936" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB936" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47415 --> 0xBACAB937 -->
-	<node type="a321p" hid="0xBACAB937" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB937" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47417 --> 0xBACAB939 -->
-	<node type="a321p" hid="0xBACAB939" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB939" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47420 --> 0xBACAB93C -->
-	<node type="a321p" hid="0xBACAB93C" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB93C" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47424 --> 0xBACAB940 -->
-	<node type="a321p" hid="0xBACAB940" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB940" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47427 --> 0xBACAB943 -->
-	<node type="a321p" hid="0xBACAB943" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB943" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47429 --> 0xBACAB945 -->
-	<node type="a321p" hid="0xBACAB945" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB945" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47431 --> 0xBACAB947 -->
-	<node type="a321p" hid="0xBACAB947" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB947" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47432 --> 0xBACAB948 -->
-	<node type="a321p" hid="0xBACAB948" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB948" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47433 --> 0xBACAB949 -->
-	<node type="a321p" hid="0xBACAB949" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB949" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47434 --> 0xBACAB94A -->
-	<node type="a321p" hid="0xBACAB94A" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB94A" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47435 --> 0xBACAB94B -->
-	<node type="a321p" hid="0xBACAB94B" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB94B" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47437 --> 0xBACAB94D -->
-	<node type="a321p" hid="0xBACAB94D" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB94D" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47439 --> 0xBACAB94F -->
-	<node type="a321p" hid="0xBACAB94F" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB94F" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47441 --> 0xBACAB951 -->
-	<node type="a321p" hid="0xBACAB951" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB951" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47443 --> 0xBACAB953 -->
-	<node type="a321p" hid="0xBACAB953" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB953" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47444 --> 0xBACAB954 -->
-	<node type="a321p" hid="0xBACAB954" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB954" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 	<!-- 47449 --> 0xBACAB959 -->
-	<node type="a321p" hid="0xBACAB959" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACAB959" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 
 	<!-- The master -->
-	<node type="a321p" hid="0xBACA0001" default="board">
-		<xi:include href="DATAFILES/uart.xml"/>
+	<node type="warp" hid="0xBACA0001" default="board">
+		<xi:include href="DATAFILES/SHARED/uart.xml"/>
 	</node>
 
 	<!-- Tags -->
@@ -181,7 +181,7 @@
 	<node type="a320t" start="on" hid="0xBACA9B81" default="board">
     		<pins number="2">
 			<input source="device">
-				DATAFILES/button_presses_01.txt
+				DATAFILES/SHARED/button_presses_01.txt
 			</input>
 			<buttons>0 1</buttons>
     		</pins>
@@ -191,7 +191,7 @@
 	<node type="a320t" start="on" hid="0xBACA9B85" default="board">
     		<pins number="2">
 			<input source="device">
-				DATAFILES/button_presses_02.txt
+				DATAFILES/SHARED/button_presses_02.txt
 			</input>
 			<buttons>0 1</buttons>
     		</pins>
@@ -201,7 +201,7 @@
 	<node type="a320t" start="on" hid="0xBACAC1B5" default="board">
     		<pins number="2">
 			<input source="device">
-				DATAFILES/button_presses_03.txt
+				DATAFILES/SHARED/button_presses_03.txt
 			</input>
 			<buttons>0 1</buttons>
     		</pins>

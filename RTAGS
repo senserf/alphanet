@@ -69,3 +69,7 @@ Fixed a problem with CHRONOS. The conditional code provided for 1.0
 compatibility interfered with CHRONOS (black). Reformated the event info in
 shared_plug to account for the different contents of "dial" info in different
 board types.
+
+PG191108A:
+
+Cleaned up datasets, documents, and a few options.
