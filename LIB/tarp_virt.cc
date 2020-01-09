@@ -12,11 +12,14 @@
  * "Virtual" stuff needed by NET & TARP =======================================
  */
 word guide_rtr (headerType *  b) {
-		if (pegfl.peg_mod == PMOD_EXCC)
-			return 0;
-        return (b->rcv == 0 || b->msg_type  == msg_pong || b->msg_type  == msg_ping ||
-                        b->msg_type == msg_pongAck ||
-						b->msg_type == msg_rpc || b->msg_type == msg_rpcAck) ? 1 : 2;
+	byte m;
+	if (pegfl.peg_mod == PMOD_EXCC)
+		return 0;
+	if (b->rcv == 0)
+		return 1;
+	m = tarp_mType (b->msg_type);
+        return (m == msg_pong || m == msg_ping || m == msg_pongAck ||
+		m == msg_rpc || m == msg_rpcAck) ? 1 : 2;
 }
 
 int tr_offset (headerType *h) {
@@ -44,7 +47,7 @@ Boolean msg_isClear (byte o) {
 #include "tag_mgr.h"
 
 Boolean msg_isMaster (msg_t m) {
-        return (m == msg_master && local_host != DEF_MHOST);
+        return ((m & 0x1f) == msg_master && local_host != DEF_MHOST);
 }
 
 fsm mbeacon;

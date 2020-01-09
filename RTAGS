@@ -73,3 +73,8 @@ board types.
 PG191108A:
 
 Cleaned up datasets, documents, and a few options.
+
+PG200109A:
+
+Made sure the message type is interpreted as the least significant 5 bits of
+the byte in the TARP header.

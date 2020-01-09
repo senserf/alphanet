@@ -210,8 +210,9 @@ typedef struct tagListStruct {
 
 typedef enum {
         msg_null, msg_pong, msg_pongAck,
-        msg_master, msg_report, msg_reportAck, msg_fwd, msg_fwdAck, msg_ping, msg_loca,
-		msg_rpc, msg_rpcAck, msg_sniff /* not really a msg */, msg_nh, msg_nhAck, msg_rfid
+        msg_master, msg_report, msg_reportAck, msg_fwd, msg_fwdAck, msg_ping,
+	msg_loca, msg_rpc, msg_rpcAck, msg_sniff /* not really a msg */,
+	msg_nh, msg_nhAck, msg_rfid
 } msgType;
 
 typedef struct msgLocaStruct {
