@@ -1,7 +1,11 @@
-/* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2011-2014                      */
-/* All rights reserved.                                                 */
-/* ==================================================================== */
+/*
+	Copyright 2002-2020 (C) Olsonet Communications Corporation
+	Programmed by Pawel Gburzynski & Wlodek Olesinski
+	All rights reserved
+
+	This file is part of the PICOS platform
+
+*/
 #include "chro_tag.h"
 #include "form.h"
 #include "looper.h"

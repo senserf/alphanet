@@ -1,9 +1,13 @@
+/*
+	Copyright 2002-2020 (C) Olsonet Communications Corporation
+	Programmed by Pawel Gburzynski & Wlodek Olesinski
+	All rights reserved
+
+	This file is part of the PICOS platform
+
+*/
 #ifndef __tarp_virt_h
 #define __tarp_virt_h
-/* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2002 - 2014 			*/
-/* All rights reserved.							*/
-/* ==================================================================== */
 
 // TARP's virtual functions
 

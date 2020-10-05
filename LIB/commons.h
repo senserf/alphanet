@@ -1,9 +1,13 @@
+/*
+	Copyright 2002-2020 (C) Olsonet Communications Corporation
+	Programmed by Pawel Gburzynski & Wlodek Olesinski
+	All rights reserved
+
+	This file is part of the PICOS platform
+
+*/
 #ifndef __commons_h__
 #define __commons_h__
-/* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2015.                          */
-/* All rights reserved.                                                 */
-/* ==================================================================== */
 
 //+++ commons.cc
 

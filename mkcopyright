@@ -1,0 +1,403 @@
+#!/bin/sh
+#
+#	Copyright 2002-2020 (C) Olsonet Communications Corporation
+#	Programmed by Pawel Gburzynski & Wlodek Olesinski
+#	All rights reserved
+#
+#	This file is part of the PICOS platform
+#
+#
+##########################\
+exec tclsh "$0" "$@"
+
+#
+# Traverse the file tree and fix permissions, so that everything looks nice,
+# e.g., after pushing the set back and forth through different incompatible
+# filesystems.
+#
+# Include the standard GNU copyright notice in all files that may need it
+#
+
+set Extensions { ".exe" ".out" ".tcl" ".sh" }
+
+set Headers ""
+
+lappend Headers [binary format cccc 0x4d 0x5a 0x90 0x00]
+lappend Headers [binary format cccc 0x7f 0x45 0x4c 0x46]
+lappend Headers [binary format cccc 0x23 0x21 0x2f 0x62]
+lappend Headers [binary format cccc 0x23 0x21 0x2f 0x75]
+
+set CExtensions { ".c" ".cc" ".h" ".java" }
+set CExceptions { "\\.git/" }
+set SHeaders [lrange $Headers 2 3]
+
+set CFName "LICENSE.txt"
+
+###############################################################################
+
+proc calc_mode { fn } {
+#
+# Determine mode
+#
+	global Extensions Headers
+
+	set ext [string tolower [file extension $fn]]
+
+	foreach pat $Extensions {
+
+		if { $pat == $ext } {
+			return 755
+		}
+	}
+
+	# content
+	if [catch { open $fn "r" } fd] {
+		# cannot open
+		if [catch { exec chmod -f 444 $fn } err] {
+			puts stderr "cannot chmod 444 $d: $err"
+			exit 99
+		}
+		if [catch { open $fn "r" } fd] {
+			return 644
+		}
+	}
+
+	fconfigure $fd -encoding binary
+
+	set hdr [read $fd 4]
+
+	catch { close $fd }
+
+	foreach pat $Headers {
+		if { $pat == $hdr } {
+			return 755
+		}
+	}
+
+	return 644
+}
+
+proc comment_line { ln typ } {
+
+	if { $typ == "c" } {
+		if [regexp {^[[:blank:]]*//} $ln] {
+			return 1
+		}
+
+		if [regexp {^[[:blank:]]*/\*} $ln] {
+			return 1
+		}
+
+		if [regexp {^[[:blank:]]*\*/} $ln] {
+			return 1
+		}
+
+	} else {
+
+		if { [regexp {^[[:blank:]]*#$} $ln] || 
+		    [regexp {^[[:blank:]]*#[^!]} $ln] } {
+			if [regexp {\\$} $ln] {
+				return 0
+			}
+			return 1
+		}
+	}
+	return 0
+}
+
+proc delete_old_copyright { fc typ } {
+
+	upvar $fc FC
+
+	set ix 0
+	set cx -1
+	# prevent match in the script source ;-)
+	set pat "copyr"
+	append pat "ight.*olsonet comm"
+	foreach ln $FC {
+		if [regexp -nocase $pat $ln] {
+			set cx $ix
+			break
+		}
+		incr ix
+	}
+
+	if { $cx < 0 } {
+		return 0
+	}
+
+	set fx $cx
+	set lx $cx
+	set ex [expr { [llength $FC] - 1 }]
+
+	if [comment_line [lindex $FC $cx] $typ] {
+		# include all adjacent comment lines
+		while 1 {
+			if { $fx == 0 } {
+				break
+			}
+			set dx [expr { $fx - 1 }]
+			if ![comment_line [lindex $FC $dx] $typ] {
+				break
+			}
+			set fx $dx
+		}
+		while 1 {
+			if { $lx == $ex } {
+				break
+			}
+			set dx [expr { $lx + 1 }]
+			if ![comment_line [lindex $FC $dx] $typ] {
+				break
+			}
+			set lx $dx
+		}
+	} else {
+		# include all until and including the first comment line
+		while 1 {
+			if { $fx == 0 } {
+				break
+			}
+			set fx [expr { $fx - 1 }]
+			if [comment_line [lindex $FC $fx] $typ] {
+				break
+			}
+		}
+		while 1 {
+			if { $lx == $ex } {
+				break
+			}
+			set lx [expr { $lx + 1 }]
+			if [comment_line [lindex $FC $lx] $typ] {
+				break
+			}
+		}
+	}
+
+	set FC [lreplace $FC $fx $lx]
+	return 1
+}
+
+proc insert_copyright_c { fn } {
+
+	global CLF
+
+	if [catch { open $fn "r" } fd] {
+		puts stderr "cannot open $fn for reading, $fd"
+		exit 99
+	}
+
+	set CF [split [read $fd] "\n"]
+
+	catch { close $fd }
+
+	# delete the old copyright notice
+	while { [delete_old_copyright CF "c"] } { }
+
+	# insert the new copyright notice
+	set clf $CLF
+	if [comment_line [lindex $CF 0] "c"] {
+		# separate from any exisiting comment for idempotence
+		lappend clf ""
+	}
+	set CF [concat $clf $CF]
+
+	# write the file back
+	if [catch { open $fn "w" } fd] {
+		puts stderr "cannot open $fn for writing, $fd"
+		exit 99
+	}
+
+	puts -nonewline $fd [join $CF "\n"]
+
+	catch { close $fd }
+}
+
+proc insert_copyright_s { fn } {
+
+	global SLF
+
+	if [catch { open $fn "r" } fd] {
+		puts stderr "cannot open $fn for reading, $fd"
+		exit 99
+	}
+
+	set CF [split [read $fd] "\n"]
+
+	catch { close $fd }
+
+	# delete the old copyright notice
+	while { [delete_old_copyright CF "s"] } { }
+
+	# insert the new copyright notice
+	set slf $SLF
+	if [comment_line [lindex $CF 1] "s"] {
+		# separate from any exisiting comment for idempotence
+		lappend slf ""
+	}
+	set CF [concat [lrange $CF 0 0] $slf [lrange $CF 1 end]]
+
+	# write the file back
+	if [catch { open $fn "w" } fd] {
+		puts stderr "cannot open $fn for writing, $fd"
+		exit 99
+	}
+
+	puts -nonewline $fd [join $CF "\n"]
+
+	catch { close $fd }
+}
+
+proc insert_copyright { fn } {
+
+	global CExtensions SHeaders
+
+	# check for a C/C++ source file
+	set ext [file extension $fn]
+
+	if { [lsearch -exact $CExtensions $ext] >= 0 } {
+		insert_copyright_c $fn
+		return "c"
+	}
+
+	# check for a script
+	if [catch { open $fn "r" } fd] {
+		puts stderr "cannot open $fn for readings, $fd"
+		exit 99
+	}
+
+	fconfigure $fd -encoding binary
+	set fil [read $fd 512]
+	catch { close $fd }
+	set hdr [string range $fil 0 3]
+
+	set f 0
+	foreach pat $SHeaders {
+		if { $pat == $hdr } {
+			set f 1
+			break
+		}
+	}
+
+	if { $f == 0 } {
+		return ""
+	}
+
+	# check if all chars in fil are ASCII
+	set n [string length $fil]
+	for { set i 0 } { $i < $n } { incr i } {
+		set c [string index $fil $i]
+		if { ![string is print $c] && $c != "\n" && $c != "\t" } {
+			return ""
+		}
+	}
+
+	insert_copyright_s $fn
+	return "s"
+}
+
+proc do_it { path } {
+#
+# Handles the current directory
+#
+	global CExceptions
+
+	if [catch { glob -nocomplain * } flist] {
+		puts stderr "cannot list directory: $flist"
+		exit 99
+	}
+
+	if [catch { glob -types hidden -nocomplain * } hlist] {
+		puts stderr "cannot list directory: $hlist"
+		exit 99
+	}
+
+	set flist [concat $flist $hlist]
+
+	foreach d $flist {
+		if { $d == "." || $d == ".." } {
+			continue
+		}
+		set npa [file join $path $d]
+		if [file isdirectory $d] {
+			# change permissions
+			if [catch { exec chmod -f 755 $d } err] {
+				puts stderr "cannot chmod 775 $d: $err"
+				exit 99
+			}
+			# traverse
+			if [catch { file lstat $d vv } err] {
+				puts stderr "cannot stat $d: $err"
+				exit 99
+			}
+			if { $vv(type) != "directory" } {
+				continue
+			}
+			array unset vv
+			set c [pwd]
+			puts "D: $npa"
+			if ![catch { cd [file join $c $d] } ] {
+				# dout $c
+				do_it $npa
+				cd $c
+			}
+			continue
+		}
+
+		if ![file isfile $d] {
+			# ignore links, if any
+			puts "L: $npa"
+			continue
+		}
+
+		# a regular file
+		puts "F: $npa"
+		set md [calc_mode $d]
+		if [catch { exec chmod -f $md $d } err] {
+			puts stderr "cannot chmod $md $d: $err"
+			exit 99
+		}
+
+		set f 1
+		foreach x $CExceptions {
+			if [regexp $x $npa] {
+				set f 0
+				break
+			}
+		}
+
+		if $f {
+			set f [insert_copyright $d]
+			if { $f != "" } {
+				puts "Copyright ($f): $npa"
+			}
+		}
+	}
+}	
+
+# open the license file
+if [catch { open $CFName "r" } fd] {
+	puts stderr "cannot open license file $CFName, $fd"
+	exit 99
+}
+
+if [catch { read $fd } SLF] {
+	puts stderr "cannot read license file $CFName, $SLF"
+	exit 99
+}
+
+catch { close $fd }
+
+# the C version
+set CLF $SLF
+regsub -line -all {^[[:blank:]]*} $CLF "" CLF
+regsub -line -all {^[^[:blank:]]} $CLF "\t\&" CLF
+set CLF [split "/*\n$CLF*/" "\n"]
+
+# the script version
+regsub -line -all {^[[:blank:]]*} $SLF "" SLF
+regsub -line -all {^[^[:blank:]]} $SLF "#\t\&" SLF
+regsub -line -all {^$} $SLF "#" SLF
+set SLF [split "#\n${SLF}" "\n"]
+
+do_it ""

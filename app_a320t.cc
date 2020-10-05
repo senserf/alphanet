@@ -1,7 +1,11 @@
-/* ==================================================================== */
-/* Copyright (C) Olsonet Communications, 2014                           */
-/* All rights reserved.                                                 */
-/* ==================================================================== */
+/*
+	Copyright 2002-2020 (C) Olsonet Communications Corporation
+	Programmed by Pawel Gburzynski & Wlodek Olesinski
+	All rights reserved
+
+	This file is part of the PICOS platform
+
+*/
 #include "vartypes.h"
 #if BTYPE != BTYPE_AT_BUT1
 #error AT_BUT1 only

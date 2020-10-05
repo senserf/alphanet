@@ -78,3 +78,7 @@ PG200109A:
 
 Made sure the message type is interpreted as the least significant 5 bits of
 the byte in the TARP header.
+
+PG201005A:
+
+Added a standard copyright message to (almost) all (relevant) sources.
