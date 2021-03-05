@@ -82,3 +82,8 @@ the byte in the TARP header.
 PG201005A:
 
 Added a standard copyright message to (almost) all (relevant) sources.
+
+PG210305A:
+
+This is an overdue cosmetic change. Separated the CHRONOS boards from
+ALPHANET_CHRONOS boards.

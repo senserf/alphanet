@@ -128,8 +128,8 @@ static char * board_out (char * p) {
 	char * b;
 
 	switch (((pongDataType *)p)->btyp) {
-		case BTYPE_CHRONOS:
-		case BTYPE_CHRONOS_WHITE:
+		case BTYPE_ALPHANET_CHRONOS:
+		case BTYPE_ALPHANET_CHRONOS_WHITE:
 			b = form (NULL, "V %u move %u.%u",
 				// This is a bit inconsistent (PG), because
 				// the types are formally different (albeit

@@ -7,7 +7,7 @@
 
 */
 #include "vartypes.h"
-#if BTYPE != BTYPE_CHRONOS && BTYPE != BTYPE_CHRONOS_WHITE
+#if BTYPE != BTYPE_ALPHANET_CHRONOS && BTYPE != BTYPE_ALPHANET_CHRONOS_WHITE
 #error CHRONOS only
 #endif
 

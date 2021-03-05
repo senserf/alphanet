@@ -768,8 +768,8 @@ static void board_out (char * p, char * b) {
 	// for boards other tham ap319, 320, 331: just for fun
 	switch (((pongDataType *)p)->btyp) {
 
-		case BTYPE_CHRONOS:
-		case BTYPE_CHRONOS_WHITE:
+		case BTYPE_ALPHANET_CHRONOS:
+		case BTYPE_ALPHANET_CHRONOS_WHITE:
 			b[11] = volt_to_byte (((pongPloadType0 *)_ppp)->volt);
 			b[16] = (byte)((pongPloadType0 *)_ppp)->move_ago; // vy not
 			b[17] = (byte)((pongPloadType0 *)_ppp)->move_nr;

@@ -57,11 +57,11 @@ typedef struct pongPloadStruct6 {
 #define BTYPE_AT_BUT6_1_0			3
 #define BTYPE_AT_BUT1_1_0			4
 // Dummy values
-#define BTYPE_CHRONOS				14
-#define BTYPE_CHRONOS_WHITE			15
+#define BTYPE_ALPHANET_CHRONOS			14
+#define BTYPE_ALPHANET_CHRONOS_WHITE		15
 #else
-#define BTYPE_CHRONOS				3
-#define BTYPE_CHRONOS_WHITE			4
+#define BTYPE_ALPHANET_CHRONOS			3
+#define BTYPE_ALPHANET_CHRONOS_WHITE		4
 // Dummy values
 #define BTYPE_AT_BUT6_1_0			14
 #define BTYPE_AT_BUT1_1_0			15
@@ -82,17 +82,17 @@ typedef struct pongPloadStruct6 {
 #error PTYPE?
 #endif
 
-#if defined(BOARD_CHRONOS) || defined(BOARD_CHRONOS_WHITE)
+#if defined(BOARD_ALPHANET_CHRONOS) || defined(BOARD_ALPHANET_CHRONOS_WHITE)
 
 #ifdef	COMPAT_1_0
 #error  "no CHRONOS in 1.0 compat mode"
 #endif
 
-#ifdef BOARD_CHRONOS
-#define BTYPE	BTYPE_CHRONOS
+#ifdef BOARD_ALPHANET_CHRONOS
+#define BTYPE	BTYPE_ALPHANET_CHRONOS
 typedef pongPloadType0 pongPloadType;
 #else
-#define BTYPE   BTYPE_CHRONOS_WHITE
+#define BTYPE   BTYPE_ALPHANET_CHRONOS_WHITE
 typedef pongPloadType1 pongPloadType;
 #endif
 

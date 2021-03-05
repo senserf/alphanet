@@ -184,7 +184,7 @@ void upd_pframe (word pl, word tnr) {
 // have to maintain a separate struct.
 fifek_t pframe_stash;
 
-#if BTYPE == BTYPE_CHRONOS || BTYPE == BTYPE_CHRONOS_WHITE
+#if BTYPE == BTYPE_ALPHANET_CHRONOS || BTYPE == BTYPE_ALPHANET_CHRONOS_WHITE
 #include "chro_tag.h"
 
 Boolean load_pframe () {

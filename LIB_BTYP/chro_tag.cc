@@ -82,7 +82,7 @@ void chro_xx (word hi, word a) {
         }
 }
 
-#ifdef BOARD_CHRONOS_WHITE
+#ifdef BOARD_ALPHANET_CHRONOS_WHITE
 #define	accel_sensor_on()	bma250_on (BMA250_RANGE_2G, 0, BMA250_STAT_MOVE)
 #define	accel_sensor_off()	bma250_off (0)
 #else
