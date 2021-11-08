@@ -29,7 +29,7 @@ static void init () {
 
 	init_inout ();
 	// net_opt (PHYSOPT_SETPOWER, &pl);
-	set_pxopts (0, 7, 0);
+	set_pxoptions (0, 7, 0);
 
 	reset_tags();
 	if (local_host == master_host) {

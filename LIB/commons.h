@@ -346,7 +346,7 @@ char * fifek_pull (fifek_t *fif);
 
 char * get_mem (word len, Boolean reset);
 word get_word (byte * buf, word n);
-void set_pxopts (word n, word xp, word cav);
-word get_pxopts ();
+void set_pxoptions (word n, word xp, word cav);
+word get_pxoptions ();
 
 #endif

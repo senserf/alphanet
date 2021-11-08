@@ -69,7 +69,7 @@ Die:
 		if (rfid_ctrl.next < rfid_ctrl.max)
 			rfid_ctrl.next += rfid_ctrl.inc;
 
-		set_pxopts (0, 7, 0);
+		set_pxoptions (0, 7, 0);
 		talk (msg, sizeof(msgRfidType) + rfid_ctrl.plen, TO_NET);
 #if _RFID_DBG
 		app_diag_U ("rfid msg out #%u at %u", in_rfid(msg, cnt),

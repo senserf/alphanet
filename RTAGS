@@ -87,3 +87,9 @@ PG210305A:
 
 This is an overdue cosmetic change. Separated the CHRONOS boards from
 ALPHANET_CHRONOS boards.
+
+PG211108A:
+
+Renamed set_pxopts to set_pxoptions to avoid collision with the new "official"
+operation bearing the same name.
+

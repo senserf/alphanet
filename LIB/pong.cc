@@ -40,7 +40,7 @@ fsm ping {
 		// word pl;		
 		// pl = in_ping(msg, slot) / 4;
 		// net_opt (PHYSOPT_SETPOWER, &pl);
-		set_pxopts (PING_LBT_SETTING, in_ping(msg, slot) / 4, 0);
+		set_pxoptions (PING_LBT_SETTING, in_ping(msg, slot) / 4, 0);
 		// PG: talk doesn't wait for memory; as we have an FSM to send
 		// these pings, and they form a burst, perhaps it would make
 		// sense to wait for memory, if not available immediately,
@@ -96,7 +96,7 @@ fsm pong {
 		if (level > 0) {
 			upd_pframe (level, tr);
 			// net_opt (PHYSOPT_SETPOWER, &level);
-			set_pxopts (0, level, 0);
+			set_pxoptions (0, level, 0);
 			net_opt (PHYSOPT_RXON, NULL);
 
 			talk (pong_frame, sizeof(msgPongType) +
