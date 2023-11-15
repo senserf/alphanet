@@ -78,7 +78,7 @@
 	</rates>
 
 	<channels number="255">
-		Cross channel separation
+		Cross channel separation (not very relevant for this model)
 		28dB 38dB 54dB 70dB 86dB 102dB
 	</channels>
 

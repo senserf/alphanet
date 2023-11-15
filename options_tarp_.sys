@@ -11,3 +11,17 @@
 #define TARP_RTR        2
 #define TARP_MAXHOPS    5
 
+// Preventing parallel paths (let's say this is "experimental")
+#define	TARP_COMPRESS	1
+
+#if 0
+// Testing (PG) 231115
+
+#undef	TARP_RTR
+#undef	RCV_TIMERS
+#undef	TCV_HOOKS
+#undef	TARP_COMPRESS
+
+
+#endif
+
