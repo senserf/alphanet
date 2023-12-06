@@ -1,1 +1,1 @@
-{MOD IHEX} {TFN Image_warp_nnnn.a43} {CNT 1} {FRM 1} {IFN Image_warp.a43} {SRD /cygdrive/c/Users/nripg/OneDrive/STORAGE/SOFTWARE/ALPHANET} {PFX 0002} {IDA BACADEAF} {TRD /cygdrive/c/Users/nripg/OneDrive/STORAGE/SOFTWARE/ALPHANET/C:/cygwin64/home/nripg/SOFTWARE/ALPHANET} {APV {}} {IDN BACADEAD}
+{MOD ELF} {TFN image_nnnn.out} {CNT 1} {FRM 1} {IFN image.out} {SRD /cygdrive/c/Users/nripg/OneDrive/STORAGE/SOFTWARE/BUENO/ALPHANET} {PFX 0002} {IDA BACADEAF} {TRD /cygdrive/c/Users/nripg/OneDrive/STORAGE/SOFTWARE/BUENO/ALPHANET} {APV {}} {IDN BACADEAD}

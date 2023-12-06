@@ -1,7 +1,12 @@
 #undef CRYSTAL2_RATE
 #define CRYSTAL2_RATE 0
-#undef RADIO_USE_LEDS
+
+#ifndef	RADIO_USE_LEDS
+// Made it settable from PIP (PG 231123)
+// #undef RADIO_USE_LEDS
 #define RADIO_USE_LEDS 0
+#endif
+
 #undef UART_RATE_SETTABLE
 #define UART_RATE_SETTABLE 0
 // UART_INPUT_BUFFER_LENGTH stay 32
