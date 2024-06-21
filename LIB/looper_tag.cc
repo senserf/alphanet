@@ -118,6 +118,10 @@ fsm looper {
 		when (TRIG_ALRM, BEG); // it'll reset htime (doesn't have to)
 		when (TRIG_RONIN, RONIN);
 		when (TRIG_DORO, DORO);
+#ifdef	TAG_DISABLE_HEARTBEAT
+		// PG 240106 a quick kludge to render tags quiet until pushed
+		release;
+#endif
 		hold (HOLD, htime);
 		proceed BEG;
 		
