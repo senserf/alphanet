@@ -1,10 +1,4 @@
-#!/bin/sh
-#
-#	Copyright 2002-2020 (C) Olsonet Communications Corporation
-#	Programmed by Pawel Gburzynski & Wlodek Olesinski
-#	All rights reserved
-#
-#	This file is part of the PICOS platform
-#
-#
-~/SOFTWARE/PICOS/Apps/cleanup
+#!/bin/bash
+echo "To cleanup execute the PICOS/Apps/cleanup script in this directory,"
+echo "such that this directory is current when the script is run, for example:"
+echo "../../PICOS/PICOS/Apps/cleanup"

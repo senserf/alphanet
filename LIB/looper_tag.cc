@@ -63,6 +63,10 @@ word	heartbeat = _HBEAT; // seconds
 #error where is VOLTAGE
 #endif
 
+#ifndef	TAG_DISABLE_HEARTBEAT
+#define	TAG_DISABLE_HEARTBEAT	1
+#endif
+
 #ifdef __SMURPH__
 #include "form.h"
 static trueconst char stats_str[] = "Node %u uptime %u.%u:%u:%u "
@@ -118,8 +122,9 @@ fsm looper {
 		when (TRIG_ALRM, BEG); // it'll reset htime (doesn't have to)
 		when (TRIG_RONIN, RONIN);
 		when (TRIG_DORO, DORO);
-#ifdef	TAG_DISABLE_HEARTBEAT
+#if	TAG_DISABLE_HEARTBEAT
 		// PG 240106 a quick kludge to render tags quiet until pushed
+		// (useful for profiling)
 		release;
 #endif
 		hold (HOLD, htime);

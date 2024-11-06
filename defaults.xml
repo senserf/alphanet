@@ -1,0 +1,50 @@
+	<defaults>
+		<highlight fg="black" bg="white">magenta blue</highlight>
+    		<color led="3" on="red" off="orange"/>
+    		<memory>3666 bytes</memory>
+    		<radio>
+    			<power>7</power>
+    			<preamble>32 bits</preamble>
+			<rate>2</rate>
+    			<lbt>
+				delay			3msec
+				threshold		-109.0dBm 
+				tries			0
+    			</lbt>
+    			<backoff>
+				min			2msec
+				span			63msec
+    			</backoff>
+    		</radio>
+    		<leds number="4">
+    			<output target="socket"></output>
+			<color on="red" off="gray"/>
+			<color on="green" off="gray"/>
+			<color on="blue" off="gray"/>
+			<color on="red" off="gray"/>
+    		</leds>
+    		<iflash size="512,4"></iflash>
+    		<sensors>
+    			<input source="socket"></input>
+			<output target="socket"></output>
+			<sensor number="-2" vsize="2" delay="0.01"
+				init="2300">2000</sensor>
+			<sensor number="-1" vsize="2" delay="0.01"
+				init="2457">2600</sensor>
+			<sensor number="0" vsize="4" delay="0.01"
+				init="0"></sensor>
+    		</sensors>
+    		<pins number="2">
+			<input source="socket"></input>
+			<buttons>0 1</buttons>
+    		</pins>
+    		<emul>
+			<output target="socket"></output>
+    		</emul>
+    		<ptracker>
+			<output target="socket"/>
+			<module id="cpu">0.25 0.005</module>
+			<module id="radio">0.0004 16.0 30.7 30.7</module>
+			<module id="sensors">0.0 0.15</module>
+    		</ptracker>
+	</defaults>
